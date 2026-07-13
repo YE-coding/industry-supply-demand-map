@@ -1,0 +1,27 @@
+{
+  "name": "industry-cycle-skill-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "extract": "node scripts/extractCases.mjs",
+    "predev": "npm run extract",
+    "dev": "vite --host 127.0.0.1",
+    "prebuild": "npm run extract",
+    "build": "vite build",
+    "serve": "vite preview --host 127.0.0.1",
+    "preview": "vite preview --host 127.0.0.1",
+    "deploy": "npm run build && gh-pages -d dist -t"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
