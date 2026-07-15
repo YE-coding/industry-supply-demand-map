@@ -62,6 +62,9 @@ const slugify = (value = '') =>
     .slice(0, 64) || 'user-report';
 
 const extractJudgment = (content) => {
+  const readiness = sectionAfter(content, /##\s*0[.、]?\s*(?:结论与证据就绪度|Conclusion and Evidence Readiness)/iu);
+  const labeled = readiness.match(/(?:一句话判断|One-Sentence Judgment)[：:]\s*([^\n]+)/iu);
+  if (labeled) return stripMarkdown(labeled[1]);
   const section =
     sectionAfter(content, /##\s*0[.、]?\s*(?:一句话判断|One-Sentence Judgment)/iu) ||
     sectionAfter(content, /##\s*(?:一句话判断|One-Sentence Judgment)/iu);
@@ -76,6 +79,7 @@ const extractJudgment = (content) => {
 
 const extractChain = (content) => {
   const section =
+    sectionAfter(content, /##\s*2[.、]?\s*(?:产业链与关系|Industry Chain and Relationships)/iu) ||
     sectionAfter(content, /##\s*1[.、]?\s*(?:产业链|Industry Chain)/iu) ||
     sectionAfter(content, /##\s*(?:产业链|Industry Chain)/iu);
   const block = section.match(/```(?:text)?\s*([\s\S]*?)```/u);
@@ -99,6 +103,10 @@ const isUsefulChainNode = (part) =>
   Boolean(part) && part.length >= 2 && part.length <= 28 && /[\p{L}\p{N}]/u.test(part);
 
 const extractChainNodesFromText = (chain, industry) => {
+  if (fallbackChains[industry] && /[┌┐└┘│─]{2,}/u.test(chain)) {
+    return fallbackChains[industry];
+  }
+
   const lines = chain
     .replace(/\r/g, '')
     .split('\n')
@@ -123,6 +131,81 @@ const extractChainNodesFromText = (chain, industry) => {
   if (fallbackChains[industry] && uniqueVertical.length < fallbackChains[industry].length) return fallbackChains[industry];
   if (uniqueVertical.length >= 3) return uniqueVertical;
   return fallbackChains[industry] || ['上游资源', '核心环节', '终端需求'];
+};
+
+const splitMarkdownRow = (line = '') =>
+  line
+    .trim()
+    .replace(/^\|/u, '')
+    .replace(/\|$/u, '')
+    .split('|')
+    .map((cell) => stripMarkdown(cell));
+
+const isMarkdownSeparator = (line = '') => {
+  const cells = splitMarkdownRow(line);
+  return cells.length > 0 && cells.every((cell) => /^:?-{3,}:?$/u.test(cell.replace(/\s+/g, '')));
+};
+
+const normalizeTableHeader = (value = '') =>
+  stripMarkdown(value)
+    .toLowerCase()
+    .replace(/[\s/_-]+/gu, '');
+
+const readTableAfterHeading = (content, headingPattern) => {
+  const lines = content.replace(/\r/g, '').split('\n');
+  const start = lines.findIndex((line) => headingPattern.test(line));
+  if (start < 0) return null;
+
+  for (let i = start + 1; i < lines.length - 1; i += 1) {
+    if (/^#{2,4}\s+/u.test(lines[i]) && i > start + 1) return null;
+    if (!lines[i].trim().startsWith('|') || !isMarkdownSeparator(lines[i + 1])) continue;
+    const headers = splitMarkdownRow(lines[i]);
+    const rows = [];
+    for (let j = i + 2; j < lines.length; j += 1) {
+      if (!lines[j].trim().startsWith('|')) break;
+      const values = splitMarkdownRow(lines[j]);
+      if (values.some(Boolean)) rows.push(Object.fromEntries(headers.map((header, index) => [normalizeTableHeader(header), values[index] || ''])));
+    }
+    return rows;
+  }
+  return null;
+};
+
+const extractChainNodeDetails = (content) => {
+  const rows = readTableAfterHeading(
+    content,
+    /^###\s*(?:(?:1\.2|1\.3|2\.3)[.、]?\s*)?(?:Chain Node Explanation|产业链节点说明)/iu,
+  );
+  if (!rows?.length) return [];
+
+  const pick = (row, aliases) => {
+    for (const alias of aliases) {
+      const value = row[normalizeTableHeader(alias)];
+      if (value) return value;
+    }
+    return '';
+  };
+
+  return rows
+    .map((row) => {
+      const name = pick(row, ['Node', 'Chain Node', '节点']);
+      const what = pick(row, ['What It Is / Does', 'What It Is', '节点定义与作用']);
+      const does = pick(row, ['What It Does', '作用']) || what;
+      const evidenceIds = pick(row, ['Evidence IDs', 'Evidence ID', '证据ID']);
+      return {
+        name,
+        position: '显式关系节点',
+        what: what || `${name} 的定义未在节点表中单独披露。`,
+        does: does || `${name} 的作用未在节点表中单独披露。`,
+        suppliers: pick(row, ['Suppliers', 'Who Supplies It', '供应方']) || '报告未提供显式供应关系',
+        buyers: pick(row, ['Buyers', 'Who Buys It', '采购方']) || '报告未提供显式采购关系',
+        companies: pick(row, ['Representative Companies', '代表企业']),
+        money: pick(row, ['Monetization', 'How It Makes Money', '变现方式']) || '报告未提供变现证据',
+        why: pick(row, ['Bottleneck Role', 'Why It Matters', '瓶颈作用']) || '报告未提供瓶颈作用证据',
+        evidence: evidenceIds || '报告未给出该节点的证据ID',
+      };
+    })
+    .filter((node) => node.name);
 };
 
 const extractSentenceAround = (content, keyword) => {
@@ -215,8 +298,10 @@ const inferStage = (judgment) => {
   const rules = [
     ['出清', '出清期'],
     ['盈利兑现', '盈利兑现期'],
+    ['扩张兑现', '扩张期'],
     ['加速扩张', '扩张期'],
     ['结构性扩张', '扩张期'],
+    ['扩张', '扩张期'],
     ['爆发增长', '成长期'],
     ['超级周期', '短缺期'],
     ['供不应求', '短缺期'],
@@ -270,10 +355,13 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
   const industry = extractIndustry(title, filename);
   const judgment = extractJudgment(content);
   const chain = extractChain(content);
-  const chainNodes = extractChainNodesFromText(
-    chain || sectionAfter(content, /##\s*1[.、]?\s*(?:产业链|Industry Chain)/iu),
-    industry,
-  );
+  const explicitChainNodeDetails = extractChainNodeDetails(content);
+  const chainNodes = explicitChainNodeDetails.length >= 3
+    ? explicitChainNodeDetails.map((node) => node.name)
+    : extractChainNodesFromText(
+      chain || sectionAfter(content, /##\s*(?:1|2)[.、]?\s*(?:产业链(?:与关系)?|Industry Chain)/iu),
+      industry,
+    );
   const bottlenecks = extractBottlenecks(content, industry);
   const sourceHints = extractSourceHints(content);
   const metricHints = extractMetricHints(content);
@@ -300,7 +388,9 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
       metricHints,
       chain,
       chainNodes,
-      chainNodeDetails: chainNodes.map((node, index) => describeNode(node, industry, content, bottlenecks, chainNodes, index)),
+      chainNodeDetails: explicitChainNodeDetails.length >= 3
+        ? explicitChainNodeDetails
+        : chainNodes.map((node, index) => describeNode(node, industry, content, bottlenecks, chainNodes, index)),
       originalMarkdown: content,
       quality,
     },

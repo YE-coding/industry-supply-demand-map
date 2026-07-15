@@ -124,6 +124,39 @@ test('keeps the established fallback chain for a known industry with an incomple
   ]);
 });
 
+test('does not turn a multi-column box diagram into fake chain nodes', () => {
+  const report = `# 化工行业供需周期分析
+
+分析日期：2026-07-13
+地理范围：中国
+数据时效：2025全年实际数据
+
+## 0. 一句话判断
+化工行业处于分化期。
+
+## 1. 产业链
+
+上游原料                  中游加工                    下游应用
+┌─────────────┐      ┌──────────────────┐      ┌─────────────────┐
+│ 原油/煤炭/天然气 │─────>│ 基础化工与精细化工 │─────>│ 制造业与农业      │
+└─────────────┘      └──────────────────┘      └─────────────────┘
+
+来源：行业年度数据。
+来源：代表企业年报。
+风险：若终端需求继续下滑则判断失效。
+`;
+
+  const result = parseReportMarkdown(report, '化工行业供需周期分析.md');
+
+  assert.deepEqual(result.caseItem.chainNodes, [
+    '原油/煤炭/天然气',
+    '基础化工原料',
+    '中间体',
+    '精细化工',
+    '终端制造',
+  ]);
+});
+
 test('supplies concrete bottlenecks for legacy reports without a bottleneck heading', () => {
   const report = `# 电力电网行业供需周期分析
 
@@ -151,4 +184,57 @@ test('supplies concrete bottlenecks for legacy reports without a bottleneck head
   assert.equal(result.caseItem.bottlenecks.length, 3);
   assert.match(result.caseItem.bottlenecks[0], /输电|配电|并网/u);
   assert.doesNotMatch(result.caseItem.bottlenecks.join(' '), /未提取|待补充/u);
+});
+
+test('uses explicit chain relationships instead of inferring suppliers and buyers from row order', () => {
+  const report = `# 先进封装行业供需周期分析
+
+分析日期：2026-07-15 12:00:00 +08:00
+地理范围：全球
+数据时效：2026Q1实际数据及2026年已发布经营更新
+行业边界：2.5D/3D、CoWoS类封装、基板、设备和测试
+
+## 0. 结论与证据就绪度
+
+一句话判断：先进封装处于扩张兑现阶段，但价格、交期和良率的公开证据仍有缺口。
+
+## 2. 产业链与关系
+
+### 2.1 Physical / Production Flow
+
+封装材料与基板 --> 2.5D/3D集成
+封装设备 --> 2.5D/3D集成
+GPU/HBM --> 2.5D/3D集成 --> OSAT与测试 --> AI服务器
+
+### 2.3 Chain Node Explanation
+
+| Node | What It Is / Does | Suppliers | Buyers | Representative Companies | Monetization | Bottleneck Role | Evidence IDs |
+|---|---|---|---|---|---|---|---|
+| 封装材料与基板 | 提供中介层、基板与底填材料 | 材料厂、基板厂 | 2.5D/3D集成厂 | Ibiden | 材料销售 | 尺寸与翘曲约束 | E1 |
+| 封装设备 | 提供键合、切割与检测设备 | 精密零部件和软件供应商 | 2.5D/3D集成厂、OSAT | Besi | 设备和服务 | 精度与产能约束 | E2 |
+| GPU/HBM | 提供待集成的逻辑与存储芯片 | 晶圆厂、存储厂 | 2.5D/3D集成厂 | NVIDIA、SK hynix | 芯片销售 | 规格和需求触发 | E3 |
+| 2.5D/3D集成 | 完成芯粒和HBM互连 | 材料、设备、GPU/HBM供应商 | OSAT、芯片客户 | TSMC | 加工与产能服务 | 良率决定有效供给 | E4 |
+| OSAT与测试 | 量产封装和测试 | 集成厂、测试设备商 | 芯片客户、服务器厂 | Amkor | 封装测试服务 | 认证与测试吞吐 | E5 |
+| AI服务器 | 最终使用和预算场景 | 芯片与系统供应商 | 云厂商 | OEM | 系统销售 | 形成付款链 | E6 |
+
+关键瓶颈：
+
+- 大尺寸封装良率与翘曲控制。
+- 基板、中介层、键合和测试协同。
+
+来源：TSMC年报。
+来源：Amkor季报。
+反证条件：若收入增长而库存、毛利持续恶化，则下调阶段判断。
+`;
+
+  const result = parseReportMarkdown(report, '先进封装行业供需周期分析.md');
+  const material = result.caseItem.chainNodeDetails.find((node) => node.name === '封装材料与基板');
+  const equipment = result.caseItem.chainNodeDetails.find((node) => node.name === '封装设备');
+
+  assert.equal(result.caseItem.judgment, '先进封装处于扩张兑现阶段，但价格、交期和良率的公开证据仍有缺口。');
+  assert.equal(material.suppliers, '材料厂、基板厂');
+  assert.equal(material.buyers, '2.5D/3D集成厂');
+  assert.equal(equipment.suppliers, '精密零部件和软件供应商');
+  assert.equal(equipment.buyers, '2.5D/3D集成厂、OSAT');
+  assert.notEqual(equipment.suppliers, '封装材料与基板');
 });
