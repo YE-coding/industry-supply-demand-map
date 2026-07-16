@@ -8,6 +8,786 @@
   text-rendering: optimizeLegibility;
 }
 
+/* Beginner-first industry detail ------------------------------------------------
+   The report remains rigorous, while the visible layer answers four plain
+   questions: where are we, how does the chain work, where does money go, and
+   what changed over time. Synthetic scores and probability-like charts are
+   intentionally absent. */
+
+.cycle-overview,
+.chain-story-card,
+.profit-story-card,
+.signal-story-card,
+.cycle-history-card,
+.research-basis {
+  grid-column: 2;
+  width: min(1180px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.cycle-overview {
+  margin-top: 22px;
+  padding: clamp(28px, 4vw, 52px);
+  border-top: 6px solid var(--atlas-ink);
+  border-radius: 18px;
+}
+
+.cycle-overview-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: stretch;
+}
+
+.cycle-overview h2 {
+  margin: 0;
+  font-family: var(--atlas-display);
+  font-size: clamp(48px, 7vw, 92px);
+  font-weight: 720;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+}
+
+.report-version {
+  margin: 14px 0 0 !important;
+  color: var(--atlas-muted) !important;
+  font-family: var(--atlas-data);
+  font-size: 10px !important;
+  line-height: 1.55 !important;
+}
+
+.cycle-stage-answer {
+  display: grid;
+  align-content: center;
+  min-height: 208px;
+  padding: clamp(24px, 3vw, 38px);
+  border-radius: 14px;
+  background: var(--atlas-ink);
+  color: #f6faf7;
+}
+
+.cycle-stage-answer span,
+.cycle-stage-answer small {
+  color: rgba(246, 250, 247, 0.62);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.cycle-stage-answer strong {
+  margin: 10px 0 18px;
+  color: #ffffff;
+  font-family: var(--atlas-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 690;
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+}
+
+.cycle-stage-answer small::before {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--atlas-flow-soft);
+  content: "";
+}
+
+.cycle-explainer-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr 1.15fr;
+  gap: 0;
+  margin-top: clamp(26px, 4vw, 44px);
+  border-top: 1px solid var(--atlas-line);
+  border-bottom: 1px solid var(--atlas-line);
+}
+
+.cycle-explainer-grid > section {
+  min-width: 0;
+  padding: 24px 22px 24px 0;
+}
+
+.cycle-explainer-grid > section + section {
+  border-left: 1px solid var(--atlas-line);
+  padding-left: 22px;
+}
+
+.cycle-explainer-grid span {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--atlas-flow);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.cycle-explainer-grid p,
+.cycle-explainer-grid li {
+  margin: 0;
+  color: var(--atlas-ink-soft);
+  font-size: 14px;
+  line-height: 1.78;
+}
+
+.cycle-explainer-grid small {
+  display: block;
+  margin-top: 14px;
+  color: var(--atlas-muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.stage-reasons ol {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.stage-falsifier {
+  background: rgba(222, 115, 92, 0.055);
+  padding-right: 22px !important;
+}
+
+.stage-falsifier span {
+  color: var(--atlas-alert);
+}
+
+.chain-story-card,
+.profit-story-card,
+.signal-story-card,
+.cycle-history-card {
+  margin-top: 22px;
+}
+
+.chain-story-card .card-head h3,
+.profit-story-card .card-head h3,
+.signal-story-card .card-head h3,
+.cycle-history-card .card-head h3 {
+  max-width: 780px;
+  font-size: clamp(27px, 3.4vw, 45px);
+  line-height: 1.08;
+}
+
+.chain-story-card .chain-axis {
+  margin-top: 34px;
+}
+
+.chain-story-card .node-readout {
+  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.7fr);
+  gap: 24px;
+  margin-top: 26px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 14px;
+  background: #f7faf8;
+  padding: 24px;
+}
+
+.node-title > p {
+  margin: 14px 0 0;
+  color: var(--atlas-ink-soft);
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.company-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 22px;
+}
+
+.company-list > span {
+  flex: 0 0 100%;
+  margin-bottom: 2px;
+  color: var(--atlas-muted);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.company-list b,
+.company-list em {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border: 1px solid rgba(47, 124, 119, 0.18);
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 4px 9px;
+  color: var(--atlas-flow);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.node-copy {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.node-copy section {
+  border: 0;
+  border-top: 2px solid var(--atlas-ink);
+  border-radius: 0;
+  background: #ffffff;
+  padding: 14px 15px 16px;
+}
+
+.node-copy .node-evidence {
+  border-top-color: var(--atlas-flow-soft);
+  background: transparent !important;
+}
+
+.profit-story-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+  margin-top: 30px;
+  border-top: 1px solid var(--atlas-line);
+}
+
+.profit-story-grid > section {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 16px;
+  min-width: 0;
+  border-bottom: 1px solid var(--atlas-line);
+  padding: 24px 0;
+}
+
+.profit-story-grid > section > span {
+  color: var(--atlas-alert);
+  font-family: var(--atlas-data);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.profit-story-grid strong,
+.profit-story-grid p,
+.profit-story-grid small,
+.profit-story-grid em {
+  display: block;
+}
+
+.profit-story-grid strong {
+  margin-bottom: 9px;
+  color: var(--atlas-ink);
+  font-size: 17px;
+}
+
+.profit-story-grid p {
+  margin: 0;
+  color: var(--atlas-ink-soft);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.profit-story-grid small {
+  margin-top: 12px;
+  color: var(--atlas-muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.profit-story-grid em {
+  margin-top: 8px;
+  color: var(--atlas-flow);
+  font-family: var(--atlas-data);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.signal-fact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.signal-fact-grid > section {
+  min-width: 0;
+  border: 1px solid var(--atlas-line);
+  border-radius: 12px;
+  background: #fafcfb;
+  padding: 18px;
+}
+
+.signal-fact-grid > section > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.signal-fact-grid strong {
+  color: var(--atlas-ink);
+  font-size: 16px;
+}
+
+.signal-fact-grid span {
+  color: var(--atlas-muted);
+  font-family: var(--atlas-data);
+  font-size: 9px;
+  text-align: right;
+}
+
+.signal-fact-grid p {
+  margin: 14px 0 9px;
+  color: var(--atlas-ink);
+  font-size: 15px;
+  font-weight: 720;
+  line-height: 1.55;
+}
+
+.signal-fact-grid small,
+.signal-fact-grid em {
+  display: block;
+  color: var(--atlas-ink-soft);
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.65;
+}
+
+.signal-fact-grid em {
+  margin-top: 6px;
+  color: var(--atlas-muted);
+}
+
+.time-series-panel {
+  margin-top: 26px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 14px;
+  background: #ffffff;
+  padding: clamp(18px, 3vw, 30px);
+}
+
+.time-series-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.time-series-head h4,
+.time-series-empty h4 {
+  margin: 0;
+  color: var(--atlas-ink);
+  font-family: var(--atlas-display);
+  font-size: clamp(23px, 3vw, 34px);
+}
+
+.time-series-head p:not(.micro-title),
+.time-series-empty p {
+  margin: 8px 0 0;
+  color: var(--atlas-ink-soft);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.time-series-head > span {
+  color: var(--atlas-muted);
+  font-family: var(--atlas-data);
+  font-size: 9px;
+  text-align: right;
+}
+
+.time-series-scroll {
+  overflow-x: auto;
+  border-radius: 10px;
+  background: #f5f9f7;
+}
+
+.time-series-scroll svg {
+  display: block;
+  width: 100%;
+  min-width: 720px;
+  height: auto;
+}
+
+.series-grid-line {
+  stroke: rgba(24, 58, 62, 0.12);
+  stroke-width: 1;
+}
+
+.series-axis {
+  stroke: var(--atlas-ink);
+  stroke-width: 1.4;
+}
+
+.series-area {
+  fill: rgba(47, 124, 119, 0.1);
+}
+
+.series-line {
+  fill: none;
+  stroke: var(--atlas-flow);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.series-point {
+  fill: var(--atlas-alert);
+  stroke: #ffffff;
+  stroke-width: 3;
+}
+
+.series-y-label,
+.series-x-label,
+.series-value-label {
+  fill: var(--atlas-muted);
+  font-family: var(--atlas-data);
+  font-size: 11px;
+}
+
+.series-y-label {
+  text-anchor: end;
+}
+
+.series-x-label,
+.series-value-label {
+  text-anchor: middle;
+}
+
+.series-value-label {
+  fill: var(--atlas-ink);
+  font-weight: 800;
+}
+
+.series-disclaimer {
+  margin: 12px 0 0;
+  color: var(--atlas-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.time-series-empty {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 24px;
+  border-style: dashed;
+}
+
+.next-data-list {
+  display: grid;
+  gap: 8px;
+}
+
+.next-data-list p {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  border-left: 2px solid var(--atlas-flow-soft);
+  padding-left: 10px;
+}
+
+.next-data-list strong,
+.next-data-list span {
+  font-size: 11px;
+}
+
+.next-data-list span {
+  color: var(--atlas-muted);
+}
+
+.cycle-history-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 34px;
+}
+
+.cycle-history-track::before {
+  position: absolute;
+  top: 10px;
+  right: 4%;
+  left: 4%;
+  height: 1px;
+  background: var(--atlas-line);
+  content: "";
+}
+
+.cycle-history-track > section {
+  position: relative;
+  min-width: 0;
+  padding: 0 18px 0 0;
+}
+
+.cycle-history-track > section + section {
+  border-left: 1px solid var(--atlas-line);
+  padding-left: 18px;
+}
+
+.cycle-time-marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+}
+
+.cycle-time-marker i {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: var(--atlas-flow-soft);
+  box-shadow: 0 0 0 1px rgba(47, 124, 119, 0.3);
+}
+
+.cycle-history-track .is-current .cycle-time-marker i {
+  background: var(--atlas-alert);
+  box-shadow: 0 0 0 5px rgba(222, 115, 92, 0.12);
+}
+
+.cycle-history-track .is-future .cycle-time-marker i {
+  border-color: #ffffff;
+  background: #ffffff;
+}
+
+.cycle-time-marker time {
+  color: var(--atlas-ink);
+  font-family: var(--atlas-data);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.cycle-history-track > section > span {
+  display: inline-flex;
+  margin: 12px 0 10px;
+  color: var(--atlas-flow);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.cycle-history-track .is-future > span {
+  color: var(--atlas-muted);
+}
+
+.cycle-history-track h4 {
+  margin: 0 0 12px;
+  color: var(--atlas-ink);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.cycle-history-track p,
+.cycle-history-track small {
+  display: block;
+  margin: 7px 0 0;
+  color: var(--atlas-ink-soft);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.cycle-history-track small {
+  color: var(--atlas-muted);
+}
+
+.data-gap-box {
+  margin-top: 26px;
+  border: 1px dashed rgba(24, 58, 62, 0.25);
+  border-radius: 12px;
+  background: #fafcfb;
+  padding: 22px;
+}
+
+.data-gap-box strong {
+  color: var(--atlas-ink);
+  font-size: 16px;
+}
+
+.data-gap-box p {
+  margin: 9px 0 0;
+  color: var(--atlas-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.research-basis {
+  margin-top: 22px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 16px;
+  background: rgba(252, 253, 251, 0.82);
+  overflow: clip;
+}
+
+.research-basis > summary {
+  display: flex;
+  min-height: 92px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 28px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.research-basis > summary::-webkit-details-marker {
+  display: none;
+}
+
+.research-basis > summary div {
+  display: grid;
+  gap: 7px;
+}
+
+.research-basis > summary span {
+  color: var(--atlas-flow);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.research-basis > summary strong {
+  color: var(--atlas-ink);
+  font-family: var(--atlas-display);
+  font-size: clamp(20px, 2.6vw, 30px);
+}
+
+.research-basis > summary em {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  border: 1px solid var(--atlas-ink);
+  border-radius: 999px;
+  padding: 0 14px;
+  color: var(--atlas-ink);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.research-basis[open] > summary {
+  border-bottom: 1px solid var(--atlas-line);
+}
+
+.research-basis[open] > summary em {
+  font-size: 0;
+}
+
+.research-basis[open] > summary em::before {
+  content: "收起";
+  font-size: 11px;
+}
+
+.research-basis-body {
+  display: grid;
+  gap: 16px;
+  padding: 8px 18px 20px;
+}
+
+.research-basis-body > .flow-card,
+.research-basis-body > .method-strip {
+  grid-column: auto;
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .cycle-overview,
+  .chain-story-card,
+  .profit-story-card,
+  .signal-story-card,
+  .cycle-history-card,
+  .research-basis {
+    grid-column: 1;
+  }
+
+  .cycle-overview-head,
+  .cycle-explainer-grid,
+  .time-series-empty {
+    grid-template-columns: 1fr;
+  }
+
+  .cycle-explainer-grid > section + section {
+    border-top: 1px solid var(--atlas-line);
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .stage-falsifier {
+    padding-left: 18px !important;
+  }
+
+  .chain-story-card .node-readout {
+    grid-template-columns: 1fr;
+  }
+
+  .cycle-history-track {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cycle-history-track::before {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 9px;
+    width: 1px;
+    height: auto;
+  }
+
+  .cycle-history-track > section,
+  .cycle-history-track > section + section {
+    border-left: 0;
+    padding: 0 0 0 36px;
+  }
+
+  .cycle-time-marker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cycle-time-marker i {
+    position: absolute;
+    left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .cycle-overview {
+    padding: 22px 18px;
+  }
+
+  .cycle-overview h2 {
+    font-size: 52px;
+  }
+
+  .cycle-stage-answer {
+    min-height: 160px;
+  }
+
+  .profit-story-grid,
+  .signal-fact-grid,
+  .node-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .profit-story-grid {
+    gap: 0;
+  }
+
+  .time-series-head,
+  .card-head,
+  .research-basis > summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .time-series-head > span {
+    text-align: left;
+  }
+
+  .research-basis > summary {
+    display: flex;
+    padding: 20px;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Industry Atlas redesign — a research instrument, not a dashboard skin.
    The signature is the budget -> order -> capacity -> profit pulse rail.
@@ -3687,4 +4467,90 @@ button {
   }
 }
 
+}
+
+/* Final cascade guard for the beginner-first hero. The legacy stylesheet is
+   intentionally layered, while the atlas stylesheet above is unlayered. */
+.industry-brief.cycle-overview {
+  margin-top: 22px;
+  padding: clamp(28px, 4vw, 52px);
+  border-top: 6px solid var(--atlas-ink);
+  border-radius: 18px;
+}
+
+.industry-brief.cycle-overview h2 {
+  font-size: clamp(48px, 7vw, 92px);
+  font-weight: 720;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+}
+
+@media (max-width: 640px) {
+  .industry-brief.cycle-overview {
+    margin-top: 0;
+    padding: 22px 18px;
+  }
+
+  .industry-brief.cycle-overview h2 {
+    font-size: 52px;
+  }
+}
+
+@media (max-width: 900px) {
+  .detail-flow {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-x: hidden;
+    scroll-padding-top: 72px;
+  }
+
+  .cycle-overview,
+  .chain-story-card,
+  .profit-story-card,
+  .signal-story-card,
+  .cycle-history-card,
+  .research-basis,
+  .cycle-overview-head,
+  .cycle-explainer-grid,
+  .time-series-panel,
+  .time-series-scroll {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .cycle-overview,
+  .chain-story-card,
+  .profit-story-card,
+  .signal-story-card,
+  .cycle-history-card,
+  .research-basis {
+    justify-self: stretch;
+  }
+
+  .supply-pulse {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 640px) {
+  .detail-flow {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .industry-brief.cycle-overview,
+  .chain-story-card,
+  .profit-story-card,
+  .signal-story-card,
+  .cycle-history-card {
+    scroll-margin-top: 70px;
+  }
+
+  .cycle-explainer-grid > section,
+  .cycle-explainer-grid > section + section {
+    padding-right: 0;
+  }
 }

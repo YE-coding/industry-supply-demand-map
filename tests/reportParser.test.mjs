@@ -268,3 +268,81 @@ test('treats rerun/version suffixes as report metadata rather than a new industr
   assert.equal(result.caseItem.bottlenecks.length, 2);
   assert.match(result.caseItem.bottlenecks[0], /有效产能/u);
 });
+
+test('extracts beginner-facing profit, cycle, watch and real time-series structures', () => {
+  const report = `# 半导体行业供需周期分析
+
+分析日期：2026-07-16 09:53:31 +08:00
+地理范围：全球
+数据时效：实际数据截至 2026 年 6 月
+
+## 0. 结论与证据就绪度
+
+一句话判断：先进半导体进入盈利兑现期。
+
+## 2. 产业链与关系
+
+### 2.3 Chain Node Explanation
+
+| Node | What It Does | Suppliers | Buyers | Representative Companies | Monetization | Bottleneck Role | Evidence IDs |
+|---|---|---|---|---|---|---|---|
+| AI 预算方 | 购买算力服务 | 芯片与云平台 | 企业客户 | Microsoft | 云服务收入 | 决定订单上限 | E1 |
+| 芯片设计 | 设计 AI 芯片 | EDA 与 IP | 晶圆厂 | NVIDIA | 芯片销售 | 决定性能 | E2 |
+| 晶圆制造 | 把设计转为晶圆 | 设备与材料 | 芯片设计商 | TSMC | 代工服务 | 良率约束 | E3 |
+
+### 2.4 Power and Profit Map
+
+| Question | Answer | Evidence IDs | Gap |
+|---|---|---|---|
+| Who pays? | 云厂商承担最终预算 | E1 | 其他云厂商未拆解 |
+| Who captures gross profit? | AI 芯片与先进代工 | E2、E3 | 口径不可直接横比 |
+
+## 5. 供需矛盾与高频信号
+
+| Signal | Latest Value / Direction | Period | Evidence IDs | Interpretation | Gap |
+|---|---|---|---|---|---|
+| Inventory | 80 天 | 2026Q1 | E3 | 先进链库存可控 | 缺全行业口径 |
+
+## 6. 周期与利润/订单传导
+
+| Stage / Date | Signal | Profit Pool Shift | Key Lag | Evidence IDs | Next Verification |
+|---|---|---|---|---|---|
+| 2026Q1 | 资本开支与收入改善 | AI 设计与代工先兑现 | 预算到收入 | E1、E3 | 下一季度实际值 |
+| 2026H2 计划 | 设备投资上修 | 设备受益、制造承担折旧 | 安装到量产 | E3 | 资本开支执行率 |
+
+### Current stage
+
+- Phase：盈利兑现与扩产并行。
+- Entry date / anchor：2026Q1，预算、收入和毛利形成验证。
+- Expected transition：若库存升高则转向供给释放。
+- Confidence：中。
+- What would prove this wrong：预算下调且收入连续回落。
+
+## 9. 观察哨与跟踪
+
+| Indicator | Baseline | Source | Frequency | Positive Trigger | Disconfirming Trigger | Meaning |
+|---|---|---|---|---|---|---|
+| 台积电月度营收 | 2026-06：442680 百万新台币 | E3 | monthly | 高于 440000 | 低于 380000 | 订单强度代理 |
+
+### 9.1 可比时间序列
+
+| Date | Indicator | Value | Unit | Source | Meaning |
+|---|---|---:|---|---|---|
+| 2026-05 | 台积电月度营收 | 416975 | 百万新台币 | E3 | 订单强度代理 |
+| 2026-06 | 台积电月度营收 | 442680 | 百万新台币 | E3 | 订单强度代理 |
+`;
+
+  const result = parseReportMarkdown(report, '半导体行业供需周期分析.md');
+  const { caseItem } = result;
+
+  assert.equal(caseItem.chainNodeDetails[0].what, '');
+  assert.equal(caseItem.chainNodeDetails[0].does, '购买算力服务');
+  assert.equal(caseItem.profitMap.length, 2);
+  assert.equal(caseItem.profitMap[0].answer, '云厂商承担最终预算');
+  assert.equal(caseItem.signalRows[0].interpretation, '先进链库存可控');
+  assert.equal(caseItem.cycleTimeline.length, 2);
+  assert.match(caseItem.currentStage.proveWrong, /预算下调/u);
+  assert.equal(caseItem.watchIndicators[0].frequency, 'monthly');
+  assert.equal(caseItem.comparableSeries.length, 1);
+  assert.deepEqual(caseItem.comparableSeries[0].points.map((point) => point.value), [416975, 442680]);
+});

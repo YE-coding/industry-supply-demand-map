@@ -56,7 +56,7 @@
         {
           "name": "AI 预算方",
           "position": "显式关系节点",
-          "what": "AI 预算方 的定义未在节点表中单独披露。",
+          "what": "",
           "does": "购买云、算力、网络和服务器",
           "suppliers": "云基础设施与芯片平台",
           "buyers": "企业、开发者、政府",
@@ -68,7 +68,7 @@
         {
           "name": "芯片设计",
           "position": "显式关系节点",
-          "what": "芯片设计 的定义未在节点表中单独披露。",
+          "what": "",
           "does": "定义 GPU/ASIC/CPU/模拟芯片",
           "suppliers": "EDA/IP、人才",
           "buyers": "云厂商、OEM、渠道",
@@ -80,7 +80,7 @@
         {
           "name": "先进晶圆制造",
           "position": "显式关系节点",
-          "what": "先进晶圆制造 的定义未在节点表中单独披露。",
+          "what": "",
           "does": "将设计转为先进制程晶圆",
           "suppliers": "设备、材料、厂务",
           "buyers": "Fabless 与 IDM",
@@ -92,7 +92,7 @@
         {
           "name": "HBM/DRAM",
           "position": "显式关系节点",
-          "what": "HBM/DRAM 的定义未在节点表中单独披露。",
+          "what": "",
           "does": "为 AI 加速器提供高带宽内存",
           "suppliers": "设备、晶圆、封装",
           "buyers": "GPU/ASIC 与服务器厂",
@@ -104,7 +104,7 @@
         {
           "name": "先进封装",
           "position": "显式关系节点",
-          "what": "先进封装 的定义未在节点表中单独披露。",
+          "what": "",
           "does": "集成逻辑 die 与 HBM",
           "suppliers": "基板、中介层、封装设备",
           "buyers": "GPU/ASIC 厂商",
@@ -116,7 +116,7 @@
         {
           "name": "半导体设备",
           "position": "显式关系节点",
-          "what": "半导体设备 的定义未在节点表中单独披露。",
+          "what": "",
           "does": "实现工艺迁移并扩充晶圆产能",
           "suppliers": "光学、精密件、软件",
           "buyers": "Foundry 与 IDM",
@@ -128,7 +128,7 @@
         {
           "name": "模拟/嵌入式",
           "position": "显式关系节点",
-          "what": "模拟/嵌入式 的定义未在节点表中单独披露。",
+          "what": "",
           "does": "提供电源、信号链和控制",
           "suppliers": "Foundry 或 IDM 产能",
           "buyers": "工业、汽车、数据中心",
@@ -136,6 +136,258 @@
           "money": "芯片销售",
           "why": "库存和利用率比绝对产能更关键",
           "evidence": "E14、E15"
+        }
+      ],
+      "profitMap": [
+        {
+          "question": "Who pays?",
+          "answer": "云厂商、主权 AI、企业数据中心、OEM 与终端消费者承担最终预算；微软提供了本轮直接预算证据",
+          "evidence": "E7",
+          "gap": "其余大型云厂商未逐家拆解"
+        },
+        {
+          "question": "Who captures gross profit?",
+          "answer": "当前利润集中在 AI 加速器、先进代工与存储器；NVIDIA、TSMC、Micron 已实现的毛利率提供验证",
+          "evidence": "E5、E8、E9",
+          "gap": "会计口径和业务结构不可直接横比"
+        },
+        {
+          "question": "Who bears capex and inventory risk?",
+          "answer": "云厂商承担基础设施资本开支，Foundry/IDM/存储厂承担厂房设备与折旧，成熟模拟厂承担高库存风险",
+          "evidence": "E5、E7、E9、E10、E12、E15",
+          "gap": "项目级延期和取消信息不完整"
+        },
+        {
+          "question": "Who has pricing power?",
+          "answer": "当前 AI 加速器、先进代工、HBM/存储更强；ASML 依靠关键光刻设备获得订单与指引弹性",
+          "evidence": "E5、E8、E9、E13",
+          "gap": "缺少同口径 ASP 序列"
+        },
+        {
+          "question": "Who may be important but monetize less?",
+          "answer": "可替代性高的成熟制程与传统封测即使重要，若库存高、同质产能多，利润弹性仍弱",
+          "evidence": "E14、E15",
+          "gap": "需更多公司级利用率与价格数据"
+        }
+      ],
+      "signalRows": [
+        {
+          "signal": "Price",
+          "latest": "缺统一价格序列；Micron GAAP 毛利率 84.6%可作为价格/组合强势的财务代理",
+          "period": "FY2026Q3",
+          "interpretation": "存储景气极强，但不能拆分 ASP、成本和产品组合",
+          "gap": "缺 HBM/DRAM/NAND 同口径 ASP",
+          "evidence": "E9"
+        },
+        {
+          "signal": "Budget / Orders",
+          "latest": "Microsoft capex 319 亿美元，约三分之二为 GPU/CPU 等短寿命资产；AI 需求超容量",
+          "period": "FY2026Q3",
+          "interpretation": "预算已经转为实物资产投入",
+          "gap": "其他云厂商未逐家覆盖",
+          "evidence": "E7"
+        },
+        {
+          "signal": "Inventory",
+          "latest": "TSMC 80 天；TI 209 天，较年末下降 13 天",
+          "period": "2026Q1",
+          "interpretation": "先进链为新节点爬坡备货，成熟链仍在高库存去化",
+          "gap": "缺全行业统一库存口径",
+          "evidence": "E5、E15"
+        },
+        {
+          "signal": "Utilization / Yield",
+          "latest": "TSMC 称 Q1 毛利改善受更高利用率支持；SEMI 强调工艺复杂度抑制有效产能",
+          "period": "2026Q1 / 2026E",
+          "interpretation": "利用率已改善，但名义产能不能替代良率",
+          "gap": "HBM/先进封装良率不公开",
+          "evidence": "E5、E12"
+        },
+        {
+          "signal": "Margin / Cash Flow",
+          "latest": "TSMC 66.2%、NVIDIA 74.9%、Micron 84.6%、ASML 54.0%",
+          "period": "各公司最新已发布季度",
+          "interpretation": "瓶颈环节利润已兑现",
+          "gap": "会计口径和业务结构不同",
+          "evidence": "E5、E8、E9、E13"
+        },
+        {
+          "signal": "Expansion",
+          "latest": "300mm 设备投资预测 1420 亿美元、装机产能 +7%",
+          "period": "2026E",
+          "interpretation": "供给响应明确加速",
+          "gap": "预测并非已完成项目",
+          "evidence": "E10"
+        }
+      ],
+      "cycleTimeline": [
+        {
+          "period": "2026Q1",
+          "signal": "Microsoft capex、TSMC/NVIDIA/TI 收入改善",
+          "profitShift": "云基础设施、AI 设计、先进代工先兑现；成熟模拟开始复苏",
+          "lag": "预算到订单、订单到收入",
+          "evidence": "E5、E7、E8、E14、E15",
+          "next": "各公司下一季度实际值"
+        },
+        {
+          "period": "2026Q2 已发布部分",
+          "signal": "Micron/ASML 盈利与指引上行；TSMC 月度营收强",
+          "profitShift": "Memory、设备、先进代工获利集中",
+          "lag": "设备到有效产能",
+          "evidence": "E4、E9、E13",
+          "next": "台积电 14:00 后 Q2 财报，不回填本时点报告"
+        },
+        {
+          "period": "2026H2 计划",
+          "signal": "微软称全年仍受容量约束；300mm 设备投资预测上修",
+          "profitShift": "设备先受益，云与制造承担折旧风险",
+          "lag": "capex 到部署、安装到量产",
+          "evidence": "E7、E10、E12",
+          "next": "SEMI 季度更新、capex 执行率"
+        },
+        {
+          "period": "2027 风险窗口",
+          "signal": "300mm 装机产能持续增长、HBM4E 等新产品量产",
+          "profitShift": "若需求消化不足，利润池由芯片价格转向设备服务或回落",
+          "lag": "合格产能到价格",
+          "evidence": "E9、E10、E12",
+          "next": "bit shipment、ASP、利用率、库存"
+        }
+      ],
+      "currentStage": {
+        "phase": "结构性分化；AI 逻辑/HBM/先进制造为“有效供给偏紧 + 盈利兑现 + 扩产”，成熟模拟/嵌入式为“需求复苏 + 去库存未完成”。",
+        "entryAnchor": "2026Q1—Q2，预算方 capex 与云收入、芯片/存储/代工收入、设备销量形成跨环节验证。[E4、E5、E7、E8、E9、E13]",
+        "expectedTransition": "若 2026Q4 前出现 Micron 实际毛利率低于 75%、TSMC 库存天数高于 90 且月度营收同比低于 15%，同时 SEMI 装机产能预测继续上修，则阶段转向“供给释放/利润消化”；若容量约束和收入增速维持，则当前重叠阶段延长。",
+        "confidence": "中。",
+        "proveWrong": "微软下调 calendar 2026 capex 且 Azure 增速低于 30%；NVIDIA 数据中心收入环比转负；Micron 毛利率低于 75%；或 SIA 月销售连续两次较前值下降超过 5%。"
+      },
+      "watchIndicators": [
+        {
+          "indicator": "全球半导体月销售",
+          "baseline": "2026-05：1206 亿美元，环比 +9.2%",
+          "source": "SIA",
+          "frequency": "monthly",
+          "positiveTrigger": "下一值不低于 1242 亿美元",
+          "disconfirmingTrigger": "下一值低于 1146 亿美元，或后续两个发布值均环比为负",
+          "meaning": "校准 WSTS 高增长预测是否兑现"
+        },
+        {
+          "indicator": "微软 AI/云与 capex",
+          "baseline": "FY2026Q3：AI ARR 超 370 亿美元、Azure +40%、capex 319 亿美元",
+          "source": "Microsoft transcript",
+          "frequency": "quarterly",
+          "positiveTrigger": "Azure 不低于 40%且全年 capex 指引不低于 1900 亿美元",
+          "disconfirmingTrigger": "Azure 低于 30%或全年 capex 指引下调超过 10%",
+          "meaning": "预算方需求和回报约束"
+        },
+        {
+          "indicator": "台积电月度营收",
+          "baseline": "2026-06：4426.8 亿新台币，同比 +67.9%",
+          "source": "TSMC Monthly Revenue",
+          "frequency": "monthly",
+          "positiveTrigger": "月营收维持 4400 亿新台币以上且同比高于 30%",
+          "disconfirmingTrigger": "月营收低于 3800 亿新台币或同比低于 15%",
+          "meaning": "先进制程订单强度代理"
+        },
+        {
+          "indicator": "台积电库存与毛利",
+          "baseline": "2026Q1：库存 80 天、毛利率 66.2%",
+          "source": "TSMC 1Q26",
+          "frequency": "quarterly",
+          "positiveTrigger": "库存不高于 80 天且毛利率不低于 65.5%",
+          "disconfirmingTrigger": "库存高于 90 天或毛利率低于 63%",
+          "meaning": "区分新节点备货与需求/库存反转"
+        },
+        {
+          "indicator": "美光收入与毛利",
+          "baseline": "FY2026Q3：收入 414.56 亿美元、毛利率 84.6%；Q4 指引收入 500±10 亿、毛利约 86%",
+          "source": "Micron FY26Q3",
+          "frequency": "quarterly",
+          "positiveTrigger": "实际收入不低于 490 亿美元且毛利率不低于 85%",
+          "disconfirmingTrigger": "实际收入低于 450 亿美元或毛利率低于 75%",
+          "meaning": "存储价格/供需和利润拐点代理"
+        },
+        {
+          "indicator": "300mm 总体扩产",
+          "baseline": "2026E：设备投资 1420 亿美元、装机产能 +7%",
+          "source": "SEMI Q2 2026",
+          "frequency": "quarterly",
+          "positiveTrigger": "投资上修但装机产能增速不高于 7%",
+          "disconfirmingTrigger": "装机产能增速升至 9%以上且存储毛利同步下降",
+          "meaning": "识别设备景气何时转为供给压力"
+        },
+        {
+          "indicator": "TI 成熟链库存",
+          "baseline": "2026Q1：209 天，较 2025 年末下降 13 天",
+          "source": "TI 10-Q",
+          "frequency": "quarterly",
+          "positiveTrigger": "库存天数低于 190 且工业收入继续增长",
+          "disconfirmingTrigger": "库存天数重回 220 以上或工业收入环比转负",
+          "meaning": "检验成熟模拟复苏是否完成"
+        }
+      ],
+      "comparableSeries": [
+        {
+          "id": "台积电月度营收::百万新台币",
+          "indicator": "台积电月度营收",
+          "unit": "百万新台币",
+          "source": "E4",
+          "points": [
+            {
+              "date": "2026-01",
+              "indicator": "台积电月度营收",
+              "value": 401255,
+              "rawValue": "401255",
+              "unit": "百万新台币",
+              "source": "E4",
+              "meaning": "先进制程与晶圆代工订单强度代理"
+            },
+            {
+              "date": "2026-02",
+              "indicator": "台积电月度营收",
+              "value": 317657,
+              "rawValue": "317657",
+              "unit": "百万新台币",
+              "source": "E4",
+              "meaning": "先进制程与晶圆代工订单强度代理"
+            },
+            {
+              "date": "2026-03",
+              "indicator": "台积电月度营收",
+              "value": 415191,
+              "rawValue": "415191",
+              "unit": "百万新台币",
+              "source": "E4",
+              "meaning": "先进制程与晶圆代工订单强度代理"
+            },
+            {
+              "date": "2026-04",
+              "indicator": "台积电月度营收",
+              "value": 410726,
+              "rawValue": "410726",
+              "unit": "百万新台币",
+              "source": "E4",
+              "meaning": "先进制程与晶圆代工订单强度代理"
+            },
+            {
+              "date": "2026-05",
+              "indicator": "台积电月度营收",
+              "value": 416975,
+              "rawValue": "416975",
+              "unit": "百万新台币",
+              "source": "E4",
+              "meaning": "先进制程与晶圆代工订单强度代理"
+            },
+            {
+              "date": "2026-06",
+              "indicator": "台积电月度营收",
+              "value": 442680,
+              "rawValue": "442680",
+              "unit": "百万新台币",
+              "source": "E4",
+              "meaning": "先进制程与晶圆代工订单强度代理"
+            }
+          ]
         }
       ],
       "quality": {
@@ -307,6 +559,12 @@
           "evidence": "光芯片（InP EML激光器）——需求超过供应约30%，InP晶圆良率仅15-50%，全球生产EML的公司少于5家。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 89,
         "passed": 8,
@@ -515,6 +773,12 @@
           "evidence": "GPU产能：台积电先进制程（3nm/5nm）+ CoWoS封装产能是核心约束"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -687,6 +951,12 @@
           "evidence": "电网消纳：新能源装机速度远超电网升级速度，弃风弃光率上升"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -846,6 +1116,12 @@
           "evidence": "立即受益：已有有效产能、通过认证且订单可转收入的节点。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -1017,6 +1293,12 @@
           "evidence": "立即受益：已有有效产能、通过认证且订单可转收入的节点。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -1176,6 +1458,12 @@
           "evidence": "立即受益：已有有效产能、通过认证且订单可转收入的节点。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -1335,6 +1623,18 @@
           "evidence": "立即受益：已有有效产能、通过认证且订单可转收入的节点。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {
+        "phase": "",
+        "entryAnchor": "",
+        "expectedTransition": "",
+        "confidence": "",
+        "proveWrong": ""
+      },
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -1496,6 +1796,12 @@
           "evidence": "核心零部件：精密减速器、力矩传感器、灵巧手等依赖进口"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -1667,6 +1973,12 @@
           "evidence": "立即受益：已有有效产能、通过认证且订单可转收入的节点。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -1838,6 +2150,12 @@
           "evidence": "立即受益：已有有效产能、通过认证且订单可转收入的节点。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -1997,6 +2315,12 @@
           "evidence": "立即受益：已有有效产能、通过认证且订单可转收入的节点。"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -2149,6 +2473,12 @@
           "evidence": "高品位、低成本且可按期投产的矿山增量"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -2301,6 +2631,12 @@
           "evidence": "电网接入与项目许可"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -2457,6 +2793,12 @@
           "evidence": "有效产能、良率和客户定点而非名义产能"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -2607,6 +2949,12 @@
           "evidence": "制造产能真实退出与库存消化"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -2760,6 +3108,12 @@
           "evidence": "EUV/高端量测等少数设备的技术与供应链集中"
         }
       ],
+      "profitMap": [],
+      "signalRows": [],
+      "cycleTimeline": [],
+      "currentStage": {},
+      "watchIndicators": [],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,
@@ -2950,6 +3304,180 @@
           "evidence": "E3, E6, E8"
         }
       ],
+      "profitMap": [
+        {
+          "question": "Who pays?",
+          "answer": "云与企业算力预算最终通过服务器、加速卡和芯片订单向上传导",
+          "evidence": "E3, E6, E8",
+          "gap": "缺先进封装价值量占终端预算的统一口径"
+        },
+        {
+          "question": "Who captures gross profit?",
+          "answer": "已通过客户认证、能稳定交付大尺寸封装和高强度测试的节点更可能获得利润；Amkor 仅能代表 OSAT 样本",
+          "evidence": "E3, E4, E5",
+          "gap": "缺全行业分工艺毛利和价格序列"
+        },
+        {
+          "question": "Who bears capex and inventory risk?",
+          "answer": "建厂、购置设备并承担认证/爬坡的集成厂和 OSAT；Amkor 库存与资本开支显示风险并未消失",
+          "evidence": "E3, E8, E10",
+          "gap": "公司总库存无法拆分到先进封装"
+        },
+        {
+          "question": "Who has pricing power?",
+          "answer": "尚不能确认；必须同时看到价格、交期、良率和毛利证据",
+          "evidence": "E3",
+          "gap": "缺封装单价与客户合同"
+        },
+        {
+          "question": "Who is important but cannot monetize well?",
+          "answer": "供给重要但可替代、被长协锁价或良率未达标的节点",
+          "evidence": "E3, E7",
+          "gap": "缺材料和设备企业逐家核验"
+        }
+      ],
+      "signalRows": [
+        {
+          "signal": "Price",
+          "latest": "Evidence gap",
+          "period": "2026-07-16",
+          "interpretation": "无同口径公开单价，不能判断涨价或降价",
+          "gap": "下一步核验 TSMC/OSAT 电话会和客户合同表述",
+          "evidence": "—"
+        },
+        {
+          "signal": "Orders",
+          "latest": "先进产品收入 +28.9% YoY；十年合作协议",
+          "period": "2026Q1 / 2026-06",
+          "interpretation": "收入与合作支持订单方向，但没有积压订单、取消率和协议金额",
+          "gap": "缺先进封装 backlog 和客户承诺量",
+          "evidence": "E3, E7"
+        },
+        {
+          "signal": "Inventory",
+          "latest": "Amkor 4.946 亿美元，约 +13.0% QoQ",
+          "period": "2026Q1",
+          "interpretation": "收入增长同时累库，可能来自扩张准备或周转变慢，需下一季拆解",
+          "gap": "公司总库存，非先进封装专属",
+          "evidence": "E3"
+        },
+        {
+          "signal": "Utilization / Yield",
+          "latest": "Evidence gap",
+          "period": "2026-07-16",
+          "interpretation": "路线图不等于利用率或良率",
+          "gap": "缺量产良率、返工率和可交付片数",
+          "evidence": "E4, E5"
+        },
+        {
+          "signal": "Margin / Cash Flow",
+          "latest": "Amkor 毛利率 14.2%，QoQ -2.5pct、YoY +2.3pct",
+          "period": "2026Q1",
+          "interpretation": "需求增长未带来环比毛利扩张，利润池尚未形成单向证据",
+          "gap": "缺工艺级毛利与现金流",
+          "evidence": "E3"
+        }
+      ],
+      "cycleTimeline": [
+        {
+          "period": "2024",
+          "signal": "CoWoS-L 3.5 倍尺寸进入生产",
+          "profitShift": "大尺寸集成能力开始兑现",
+          "lag": "量产到客户规模出货",
+          "evidence": "E4",
+          "next": "同口径产能、良率和客户产品"
+        },
+        {
+          "period": "FY2025",
+          "signal": "封装设备 +20.8%，测试设备 +55.3%",
+          "profitShift": "设备与测试强度先受益",
+          "lag": "设备销售到安装验收",
+          "evidence": "E9",
+          "next": "2026 实际设备账单"
+        },
+        {
+          "period": "2026Q1",
+          "signal": "Amkor 先进产品收入增长，毛利环比下降、库存上升",
+          "profitShift": "收入兑现，但利润质量混合",
+          "lag": "收入到毛利和现金回收",
+          "evidence": "E3",
+          "next": "Q2 实际收入、毛利、库存"
+        },
+        {
+          "period": "2026-07",
+          "signal": "SEMI 上调中期设备路径，TSMC 上半年总收入增长",
+          "profitShift": "投资预期继续，但封装归因有限",
+          "lag": "预测到实际账单",
+          "evidence": "E1, E6",
+          "next": "下一次 SEMI 预测和分部实际值"
+        },
+        {
+          "period": "2027—2028 plan",
+          "signal": "Amkor 亚利桑那一期完工后再生产",
+          "profitShift": "新区域产能仍处建设风险期",
+          "lag": "完工到认证和量产",
+          "evidence": "E8",
+          "next": "项目里程碑、订单覆盖和爬坡"
+        }
+      ],
+      "currentStage": {},
+      "watchIndicators": [
+        {
+          "indicator": "SEMI 组装与封装设备销售预测",
+          "baseline": "2026 年 67 亿美元、+9.6% YoY",
+          "source": "E1",
+          "frequency": "semiannual / event",
+          "positiveTrigger": "下一版预测高于 67 亿美元且增速高于 9.6%",
+          "disconfirmingTrigger": "下一版预测转为同比负增长或连续两次下调",
+          "meaning": "验证后道资本开支方向，不等同有效产能"
+        },
+        {
+          "indicator": "Amkor 收入与毛利",
+          "baseline": "Q2 指引：17.5—18.5 亿美元；14.5%—15.5%",
+          "source": "E3",
+          "frequency": "quarterly",
+          "positiveTrigger": "实际收入不低于 18.5 亿美元且毛利率不低于 15.5%",
+          "disconfirmingTrigger": "实际收入低于 17.5 亿美元或毛利率低于 14.5%",
+          "meaning": "验证订单兑现与利润质量"
+        },
+        {
+          "indicator": "Amkor 库存",
+          "baseline": "2026Q1 为 4.946 亿美元、约 +13.0% QoQ",
+          "source": "E3",
+          "frequency": "quarterly",
+          "positiveTrigger": "销售额不低于 17.5 亿美元且库存环比下降",
+          "disconfirmingTrigger": "库存高于 5.20 亿美元且毛利率低于 14.5%",
+          "meaning": "区分扩张备货与周转恶化"
+        },
+        {
+          "indicator": "TSMC CoWoS-L 5.5 倍资格验证",
+          "baseline": "计划 2026 年完成",
+          "source": "E4",
+          "frequency": "event / annual",
+          "positiveTrigger": "2026 年内确认完成资格验证并给出量产进度",
+          "disconfirmingTrigger": "正式披露推迟到 2027 年以后",
+          "meaning": "验证大尺寸供给路径"
+        },
+        {
+          "indicator": "Amkor 亚利桑那一期",
+          "baseline": "2027 年中完工、2028 年初计划生产",
+          "source": "E8",
+          "frequency": "event / quarterly",
+          "positiveTrigger": "完工和生产里程碑均按公告时间确认",
+          "disconfirmingTrigger": "公司正式披露完工或生产延期",
+          "meaning": "验证区域新增供给而非公告产能"
+        },
+        {
+          "indicator": "封装价格、交期与量产良率",
+          "baseline": "尚无可比公开基线",
+          "source": "TSMC 与 Amkor 下一次季度材料",
+          "frequency": "quarterly / event",
+          "positiveTrigger": "至少两个原始来源给出同方向的交期延长、价格改善或良率受限证据",
+          "disconfirmingTrigger": "至少两个原始来源确认交期缩短、价格承压且良率改善",
+          "meaning": "决定能否把“扩张”升级为“短缺/盈利兑现”"
+        }
+      ],
+      "comparableSeries": [],
       "quality": {
         "score": 100,
         "passed": 9,

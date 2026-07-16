@@ -1292,115 +1292,95 @@ function HoverCaption({ item }) {
   );
 }
 
-function getInsightCopy(item, type, chainNodes, metricHints) {
-  const firstNode = chainNodes[0] || '上游';
+const stagePlainLanguage = {
+  导入期: '产品或商业模式刚开始被采用。需求已有苗头，但订单、收入和盈利还没有形成稳定验证。',
+  成长期: '需求和订单正在快速增加，行业仍以抢客户、抢产能和扩大渗透率为主。',
+  短缺期: '真实需求超过可交付的有效供给，交期、价格或利润通常会向稀缺环节集中。',
+  扩张期: '企业已经看到需求，正在投入设备和产能；利润可能仍好，但未来供给压力也在累积。',
+  盈利兑现期: '需求不再只是故事：订单已经进入收入和毛利，利润开始在关键环节的财报里出现；与此同时，扩产也在加速。',
+  过剩期: '可交付供给超过真实需求，库存、价格、利用率和利润开始承压。',
+  出清期: '低效率或高成本供给开始退出，库存和资本开支收缩，为下一轮修复腾出空间。',
+  待验证: '当前证据还不足以把行业放进一个明确阶段，需要补充订单、供给、库存或利润数据。',
+};
+
+function explainStage(stage) {
+  return stagePlainLanguage[stage] || `“${stage}”是报告当前的阶段假设，必须由订单、供给、库存和利润共同验证。`;
+}
+
+function evidenceStatusLabel(item) {
+  const score = item.quality?.score;
+  if (score == null) return '证据状态未评估';
+  if (score >= 78) return '多环节已有证据';
+  if (score >= 56) return '部分环节已有证据';
+  return '关键证据仍缺失';
+}
+
+function stageReasons(item) {
+  const actualTimeline = (item.cycleTimeline || []).filter((row) => !/计划|风险|预测|预期|E$/iu.test(row.period));
+  const reasons = actualTimeline.map((row) => `${row.period}：${row.signal}`);
+  (item.signalRows || []).forEach((row) => {
+    if (reasons.length < 3 && row.interpretation) reasons.push(`${signalName(row.signal)}：${row.interpretation}`);
+  });
+  if (!reasons.length) reasons.push(firstSentence(item.judgment));
+  return [...new Set(reasons)].slice(0, 3);
+}
+
+function stageInvalidation(item) {
+  return item.currentStage?.proveWrong
+    || buildConclusionLayers(item, extractChainNodes(item), extractMetricHints(item)).find(([label]) => label === '反证')?.[1]
+    || '如果订单、价格、库存、资本开支和利润同时反向变化，就要重新判断阶段。';
+}
+
+function profitQuestionLabel(question = '') {
+  const normalizedQuestion = String(question).toLowerCase();
+  if (/who pays|谁付款|谁出钱/u.test(normalizedQuestion)) return '谁出钱';
+  if (/captures gross profit|拿走.*利润|利润.*集中/u.test(normalizedQuestion)) return '利润主要留在哪';
+  if (/bears capex|inventory risk|承担.*风险/u.test(normalizedQuestion)) return '谁承担扩产与库存风险';
+  if (/pricing power|定价权/u.test(normalizedQuestion)) return '谁更有定价权';
+  if (/monetize less|变现.*弱|赚钱.*少/u.test(normalizedQuestion)) return '谁重要，但未必更赚钱';
+  return question;
+}
+
+function profitRows(item, chainNodes) {
+  if (item.profitMap?.length) return item.profitMap;
   const lastNode = chainNodes[chainNodes.length - 1] || '终端需求';
-  const bottleneck = item.bottlenecks[0] || '报告未提取到明确瓶颈';
-  const metrics = metricHints.length ? `当前可跟踪的量化线索包括 ${metricHints.slice(0, 4).join('、')}。` : '当前报告没有足够的量化指标，需要回到原始报告补充价格、订单、库存或产能数据。';
-
-  if (type === 'profit') {
-    return `${item.industry} 的利益走向要从 ${lastNode} 反推到 ${firstNode}：先确认谁是真正付款方，再看付款压力会被哪个稀缺环节截留。当前最值得盯住的是“${bottleneck}”，它决定利润是留在瓶颈节点、传导给上游，还是被下游压价吸收。`;
-  }
-
-  if (type === 'signal') {
-    return `供需信号不能只看需求热度，要同时看需求、产能、价格和库存。对 ${item.industry} 来说，${bottleneck} 是验证链条是否顺畅的第一观察点；一旦价格松动、交期缩短或库存累积，就说明原来的短缺假设需要重新校准。${metrics}`;
-  }
-
-  return `当前阶段被归纳为“${item.stage}”，但阶段不是结论，而是待验证假设。下一步要观察 ${item.industry} 是否从 ${firstNode} 到 ${lastNode} 都能兑现订单、收入和利润；如果扩产集中释放、终端预算下修或库存转向累积，周期位置就要下修。`;
+  return [
+    {
+      question: 'Who pays?',
+      answer: `旧报告只把“${lastNode}”放在需求末端，没有按新版 Skill 单独识别最终预算方。`,
+      gap: '需用采购、资本开支或订单数据补充。',
+    },
+    {
+      question: 'Who captures gross profit?',
+      answer: '旧报告没有把利润池按产业环节拆开，页面不做推测。',
+      gap: '需补充各环节收入、毛利和定价证据。',
+    },
+    {
+      question: 'Who bears capex and inventory risk?',
+      answer: item.bottlenecks?.[0] || '旧报告没有明确扩产和库存风险承担者。',
+      gap: '需补充资本开支、库存和利用率。',
+    },
+  ];
 }
 
-function getChartProfile(item, type) {
-  const text = `${item.industry} ${item.stage} ${item.judgment} ${item.bottlenecks.join(' ')} ${item.chain}`;
-  const metricScore = Math.min(18, (item.metricHints?.length || 0) * 2.2);
-  const sourceScore = Math.min(12, (item.sourceHints?.length || 0) * 1.5);
-  const bottleneckScore = Math.min(24, item.bottlenecks.length * 4);
-  const growth = signalCount(text, ['AI', '增长', '扩张', '复苏', '需求', '订单', '资本开支', '供不应求', '短缺']) * 5;
-  const shortage = signalCount(text, ['短缺', '稀缺', '瓶颈', '垄断', '卡', '交期', '良率不足', '受限']) * 5.5;
-  const oversupply = signalCount(text, ['过剩', '库存', '出清', '价格下行', '承压', '亏损', '下修']) * 5.5;
-  const riskSignal = signalCount(text, ['风险', '反证', '不确定', '若', '如果', '放缓', '下修', '累积']) * 3.8;
-  const stableJitter = seededJitter(item.id || item.industry, 14);
-
-  const demand = clampScore(48 + growth + metricScore * 0.6 - oversupply * 0.35 + stableJitter);
-  const supply = clampScore(50 + bottleneckScore + shortage * 0.75 + oversupply * 0.45 - growth * 0.25 - stableJitter * 0.4);
-  const price = clampScore(42 + shortage * 0.65 + growth * 0.35 - oversupply * 0.5 + metricScore * 0.35);
-  const inventory = clampScore(36 + oversupply * 0.8 + riskSignal * 0.45 - shortage * 0.28 + Math.abs(stableJitter));
-
-  if (type === 'profit') {
-    return [
-      clampScore(42 + demand * 0.28 + growth * 0.28),
-      clampScore(46 + supply * 0.34 + shortage * 0.35),
-      clampScore(36 + bottleneckScore + metricScore * 0.8),
-      clampScore(30 + inventory * 0.35 + oversupply * 0.45 + riskSignal * 0.2),
-    ];
-  }
-
-  if (type === 'signal') {
-    const demandTrend = item.stage.includes('扩张') || item.stage.includes('成长') || item.stage.includes('短缺') ? 12 : -4;
-    const supplyTrend = item.stage.includes('过剩') || item.stage.includes('出清') ? 10 : shortage > oversupply ? -5 : 4;
-    return {
-      demand: [
-        clampScore(demand - 14 + stableJitter * 0.25),
-        clampScore(demand - 2 + demandTrend * 0.45),
-        clampScore(price + demandTrend * 0.5),
-        clampScore(demand - inventory * 0.18 + demandTrend),
-      ],
-      supply: [
-        clampScore(supply - 5),
-        clampScore(supply + supplyTrend),
-        clampScore(price - shortage * 0.2 + oversupply * 0.25),
-        clampScore(inventory + supplyTrend * 0.65),
-      ],
-    };
-  }
-
-  const realityBase =
-    item.stage.includes('扩张') || item.stage.includes('短缺')
-      ? 43
-      : item.stage.includes('过剩') || item.stage.includes('出清')
-        ? 50
-        : 36;
-  const expectationBase =
-    item.stage.includes('成长') || item.stage.includes('扩张')
-      ? 36
-      : item.stage.includes('待验证')
-        ? 28
-        : 24;
-  const riskBase =
-    item.stage.includes('过剩') || item.stage.includes('待验证') || item.stage.includes('出清')
-      ? 32
-      : 22;
-
-  return normalizeSegments([
-    realityBase + sourceScore + metricScore * 0.35 + shortage * 0.08,
-    expectationBase + growth * 0.24 + stableJitter * 0.4,
-    riskBase + riskSignal * 0.22 + oversupply * 0.22 + shortage * 0.08,
-  ]);
+function splitCompanies(value = '') {
+  return String(value)
+    .split(/[、,，;；]/u)
+    .map((company) => company.trim())
+    .filter(Boolean)
+    .slice(0, 8);
 }
 
-function signalCount(text, keywords) {
-  return keywords.reduce((count, keyword) => {
-    const matches = String(text).match(new RegExp(keyword, 'gu'));
-    return count + (matches?.length || 0);
-  }, 0);
-}
-
-function clampScore(value, min = 18, max = 92) {
-  return Math.round(Math.max(min, Math.min(max, value)));
-}
-
-function normalizeSegments(values) {
-  const safe = values.map((value) => Math.max(12, value));
-  const total = safe.reduce((sum, value) => sum + value, 0) || 1;
-  let first = Math.round((safe[0] / total) * 100);
-  let second = Math.round((safe[1] / total) * 100);
-  let third = Math.max(8, 100 - first - second);
-  const overflow = first + second + third - 100;
-  if (overflow > 0) {
-    if (first >= second) first = Math.max(8, first - overflow);
-    else second = Math.max(8, second - overflow);
-  }
-  third = 100 - first - second;
-  return [first, second, third];
+function signalName(value = '') {
+  const labels = {
+    Price: '价格',
+    'Budget / Orders': '预算与订单',
+    Inventory: '库存',
+    'Utilization / Yield': '利用率与良率',
+    'Margin / Cash Flow': '利润与现金流',
+    Expansion: '扩产',
+  };
+  return labels[value] || value;
 }
 
 function reportDate(item) {
@@ -1416,7 +1396,7 @@ function caseOriginLabel(item) {
 }
 
 function qualityLabel(item) {
-  return item.quality?.score == null ? '未评分' : `${item.quality.score}分`;
+  return evidenceStatusLabel(item);
 }
 
 function compactText(text, max = 136) {
@@ -1455,6 +1435,22 @@ function buildConclusionLayers(item, chainNodes, metricHints) {
 }
 
 function buildEvidenceRows(item, metricHints) {
+  if (item.watchIndicators?.length) {
+    return item.watchIndicators.slice(0, 6).map((row) => ({
+      metric: row.indicator,
+      source: `${row.source || '见原报告'} · 当前基线：${row.baseline}`,
+      scope: row.frequency,
+      supports: row.meaning || '用于检验当前周期判断',
+    }));
+  }
+  if (item.signalRows?.length) {
+    return item.signalRows.slice(0, 6).map((row) => ({
+      metric: signalName(row.signal),
+      source: `${row.evidence || '见原报告'} · ${row.period || dataFreshness(item)}`,
+      scope: row.period,
+      supports: row.interpretation || '用于检验当前周期判断',
+    }));
+  }
   const sources = getPrimarySourceHints(item);
   const metrics = metricHints.length ? metricHints.slice(0, 5) : ['阶段判断', '核心瓶颈', '数据时效'];
   return metrics.map((metric, index) => ({
@@ -1521,39 +1517,15 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
         <small>{item.stage}</small>
       </div>
 
-      <article className="industry-brief">
-        <div className="brief-heading">
-          <div>
-            <p className="micro-title">行业入口 / {caseOriginLabel(item)}</p>
-            <h2>{item.title}</h2>
-          </div>
-          <span className="brief-stage">{item.stage}</span>
-        </div>
-        <p className="brief-judgment">{item.judgment}</p>
-        <SupplyDemandPulse />
-        <div className="brief-grid">
-          <span>案例来源：{caseOriginLabel(item)}</span>
-          <span>可见状态：{publicationLabel(item)}</span>
-          <span>质量状态：{qualityLabel(item)}</span>
-          <span>报告生成/分析时间：{reportDate(item)}</span>
-          <span>范围：{item.geography}</span>
-          <span>信息搜集范围：{dataFreshness(item)}</span>
-        </div>
-      </article>
+      <CycleOverview item={item} />
 
-      <IndustryDecisionBoard item={item} chainNodes={chainNodes} metricHints={metricHints} />
-
-      <ConclusionAudit item={item} chainNodes={chainNodes} metricHints={metricHints} />
-
-      <EvidenceTrace item={item} metricHints={metricHints} />
-
-      <article className="flow-card">
+      <article className="flow-card chain-story-card">
         <div className="card-head">
           <div>
-            <p className="micro-title">上下游产业链</p>
-            <h3>把行业拆成可以点击的传导链</h3>
+            <p className="micro-title">01 · 产业怎么运转</p>
+            <h3>有哪些环节、公司，以及它们彼此怎么做生意</h3>
           </div>
-          <span>悬停看节点，点击锁定</span>
+          <span>点一个环节，下方只解释这个环节</span>
         </div>
         <div className="chain-axis">
           {chainNodes.map((node, index) => (
@@ -1571,87 +1543,83 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
         <NodeReadout item={item} currentNode={currentNode} index={currentIndex} />
       </article>
 
-      <div className="analysis-grid">
-        <InsightSlide
-          title="利益走向"
-          kicker="谁付款，谁拿利润"
-          copy={getInsightCopy(item, 'profit', chainNodes, metricHints)}
-          chart={<MiniChart type="bar" labels={['付款方', '瓶颈方', '扩产方', '承压方']} values={getChartProfile(item, 'profit')} color={category.color} note="模型评分 0-100：用于表达利润压力和瓶颈强弱，不是原始统计值。" />}
-        />
-        <InsightSlide
-          title="供需信号"
-          kicker="需求、产能、价格、库存一起看"
-          copy={getInsightCopy(item, 'signal', chainNodes, metricHints)}
-          chart={<MiniChart type="line" labels={['需求', '产能', '价格', '库存']} values={getChartProfile(item, 'signal')} color="#8db6d9" note="抽象信号曲线：不同指标没有共用真实单位，只比较方向和相对强弱。" />}
-        />
-        <InsightSlide
-          title="周期位置"
-          kicker="阶段不是标签，是假设"
-          copy={getInsightCopy(item, 'cycle', chainNodes, metricHints)}
-          chart={<MiniChart type="donut" labels={['现实', '预期', '风险']} values={getChartProfile(item, 'cycle')} color={category.color} note="阶段分布为分析模型的拆解视图，真实判断仍需由证据链校验。" />}
-        />
-      </div>
+      <ProfitFlowMap item={item} chainNodes={chainNodes} />
 
-      <ComparisonTable item={item} cases={cases} />
+      <SupplySignalBoard item={item} />
 
-      <UpdateHistory item={item} />
+      <CycleHistory item={item} />
 
-      <WatchList item={item} chainNodes={chainNodes} />
-
-      <article className="flow-card">
-        <p className="micro-title">关键瓶颈</p>
-        <h3>先看哪里卡住</h3>
-        <div className="bottleneck-stack">
-          {item.bottlenecks.map((bottleneck, index) => (
-            <div key={bottleneck}>
-              <span>{index + 1}</span>
-              <p>{bottleneck}</p>
-            </div>
-          ))}
-        </div>
-      </article>
-
-      <article className="flow-card">
-        <p className="micro-title">来源与数据提示</p>
-        <h3>文字压缩，证据显性化</h3>
-        <div className="source-row">
-          <span>原始报告：{item.file}</span>
-          <span>报告生成/分析时间：{reportDate(item)}</span>
-          <span>信息搜集范围：{dataFreshness(item)}</span>
-          <span>边界：不输出买卖建议</span>
-        </div>
-        <div className="source-list">
-          {(item.sourceHints?.length ? item.sourceHints : ['该报告未提取到显式来源行，需回到原始 Markdown 查看证据矩阵。']).slice(0, 4).map((source) => (
-            <p key={source}>{source}</p>
-          ))}
-        </div>
-        <div className="metric-hints">
-          {metricHints.length ? metricHints.map((hint) => <strong key={hint}>{hint}</strong>) : <strong>该报告未提取到量化指标</strong>}
-        </div>
-      </article>
-
-      <article className="method-strip">
-        {lensCards.map(([title, body]) => (
-          <div key={title}>
-            <strong>{title}</strong>
-            <span>{body}</span>
+      <details className="research-basis">
+        <summary>
+          <div>
+            <span>研究员模式</span>
+            <strong>查看判断依据、来源、对比与原始报告</strong>
           </div>
-        ))}
-      </article>
+          <em>展开</em>
+        </summary>
+        <div className="research-basis-body">
+          <ConclusionAudit item={item} chainNodes={chainNodes} metricHints={metricHints} />
+          <EvidenceTrace item={item} metricHints={metricHints} />
+          <ComparisonTable item={item} cases={cases} />
+          <UpdateHistory item={item} />
+          <WatchList item={item} chainNodes={chainNodes} />
 
-      <article className="flow-card raw-report-card">
-        <div>
-          <p className="micro-title">原始材料</p>
-          <h3>阅读原始 MD 文件</h3>
-          <p>图谱和卡片只是压缩视图，关键判断仍应回到完整 Markdown 里核对上下文、来源和反证条件。</p>
+          <article className="flow-card">
+            <p className="micro-title">关键瓶颈</p>
+            <h3>报告认为哪里最容易卡住</h3>
+            <div className="bottleneck-stack">
+              {item.bottlenecks.map((bottleneck, index) => (
+                <div key={bottleneck}>
+                  <span>{index + 1}</span>
+                  <p>{bottleneck}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="flow-card">
+            <p className="micro-title">来源与数据提示</p>
+            <h3>完整证据索引</h3>
+            <div className="source-row">
+              <span>原始报告：{item.file}</span>
+              <span>报告生成/分析时间：{reportDate(item)}</span>
+              <span>信息搜集范围：{dataFreshness(item)}</span>
+              <span>边界：不输出买卖建议</span>
+            </div>
+            <div className="source-list">
+              {(item.sourceHints?.length ? item.sourceHints : ['该报告未提取到显式来源行，需回到原始 Markdown 查看证据矩阵。']).slice(0, 6).map((source) => (
+                <p key={source}>{source}</p>
+              ))}
+            </div>
+            <div className="metric-hints">
+              {metricHints.length ? metricHints.map((hint) => <strong key={hint}>{hint}</strong>) : <strong>该报告未提取到量化指标</strong>}
+            </div>
+          </article>
+
+          <article className="method-strip">
+            {lensCards.map(([title, body]) => (
+              <div key={title}>
+                <strong>{title}</strong>
+                <span>{body}</span>
+              </div>
+            ))}
+          </article>
+
+          <article className="flow-card raw-report-card">
+            <div>
+              <p className="micro-title">原始材料</p>
+              <h3>阅读原始 MD 文件</h3>
+              <p>上面的页面是解释层；需要审查数字、来源、口径和反证条件时，再回到完整 Markdown。</p>
+            </div>
+            <div className="raw-report-actions">
+              <button onClick={() => setRawOpen(true)} disabled={!hasOriginalMarkdown}>
+                {hasOriginalMarkdown ? '打开原始 MD' : '原文加载中'}
+              </button>
+              {canDownloadOriginal && <button className="secondary-button" onClick={() => onDownloadMarkdown(item)}>下载原始 MD</button>}
+            </div>
+          </article>
         </div>
-        <div className="raw-report-actions">
-          <button onClick={() => setRawOpen(true)} disabled={!hasOriginalMarkdown}>
-            {hasOriginalMarkdown ? '打开原始 MD' : '原文未保存'}
-          </button>
-          {canDownloadOriginal && <button className="secondary-button" onClick={() => onDownloadMarkdown(item)}>下载原始 MD</button>}
-        </div>
-      </article>
+      </details>
 
       {rawOpen && <OriginalMarkdownModal item={item} onClose={() => setRawOpen(false)} onDownload={() => onDownloadMarkdown(item)} />}
     </section>
@@ -1688,38 +1656,258 @@ function OriginalMarkdownModal({ item, onClose, onDownload }) {
   );
 }
 
-function IndustryDecisionBoard({ item, chainNodes, metricHints }) {
-  const firstNode = chainNodes[0] || '产业链上游';
-  const lastNode = chainNodes[chainNodes.length - 1] || '终端需求';
-  const payerNode = chainNodes.find((node) => /预算|付款|客户|终端需求|需求方/u.test(node)) || lastNode;
-  const bottleneck = item.bottlenecks[0] || '报告尚未提取出明确瓶颈';
-  const invalidation = buildConclusionLayers(item, chainNodes, metricHints)
-    .find(([label]) => label === '反证')?.[1] || '关键证据反转时，需要重新判断周期位置。';
-  const questions = [
-    ['01', '谁在付钱', `报告把“${payerNode}”列为预算或需求起点；仍要用资本开支、采购和订单数据核实，不能把概念热度当成真实付款。`],
-    ['02', '真正卡在哪', compactText(bottleneck, 112)],
-    ['03', '利润怎么走', compactText(getInsightCopy(item, 'profit', chainNodes, metricHints), 124)],
-    ['04', '什么会推翻', compactText(invalidation, 124)],
-  ];
+function CycleOverview({ item }) {
+  const reasons = stageReasons(item);
+  const confidence = String(item.currentStage?.confidence || '报告未单独标注').replace(/[。.!！]+$/u, '');
 
   return (
-    <article className="decision-board">
-      <header>
+    <article className="industry-brief cycle-overview">
+      <div className="cycle-overview-head">
         <div>
-          <p className="micro-title">30 秒决策板</p>
-          <h3>先回答四个问题，再读完整报告</h3>
+          <p className="micro-title">先看最重要的答案</p>
+          <h2>{item.industry}</h2>
+          <p className="report-version">{item.title}</p>
         </div>
-        <span>{firstNode} → {lastNode}</span>
-      </header>
-      <div className="decision-grid">
-        {questions.map(([number, title, body]) => (
-          <section key={number}>
-            <span>{number}</span>
-            <strong>{title}</strong>
-            <p>{body}</p>
+        <div className="cycle-stage-answer">
+          <span>现在处于</span>
+          <strong>{item.stage}</strong>
+          <small>{evidenceStatusLabel(item)}</small>
+        </div>
+      </div>
+
+      <div className="cycle-explainer-grid">
+        <section className="stage-in-plain-words">
+          <span>这句话到底是什么意思</span>
+          <p>{explainStage(item.stage)}</p>
+          {item.currentStage?.phase && <small>报告原话：{item.currentStage.phase}</small>}
+        </section>
+        <section className="stage-reasons">
+          <span>为什么这样判断</span>
+          <ol>
+            {reasons.map((reason) => <li key={reason}>{reason}</li>)}
+          </ol>
+        </section>
+        <section className="stage-falsifier">
+          <span>什么出现，就说明判断错了</span>
+          <p>{stageInvalidation(item)}</p>
+          <small>报告置信度：{confidence}。这是文字等级，不是“47% 现实、31% 预期”之类的概率。</small>
+        </section>
+      </div>
+
+      <SupplyDemandPulse />
+      <div className="brief-grid">
+        <span>报告时间：{reportDate(item)}</span>
+        <span>数据范围：{dataFreshness(item)}</span>
+        <span>地理范围：{item.geography}</span>
+        <span>页面不提供买卖建议</span>
+      </div>
+    </article>
+  );
+}
+
+function ProfitFlowMap({ item, chainNodes }) {
+  const rows = profitRows(item, chainNodes);
+  const isStructured = Boolean(item.profitMap?.length);
+
+  return (
+    <article className="flow-card profit-story-card">
+      <div className="card-head">
+        <div>
+          <p className="micro-title">02 · 钱与利润怎么走</p>
+          <h3>不再打分，直接说谁出钱、谁赚钱、谁担风险</h3>
+        </div>
+        <span>{isStructured ? '来自新版报告的 Power and Profit Map' : '旧报告兼容模式：缺失项明确留空'}</span>
+      </div>
+      <div className="profit-story-grid">
+        {rows.map((row, index) => (
+          <section key={`${row.question}-${index}`}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <strong>{profitQuestionLabel(row.question)}</strong>
+              <p>{row.answer}</p>
+              {row.gap && <small>还不能确定：{row.gap}</small>}
+              {row.evidence && <em>证据：{row.evidence}</em>}
+            </div>
           </section>
         ))}
       </div>
+    </article>
+  );
+}
+
+function SupplySignalBoard({ item }) {
+  const rows = item.signalRows?.length
+    ? item.signalRows
+    : (item.watchIndicators || []).map((row) => ({
+      signal: row.indicator,
+      latest: row.baseline,
+      period: row.frequency,
+      interpretation: row.meaning,
+      gap: '旧报告未按新版格式拆分供需信号。',
+    }));
+
+  return (
+    <article className="flow-card signal-story-card">
+      <div className="card-head">
+        <div>
+          <p className="micro-title">03 · 哪些真实信号正在变化</p>
+          <h3>先看最新值，再用同一指标的时间轴看趋势</h3>
+        </div>
+        <span>不同单位不拼成“综合指数”</span>
+      </div>
+
+      {rows.length ? (
+        <div className="signal-fact-grid">
+          {rows.slice(0, 6).map((row) => (
+            <section key={`${row.signal}-${row.period}`}>
+              <div>
+                <strong>{signalName(row.signal)}</strong>
+                <span>{row.period}</span>
+              </div>
+              <p>{row.latest}</p>
+              {row.interpretation && <small>说明：{row.interpretation}</small>}
+              {row.gap && <em>缺口：{row.gap}</em>}
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>这份旧报告没有结构化供需信号</strong>
+          <p>页面不会用关键词生成一条看似专业的曲线；需要按新版 Skill 补充需求、订单、价格、库存、利用率、利润和扩产数据。</p>
+        </div>
+      )}
+
+      <ActualTimeSeries item={item} />
+    </article>
+  );
+}
+
+function chartValueLabel(value, unit, compact = false) {
+  if (/百万新台币/u.test(unit)) {
+    const valueInYi = value / 100;
+    return compact ? `${Math.round(valueInYi)}亿` : `${valueInYi.toFixed(1)} 亿新台币`;
+  }
+  if (/%/u.test(unit)) return `${value.toFixed(1)}%`;
+  return `${Math.round(value).toLocaleString('zh-CN')} ${unit || ''}`.trim();
+}
+
+function ActualTimeSeries({ item }) {
+  const series = item.comparableSeries?.[0];
+  if (!series) {
+    const watchRows = (item.watchIndicators || []).slice(0, 3);
+    return (
+      <section className="time-series-panel time-series-empty">
+        <div>
+          <p className="micro-title">真实时间序列</p>
+          <h4>旧报告还没有足够的同口径历史数据</h4>
+          <p>至少需要同一个指标、同一个单位、两个以上日期才能画线。没有数据时，页面明确留空，不再画抽象趋势。</p>
+        </div>
+        {watchRows.length > 0 && (
+          <div className="next-data-list">
+            {watchRows.map((row) => (
+              <p key={row.indicator}><strong>{row.indicator}</strong><span>{row.baseline}</span></p>
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  const values = series.points.map((point) => point.value);
+  const rawMin = Math.min(...values);
+  const rawMax = Math.max(...values);
+  const padding = Math.max((rawMax - rawMin) * 0.16, rawMax * 0.035, 1);
+  const min = Math.max(0, rawMin - padding);
+  const max = rawMax + padding;
+  const width = 900;
+  const height = 360;
+  const left = 88;
+  const right = 34;
+  const top = 42;
+  const bottom = 72;
+  const plotWidth = width - left - right;
+  const plotHeight = height - top - bottom;
+  const x = (index) => left + (plotWidth * index) / Math.max(1, series.points.length - 1);
+  const y = (value) => top + ((max - value) / Math.max(1, max - min)) * plotHeight;
+  const path = series.points.map((point, index) => `${index ? 'L' : 'M'} ${x(index)} ${y(point.value)}`).join(' ');
+  const ticks = Array.from({ length: 5 }, (_, index) => max - ((max - min) * index) / 4);
+
+  return (
+    <section className="time-series-panel">
+      <div className="time-series-head">
+        <div>
+          <p className="micro-title">真实时间序列</p>
+          <h4>{series.indicator}</h4>
+          <p>{series.points[0]?.meaning || '用同一口径观察产业趋势。'}</p>
+        </div>
+        <span>实际值 · {series.unit} · 来源 {series.source || '见原报告'}</span>
+      </div>
+      <div className="time-series-scroll">
+        <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${series.indicator}时间序列折线图`}>
+          <title>{series.indicator}，{series.points[0].date} 至 {series.points[series.points.length - 1].date}</title>
+          {ticks.map((tick) => (
+            <g key={tick}>
+              <line x1={left} x2={width - right} y1={y(tick)} y2={y(tick)} className="series-grid-line" />
+              <text x={left - 14} y={y(tick) + 4} className="series-y-label">{chartValueLabel(tick, series.unit, true)}</text>
+            </g>
+          ))}
+          <path d={`${path} L ${x(series.points.length - 1)} ${top + plotHeight} L ${x(0)} ${top + plotHeight} Z`} className="series-area" />
+          <path d={path} className="series-line" />
+          {series.points.map((point, index) => (
+            <g key={`${point.date}-${point.value}`}>
+              <circle cx={x(index)} cy={y(point.value)} r="6" className="series-point" />
+              <text x={x(index)} y={y(point.value) - 16} className="series-value-label">{chartValueLabel(point.value, series.unit, true)}</text>
+              <text x={x(index)} y={top + plotHeight + 32} className="series-x-label">{point.date}</text>
+            </g>
+          ))}
+          <line x1={left} x2={width - right} y1={top + plotHeight} y2={top + plotHeight} className="series-axis" />
+        </svg>
+      </div>
+      <p className="series-disclaimer">只连接同一指标、同一口径、同一单位的实际值；不把预测值、毛利率和库存天数混在这条线上。</p>
+    </section>
+  );
+}
+
+function CycleHistory({ item }) {
+  const rows = item.cycleTimeline || [];
+  const actualIndexes = rows
+    .map((row, index) => (/计划|风险|预测|预期/iu.test(row.period) ? -1 : index))
+    .filter((index) => index >= 0);
+  const currentIndex = actualIndexes.at(-1);
+
+  return (
+    <article className="flow-card cycle-history-card">
+      <div className="card-head">
+        <div>
+          <p className="micro-title">04 · 历史上走到哪一步</p>
+          <h3>把已发生、当前锚点和未来风险放在同一条时间线上</h3>
+        </div>
+        <span>{item.currentStage?.entryAnchor || `当前阶段：${item.stage}`}</span>
+      </div>
+
+      {rows.length ? (
+        <div className="cycle-history-track">
+          {rows.map((row, index) => {
+            const future = /计划|风险|预测|预期/iu.test(row.period);
+            const current = index === currentIndex;
+            return (
+              <section key={`${row.period}-${row.signal}`} className={`${future ? 'is-future' : 'is-actual'} ${current ? 'is-current' : ''}`}>
+                <div className="cycle-time-marker"><i /><time>{row.period}</time></div>
+                <span>{current ? '当前证据锚点' : future ? '计划 / 风险窗口' : '已发布实际信号'}</span>
+                <h4>{row.signal}</h4>
+                {row.profitShift && <p><strong>利润变化：</strong>{row.profitShift}</p>}
+                {row.lag && <p><strong>还要等多久：</strong>{row.lag}</p>}
+                {row.next && <small>下一次验证：{row.next}</small>}
+              </section>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>这份旧报告没有结构化周期时间线</strong>
+          <p>当前只能显示“{item.stage}”这个阶段标签，无法可靠还原从订单到利润、再到扩产或过剩的历史过程。新版 Skill 报告会补齐。</p>
+        </div>
+      )}
     </article>
   );
 }
@@ -1834,25 +2022,32 @@ function WatchList({ item, chainNodes }) {
 function NodeReadout({ item, currentNode, index }) {
   const chainNodes = extractChainNodes(item);
   const description = describeChainNode(currentNode, item, index, chainNodes.length);
+  const role = description.does || description.what || description.role || '该节点的具体作用尚未在报告中结构化披露。';
+  const companies = splitCompanies(description.companies);
   const fields = [
-    ['这是什么', description.what],
-    ['它做什么', description.does || description.role],
-    ['上游是谁', description.suppliers],
-    ['下游是谁', description.buyers],
+    ['向谁采购', description.suppliers],
+    ['卖给谁', description.buyers],
     ['怎么赚钱', description.money],
-    ['为什么重要', description.why],
-  ];
+    ['为什么会卡住', description.why],
+  ].filter(([, value]) => value && !/未在节点表中单独披露/u.test(value));
   return (
     <div className="node-readout">
       <div className="node-title">
         <span>{description.position}</span>
         <strong>{currentNode}</strong>
+        <p>{role}</p>
+        <div className="company-list">
+          <span>代表公司</span>
+          {companies.length
+            ? companies.map((company) => <b key={company}>{company}</b>)
+            : <em>报告未列出</em>}
+        </div>
       </div>
       <div className="node-copy">
         {fields.map(([label, value]) => (
           <section key={label}>
             <span>{label}</span>
-            <p>{value || '该节点需要回到原始报告继续补充。'}</p>
+            <p>{value}</p>
           </section>
         ))}
         {description.evidence && (
@@ -1862,115 +2057,6 @@ function NodeReadout({ item, currentNode, index }) {
           </section>
         )}
       </div>
-    </div>
-  );
-}
-
-function InsightSlide({ title, kicker, copy, chart }) {
-  return (
-    <article className="insight-slide">
-      <div>
-        <p className="micro-title">{kicker}</p>
-        <h3>{title}</h3>
-        <p>{copy}</p>
-      </div>
-      {chart}
-    </article>
-  );
-}
-
-function MiniChart({ type = 'bar', labels, values = [42, 78, 64, 34], color, note }) {
-  const numericValues = Array.isArray(values) ? values : values?.values || values?.segments || [42, 78, 64, 34];
-  const barValues = numericValues.slice(0, 4).map((value) => Math.max(24, Math.min(92, value)));
-  const chartColors = [color, '#d9b88f', '#e79aa8'];
-  const pointX = [8, 34, 60, 88];
-  const toLinePoints = (series) =>
-    series.slice(0, 4).map((value, index) => [pointX[index], 78 - Math.max(18, Math.min(92, value)) * 0.56]);
-
-  if (type === 'line') {
-    const demandSeries = values?.demand || barValues;
-    const supplySeries = values?.supply || [barValues[1], barValues[2], barValues[3], barValues[0]];
-    const demandPoints = toLinePoints(demandSeries);
-    const supplyPoints = toLinePoints(supplySeries);
-    const demandPath = demandPoints.map(([x, y]) => `${x},${y}`).join(' ');
-    const supplyPath = supplyPoints.map(([x, y]) => `${x},${y}`).join(' ');
-    return (
-      <div className="chart-shell">
-        <div className="line-chart">
-          <svg viewBox="0 0 100 88" aria-label="供需信号折线图">
-            {[24, 40, 56, 72].map((y) => <line key={y} x1="6" x2="94" y1={y} y2={y} className="grid-line" />)}
-            <polygon points={`8,80 ${demandPath} 88,80`} className="line-area" />
-            <polyline points={demandPath} fill="none" stroke={color} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-            <polyline points={supplyPath} fill="none" stroke={chartColors[1]} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-            {demandPoints.map(([x, y], index) => (
-              <g key={labels[index]}>
-                <circle cx={x} cy={y} r="2.9" fill={color} />
-                <circle cx={supplyPoints[index][0]} cy={supplyPoints[index][1]} r="2.4" fill={chartColors[1]} />
-                <text x={x} y="84">{labels[index]}</text>
-              </g>
-            ))}
-            <text x="12" y="16" className="chart-note">需求侧</text>
-            <text x="70" y="16" className="chart-note secondary">供给侧</text>
-            <text x="12" y="26" className="chart-note muted">看斜率差，而不是单点高低</text>
-          </svg>
-        </div>
-        <p className="chart-footnote">{note}</p>
-      </div>
-    );
-  }
-
-  if (type === 'donut') {
-    const segments = normalizeSegments(numericValues.slice(0, 3));
-    const first = segments[0];
-    const second = segments[0] + segments[1];
-    return (
-      <div className="chart-shell">
-        <div className="donut-chart">
-          <div
-            className="donut-core"
-            style={{
-              '--chart-color': color,
-              '--chart-second': chartColors[1],
-              '--chart-third': chartColors[2],
-              '--donut-first': `${first}%`,
-              '--donut-second': `${second}%`,
-            }}
-          >
-            <strong>阶段</strong>
-            <span>假设</span>
-          </div>
-          <ul>
-            {labels.map((label, index) => (
-              <li key={label} style={{ '--legend-color': chartColors[index] }}>
-                {label}<small>{segments[index]}% · {['产业现实', '市场预期', '反证风险'][index]}</small>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <p className="chart-footnote">{note}</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="chart-shell">
-      <div className="mini-chart" aria-label="利益走向柱状图">
-        <div className="bar-grid">
-          <span>强</span>
-          <span>中</span>
-          <span>弱</span>
-        </div>
-        <div className="bars">
-          {labels.map((label, index) => (
-            <div key={label} style={{ '--bar-height': `${barValues[index]}%` }}>
-              <strong>{barValues[index]}</strong>
-              <span style={{ height: `${barValues[index]}%`, background: index === 1 ? color : '#e3e8ef' }} />
-              <small>{label}</small>
-            </div>
-          ))}
-        </div>
-      </div>
-      <p className="chart-footnote">{note}</p>
     </div>
   );
 }

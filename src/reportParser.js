@@ -155,9 +155,11 @@ const readTableAfterHeading = (content, headingPattern) => {
   const lines = content.replace(/\r/g, '').split('\n');
   const start = lines.findIndex((line) => headingPattern.test(line));
   if (start < 0) return null;
+  const startLevel = lines[start].match(/^#+/u)?.[0].length || 6;
 
   for (let i = start + 1; i < lines.length - 1; i += 1) {
-    if (/^#{2,4}\s+/u.test(lines[i]) && i > start + 1) return null;
+    const headingLevel = lines[i].match(/^#+(?=\s)/u)?.[0].length;
+    if (headingLevel && headingLevel <= startLevel && i > start + 1) return null;
     if (!lines[i].trim().startsWith('|') || !isMarkdownSeparator(lines[i + 1])) continue;
     const headers = splitMarkdownRow(lines[i]);
     const rows = [];
@@ -171,6 +173,14 @@ const readTableAfterHeading = (content, headingPattern) => {
   return null;
 };
 
+const pickTableValue = (row, aliases) => {
+  for (const alias of aliases) {
+    const value = row?.[normalizeTableHeader(alias)];
+    if (value) return value;
+  }
+  return '';
+};
+
 const extractChainNodeDetails = (content) => {
   const rows = readTableAfterHeading(
     content,
@@ -178,34 +188,160 @@ const extractChainNodeDetails = (content) => {
   );
   if (!rows?.length) return [];
 
-  const pick = (row, aliases) => {
-    for (const alias of aliases) {
-      const value = row[normalizeTableHeader(alias)];
-      if (value) return value;
-    }
-    return '';
-  };
-
   return rows
     .map((row) => {
-      const name = pick(row, ['Node', 'Chain Node', '节点']);
-      const what = pick(row, ['What It Is / Does', 'What It Is', '节点定义与作用']);
-      const does = pick(row, ['What It Does', '作用']) || what;
-      const evidenceIds = pick(row, ['Evidence IDs', 'Evidence ID', '证据ID']);
+      const name = pickTableValue(row, ['Node', 'Chain Node', '节点']);
+      const what = pickTableValue(row, ['What It Is / Does', 'What It Is', '节点定义与作用']);
+      const does = pickTableValue(row, ['What It Does', '作用']) || what;
+      const evidenceIds = pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID']);
       return {
         name,
         position: '显式关系节点',
-        what: what || `${name} 的定义未在节点表中单独披露。`,
-        does: does || `${name} 的作用未在节点表中单独披露。`,
-        suppliers: pick(row, ['Suppliers', 'Who Supplies It', '供应方']) || '报告未提供显式供应关系',
-        buyers: pick(row, ['Buyers', 'Who Buys It', '采购方']) || '报告未提供显式采购关系',
-        companies: pick(row, ['Representative Companies', '代表企业']),
-        money: pick(row, ['Monetization', 'How It Makes Money', '变现方式']) || '报告未提供变现证据',
-        why: pick(row, ['Bottleneck Role', 'Why It Matters', '瓶颈作用']) || '报告未提供瓶颈作用证据',
-        evidence: evidenceIds || '报告未给出该节点的证据ID',
+        what,
+        does,
+        suppliers: pickTableValue(row, ['Suppliers', 'Who Supplies It', '供应方']),
+        buyers: pickTableValue(row, ['Buyers', 'Who Buys It', '采购方']),
+        companies: pickTableValue(row, ['Representative Companies', '代表企业']),
+        money: pickTableValue(row, ['Monetization', 'How It Makes Money', '变现方式']),
+        why: pickTableValue(row, ['Bottleneck Role', 'Why It Matters', '瓶颈作用']),
+        evidence: evidenceIds,
       };
     })
     .filter((node) => node.name);
+};
+
+const extractProfitMap = (content) => {
+  const rows = readTableAfterHeading(
+    content,
+    /^###\s*(?:(?:2\.4)[.、]?\s*)?(?:Power and Profit Map|权力与利润(?:地图|分配)|利润传导)/iu,
+  );
+  if (!rows?.length) return [];
+
+  return rows
+    .map((row) => ({
+      question: pickTableValue(row, ['Question', '问题']),
+      answer: pickTableValue(row, ['Answer', '回答', '结论']),
+      evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID']),
+      gap: pickTableValue(row, ['Gap', 'Gap / Limitation', '缺口', '局限']),
+    }))
+    .filter((row) => row.question && row.answer);
+};
+
+const extractSignalRows = (content) => {
+  const rows = readTableAfterHeading(
+    content,
+    /^##\s*(?:(?:5)[.、]?\s*)?(?:供需矛盾与高频信号|Supply-Demand Conflict and High-Frequency Signals?)/iu,
+  );
+  if (!rows?.length) return [];
+
+  return rows
+    .map((row) => ({
+      signal: pickTableValue(row, ['Signal', '信号', '指标']),
+      latest: pickTableValue(row, ['Latest Value / Direction', 'Latest Value', '最新值 / 方向', '最新值']),
+      period: pickTableValue(row, ['Period', '时期', '时间']),
+      interpretation: pickTableValue(row, ['Interpretation', '含义', '解释']),
+      gap: pickTableValue(row, ['Gap', 'Gap / Limitation', '缺口', '局限']),
+      evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID']),
+    }))
+    .filter((row) => row.signal && row.latest);
+};
+
+const extractCycleTimeline = (content) => {
+  const rows = readTableAfterHeading(
+    content,
+    /^##\s*(?:(?:6)[.、]?\s*)?(?:周期与利润\s*[/／]\s*订单传导|周期与利润传导|Cycle and Profit\s*[/／]\s*Order Transmission)/iu,
+  );
+  if (!rows?.length) return [];
+
+  return rows
+    .map((row) => ({
+      period: pickTableValue(row, ['Stage / Date', 'Stage', 'Date', '阶段 / 日期', '时期']),
+      signal: pickTableValue(row, ['Signal', '信号']),
+      profitShift: pickTableValue(row, ['Profit Pool Shift', '利润池变化', '利润变化']),
+      lag: pickTableValue(row, ['Key Lag', '关键时滞', '时滞']),
+      evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID']),
+      next: pickTableValue(row, ['Next Verification', '下一步验证', '下次验证']),
+    }))
+    .filter((row) => row.period && row.signal);
+};
+
+const extractCurrentStage = (content) => {
+  const section = sectionAfter(content, /###\s*(?:Current stage|当前阶段|周期位置)/iu);
+  if (!section) return {};
+
+  const field = (labels) => matchAnyLine(section, labels);
+  return {
+    phase: field(['Phase', '阶段']),
+    entryAnchor: field(['Entry date / anchor', 'Entry anchor', '进入时间 / 锚点', '进入锚点']),
+    expectedTransition: field(['Expected transition', '预期转换', '下一阶段']),
+    confidence: field(['Confidence', '置信度']),
+    proveWrong: field(['What would prove this wrong', 'What proves this wrong', '反证条件', '什么会证明判断错误']),
+  };
+};
+
+const extractWatchIndicators = (content) => {
+  const rows = readTableAfterHeading(
+    content,
+    /^##\s*(?:(?:9)[.、]?\s*)?(?:观察哨与跟踪|Watchlist and Tracking|Watch and Tracking)/iu,
+  );
+  if (!rows?.length) return [];
+
+  return rows
+    .map((row) => ({
+      indicator: pickTableValue(row, ['Indicator', '指标']),
+      baseline: pickTableValue(row, ['Baseline', '基线']),
+      source: pickTableValue(row, ['Source', '来源']),
+      frequency: pickTableValue(row, ['Frequency', '频率']),
+      positiveTrigger: pickTableValue(row, ['Positive Trigger', '正向触发']),
+      disconfirmingTrigger: pickTableValue(row, ['Disconfirming Trigger', '反证触发']),
+      meaning: pickTableValue(row, ['Meaning', '含义']),
+    }))
+    .filter((row) => row.indicator && row.baseline);
+};
+
+const parseComparableNumber = (value = '') => {
+  const match = String(value).replace(/,/g, '').match(/-?\d+(?:\.\d+)?/u);
+  return match ? Number(match[0]) : Number.NaN;
+};
+
+const extractComparableSeries = (content) => {
+  const rows = readTableAfterHeading(
+    content,
+    /^###\s*(?:(?:9\.1)[.、]?\s*)?(?:可比时间序列|Comparable Time Series|Historical Data Series)/iu,
+  );
+  if (!rows?.length) return [];
+
+  const points = rows
+    .map((row) => {
+      const rawValue = pickTableValue(row, ['Value', '数值']);
+      return {
+        date: pickTableValue(row, ['Date', '日期', '时期']),
+        indicator: pickTableValue(row, ['Indicator', '指标']),
+        value: parseComparableNumber(rawValue),
+        rawValue,
+        unit: pickTableValue(row, ['Unit', '单位']),
+        source: pickTableValue(row, ['Source', '来源']),
+        meaning: pickTableValue(row, ['Meaning', '含义']),
+      };
+    })
+    .filter((point) => point.date && point.indicator && Number.isFinite(point.value));
+
+  const grouped = new Map();
+  points.forEach((point) => {
+    const key = `${point.indicator}::${point.unit}`;
+    grouped.set(key, [...(grouped.get(key) || []), point]);
+  });
+
+  return [...grouped.entries()]
+    .map(([id, seriesPoints]) => ({
+      id,
+      indicator: seriesPoints[0].indicator,
+      unit: seriesPoints[0].unit,
+      source: seriesPoints.find((point) => point.source)?.source || '',
+      points: seriesPoints.sort((a, b) => a.date.localeCompare(b.date, 'zh-CN', { numeric: true })),
+    }))
+    .filter((series) => series.points.length >= 2)
+    .sort((a, b) => b.points.length - a.points.length);
 };
 
 const extractSentenceAround = (content, keyword) => {
@@ -366,6 +502,12 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
   const bottlenecks = extractBottlenecks(content, industry);
   const sourceHints = extractSourceHints(content);
   const metricHints = extractMetricHints(content);
+  const profitMap = extractProfitMap(content);
+  const signalRows = extractSignalRows(content);
+  const cycleTimeline = extractCycleTimeline(content);
+  const currentStage = extractCurrentStage(content);
+  const watchIndicators = extractWatchIndicators(content);
+  const comparableSeries = extractComparableSeries(content);
   const date = matchAnyLine(content, ['分析日期', '分析时间', 'Research date', 'Analysis Timestamp']);
   const geography = matchAnyLine(content, ['地理范围', 'Geography']);
   const dataCurrency = matchAnyLine(content, ['数据时效', '信息搜集范围', '数据范围', 'Data Currency']);
@@ -392,6 +534,12 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
       chainNodeDetails: explicitChainNodeDetails.length >= 3
         ? explicitChainNodeDetails
         : chainNodes.map((node, index) => describeNode(node, industry, content, bottlenecks, chainNodes, index)),
+      profitMap,
+      signalRows,
+      cycleTimeline,
+      currentStage,
+      watchIndicators,
+      comparableSeries,
       originalMarkdown: content,
       quality,
     },
