@@ -2,7 +2,7 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { parseReportMarkdown } from '../src/reportParser.js';
-import { dedupeCasesByIndustry } from '../src/caseIdentity.js';
+import { dedupeCasesByIndustry, reportTimestamp } from '../src/caseIdentity.js';
 
 const root = process.cwd();
 const outputDir = path.join(root, 'src', 'data');
@@ -46,6 +46,10 @@ for (const file of files) {
 }
 
 const cases = dedupeCasesByIndustry(candidates, { preferLatestDate: true });
+const latestReportTimestamp = Math.max(0, ...cases.map((item) => reportTimestamp(item)));
+const generatedAt = latestReportTimestamp > 0
+  ? new Date(latestReportTimestamp).toISOString()
+  : '1970-01-01T00:00:00.000Z';
 
 for (const item of cases) {
   await writeFile(path.join(officialReportsDir, `${item.id}.md`), item.originalContent, 'utf8');
@@ -55,7 +59,7 @@ for (const item of cases) {
 await mkdir(outputDir, { recursive: true });
 await writeFile(
   outputFile,
-  JSON.stringify({ generatedAt: new Date().toISOString(), sourceCount: cases.length, cases }, null, 2),
+  `${JSON.stringify({ generatedAt, sourceCount: cases.length, cases }, null, 2)}\n`,
   'utf8',
 );
 
