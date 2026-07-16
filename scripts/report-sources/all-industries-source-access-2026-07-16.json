@@ -1,0 +1,965 @@
+[
+  {
+    "industry": "半导体",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 27
+    },
+    "sources": [
+      {
+        "url": "https://www.semiconductors.org/global-semiconductor-sales-increase-9-2-month-to-month-in-may/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.semiconductors.org/global-semiconductor-sales-increase-9-2-month-to-month-in-may/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://investor.tsmc.com/english/monthly-revenue/2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.tsmc.com/english/monthly-revenue/2026",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000447/tsm-revenue20260713.htm",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000447/tsm-revenue20260713.htm",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.asml.com/en/investors/financial-results/q2-2026",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.asml.com/en/investors/financial-results/q2-2026",
+        "contentType": "text/html; charset=utf-8"
+      }
+    ]
+  },
+  {
+    "industry": "光通信",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 27
+    },
+    "sources": [
+      {
+        "url": "https://investor.ciena.com/news/news-details/2026/Ciena-Reports-Fiscal-Second-Quarter-2026-Financial-Results/default.aspx",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.ciena.com/news/news-details/2026/Ciena-Reports-Fiscal-Second-Quarter-2026-Financial-Results/default.aspx",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://ir.ciena.com/news-releases/news-release-details/ciena-reports-fiscal-first-quarter-2026-financial-results",
+        "ok": false,
+        "status": 0,
+        "finalUrl": "https://ir.ciena.com/news-releases/news-release-details/ciena-reports-fiscal-first-quarter-2026-financial-results",
+        "contentType": "",
+        "error": "TypeError"
+      },
+      {
+        "url": "https://www.coherent.com/content/dam/coherent/site/en/documents/investors/investor-presentations/2026/november-5/investor-presentation-20251105.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.coherent.com/content/dam/coherent/site/en/documents/investors/investor-presentations/2026/november-5/investor-presentation-20251105.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://investor.corning.com/investor-relations/financials/quarterly-results/default.aspx",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.corning.com/investor-relations/financials/quarterly-results/default.aspx",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://investors.vertiv.com/news/news-details/2026/Vertiv-Reports-Strong-First-Quarter-with-Diluted-EPS-Growth-of-136-Adjusted-Diluted-EPS-Growth-of-83-Raises-Full-Year-Guidance/default.aspx",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investors.vertiv.com/news/news-details/2026/Vertiv-Reports-Strong-First-Quarter-with-Diluted-EPS-Growth-of-136-Adjusted-Diluted-EPS-Growth-of-83-Raises-Full-Year-Guidance/default.aspx",
+        "contentType": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "industry": "AI算力",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 22
+    },
+    "sources": [
+      {
+        "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.amd.com/en/newsroom/press-releases/2026-5-5-amd-reports-first-quarter-2026-financial-results.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.amd.com/en/newsroom/press-releases/2026-5-5-amd-reports-first-quarter-2026-financial-results.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-First-Quarter-2026-Results/",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-First-Quarter-2026-Results/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://investor.tsmc.com/english/monthly-revenue/2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.tsmc.com/english/monthly-revenue/2026",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "contentType": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "industry": "新能源",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 27
+    },
+    "sources": [
+      {
+        "url": "https://english.www.gov.cn/archive/statistics/202606/25/content_WS6a3cd857c6d00ca5f9a0bcdd.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://english.www.gov.cn/archive/statistics/202606/25/content_WS6a3cd857c6d00ca5f9a0bcdd.html",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "url": "https://english.www.gov.cn/archive/statistics/202602/12/content_WS698d93cbc6d00ca5f9a091bb.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://english.www.gov.cn/archive/statistics/202602/12/content_WS698d93cbc6d00ca5f9a091bb.html",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "url": "https://www.nea.gov.cn/20260427/4b751e59b0d7463a95f74096fed83e14/c.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.nea.gov.cn/20260427/4b751e59b0d7463a95f74096fed83e14/c.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_capacity_statistics_2026.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_capacity_statistics_2026.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://www.iea.org/reports/electricity-2026/supply",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/electricity-2026/supply",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/electricity-2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/electricity-2026",
+        "contentType": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "industry": "化工",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 27
+    },
+    "sources": [
+      {
+        "url": "https://report.basf.com/2025/en/combined-managements-report/forecast/economic-environment/chemical-industry.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://report.basf.com/2025/en/combined-managements-report/forecast/economic-environment/chemical-industry.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.basf.com/dam/jcr%3Ad54ddca4-f9c7-4b4f-b65e-d6ae3188ee24/basf/www/global/documents/en/investor-relations/calendar-and-publications/reports/2026/BASF_Report_2025.pdf?vid=3BCQOr8srtyVi2d_XisczXc8va4ocjk2",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.basf.com/dam/jcr%3Ad54ddca4-f9c7-4b4f-b65e-d6ae3188ee24/basf/www/global/documents/en/investor-relations/calendar-and-publications/reports/2026/BASF_Report_2025.pdf?vid=3BCQOr8srtyVi2d_XisczXc8va4ocjk2",
+        "contentType": "application/pdf;charset=UTF-8"
+      },
+      {
+        "url": "https://www.basf.com/dam/jcr%3A3ddef43a-400d-44e0-8be3-bab0dc584bb7/basf/www/global/documents/en/news-and-media/news-releases/2026/02/P020e_News-Release_BASF-Financial-figures-2025.pdf?vid=ZnD.6sDy32mK4jpbNT2ftkWj1Xnrjh78",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.basf.com/dam/jcr%3A3ddef43a-400d-44e0-8be3-bab0dc584bb7/basf/www/global/documents/en/news-and-media/news-releases/2026/02/P020e_News-Release_BASF-Financial-figures-2025.pdf?vid=ZnD.6sDy32mK4jpbNT2ftkWj1Xnrjh78",
+        "contentType": "application/pdf;charset=UTF-8"
+      },
+      {
+        "url": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.stats.gov.cn/english/PressRelease/202602/t20260204_1962540.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.stats.gov.cn/english/PressRelease/202602/t20260204_1962540.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.stats.gov.cn/english/PressRelease/202607/t20260701_1964047.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.stats.gov.cn/english/PressRelease/202607/t20260701_1964047.html",
+        "contentType": "text/html"
+      }
+    ]
+  },
+  {
+    "industry": "钢铁",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 27
+    },
+    "sources": [
+      {
+        "url": "https://worldsteel.org/media/press-releases/2026/may-2026-crude-steel-production/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://worldsteel.org/media/press-releases/2026/may-2026-crude-steel-production/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://worldsteel.org/wp-content/uploads/World-Steel-in-Figures-2026.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://worldsteel.org/wp-content/uploads/World-Steel-in-Figures-2026.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://steel.gov.in/sites/default/files/2026-06/Monthly%20Economic%20Report%20for%20the%20month%20of%20May%2C%202026.pdf",
+        "ok": false,
+        "status": 0,
+        "finalUrl": "https://steel.gov.in/sites/default/files/2026-06/Monthly%20Economic%20Report%20for%20the%20month%20of%20May%2C%202026.pdf",
+        "contentType": "",
+        "error": "TypeError"
+      },
+      {
+        "url": "https://www.vale.com/ca/check-out-the-production-and-sales-in-1q26-and-2026",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.vale.com/ca/check-out-the-production-and-sales-in-1q26-and-2026",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "url": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "contentType": "application/pdf"
+      }
+    ]
+  },
+  {
+    "industry": "焦煤",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 27
+    },
+    "sources": [
+      {
+        "url": "https://www.stats.gov.cn/english/PressRelease/202602/t20260204_1962540.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.stats.gov.cn/english/PressRelease/202602/t20260204_1962540.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.bhp.com/what-we-do/products/metallurgical-coal",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.bhp.com/what-we-do/products/metallurgical-coal",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://www.bhp.com/financial-results",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.bhp.com/financial-results",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://www.ncexc.cn/c/2026-06-25/502557.shtml",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.ncexc.cn/c/2026-06-25/502557.shtml",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://worldsteel.org/media/press-releases/2026/may-2026-crude-steel-production/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://worldsteel.org/media/press-releases/2026/may-2026-crude-steel-production/",
+        "contentType": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "industry": "铁矿石",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 16
+    },
+    "sources": [
+      {
+        "url": "https://www.riotinto.com/news/releases/2026/rio-tinto-releases-first-quarter-2026-production-results",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.riotinto.com/news/releases/2026/rio-tinto-releases-first-quarter-2026-production-results",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://www.vale.com/ca/check-out-the-production-and-sales-in-1q26-and-2026",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.vale.com/ca/check-out-the-production-and-sales-in-1q26-and-2026",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "url": "https://vale.com/in/w/financial-results-1q26/-/categories/7308843",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://vale.com/in/w/financial-results-1q26/-/categories/7308843",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "url": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://worldsteel.org/media/press-releases/2026/may-2026-crude-steel-production/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://worldsteel.org/media/press-releases/2026/may-2026-crude-steel-production/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "contentType": "text/html"
+      }
+    ]
+  },
+  {
+    "industry": "机器人",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://ifr.org/downloads/press_docs/2025-09-25-IFR_press_release_China_in_English.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://ifr.org/downloads/press_docs/2025-09-25-IFR_press_release_China_in_English.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://ifr.org/ifr-press-releases/global-robot-demand-in-factories-doubles-over-10-years",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://ifr.org/ifr-press-releases/global-robot-demand-in-factories-doubles-over-10-years",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.fanuc.co.jp/en/ir/announce/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.fanuc.co.jp/en/ir/announce/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.abb.com/global/en/areas/robotics/news-and-media",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.abb.com/global/en/areas/robotics/news-and-media",
+        "contentType": "text/html;charset=utf-8"
+      },
+      {
+        "url": "https://english.www.gov.cn/archive/statistics/202602/05/content_WS69848a54c6d00ca5f9a08ef9.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://english.www.gov.cn/archive/statistics/202602/05/content_WS69848a54c6d00ca5f9a08ef9.html",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "url": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.stats.gov.cn/english/PressRelease/202606/t20260617_1963964.html",
+        "contentType": "text/html"
+      }
+    ]
+  },
+  {
+    "industry": "数据中心",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://www.iea.org/reports/energy-and-ai/executive-summary",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/energy-and-ai/executive-summary",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/electricity-2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/electricity-2026",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-First-Quarter-2026-Results/",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-First-Quarter-2026-Results/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://english.www.gov.cn/archive/statistics/202604/20/content_WS69e5cb90c6d00ca5f9a0a859.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://english.www.gov.cn/archive/statistics/202604/20/content_WS69e5cb90c6d00ca5f9a0a859.html",
+        "contentType": "text/html;charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "industry": "电力电网",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://www.nea.gov.cn/20260701/52eef0c7dc2c43968e411487618aaf06/c.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.nea.gov.cn/20260701/52eef0c7dc2c43968e411487618aaf06/c.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.iea.org/reports/electricity-2026/grids",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/electricity-2026/grids",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/world-energy-investment-2025/china",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/world-energy-investment-2025/china",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.nea.gov.cn/20260427/4b751e59b0d7463a95f74096fed83e14/c.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.nea.gov.cn/20260427/4b751e59b0d7463a95f74096fed83e14/c.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://english.www.gov.cn/archive/statistics/202604/20/content_WS69e5cb90c6d00ca5f9a0a859.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://english.www.gov.cn/archive/statistics/202604/20/content_WS69e5cb90c6d00ca5f9a0a859.html",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "url": "https://www.engineering.org.cn/engi/EN/PDF/10.1016/j.eng.2025.10.007",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://jf2.hep.com.cn/79532d6ad8064101bdedc9970150a58b.pdf?response-content-disposition=attachment;%20filename=%22%E9%9D%A2%E5%90%912030%E5%B9%B4%E7%94%B5%E5%8A%9B%E7%B3%BB%E7%BB%9F%E8%BD%AC%E5%9E%8B%E7%9A%84%E4%B8%AD%E5%9B%BD%E7%94%B5%E7%BD%91%E5%85%B8%E5%9E%8B%E5%9C%BA%E6%99%AF%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E6%B1%82.pdf%22",
+        "contentType": "application/pdf"
+      }
+    ]
+  },
+  {
+    "industry": "液冷",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://investors.vertiv.com/news/news-details/2026/Vertiv-Reports-Strong-First-Quarter-with-Diluted-EPS-Growth-of-136-Adjusted-Diluted-EPS-Growth-of-83-Raises-Full-Year-Guidance/default.aspx",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investors.vertiv.com/news/news-details/2026/Vertiv-Reports-Strong-First-Quarter-with-Diluted-EPS-Growth-of-136-Adjusted-Diluted-EPS-Growth-of-83-Raises-Full-Year-Guidance/default.aspx",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.vertiv.com/48d902/globalassets/content---assets-2025/documents/vertiv-frontiers-2026-report-en-gl-web.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.vertiv.com/48d902/globalassets/content---assets-2025/documents/vertiv-frontiers-2026-report-en-gl-web.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://www.sec.gov/Archives/edgar/data/1674101/000162828026026556/vrt-20260331.htm",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.sec.gov/Archives/edgar/data/1674101/000162828026026556/vrt-20260331.htm",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.se.com/ww/en/about-us/investor-relations/financial-results/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.se.com/ww/en/about-us/investor-relations/financial-results/",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/energy-and-ai/executive-summary",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/energy-and-ai/executive-summary",
+        "contentType": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "industry": "铜",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://icsg.org/download/2026-04-23-press-release-icsg-copper-market-forecast-2026-2027/?filename=2026-04-23-ICSG-Forecast-Press-Release.pdf&ind=69ea529460d24&refresh=9a8e40d5&wpdmdl=9245",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://icsg.org/download/2026-04-23-press-release-icsg-copper-market-forecast-2026-2027/?filename=2026-04-23-ICSG-Forecast-Press-Release.pdf&ind=69ea529460d24&refresh=9a8e40d5&wpdmdl=9245",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://icsg.org/selected-copper-statistics/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://icsg.org/selected-copper-statistics/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://icsg.org/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://icsg.org/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/commentaries/copper-prices-have-hit-record-highs-but-smelters-face-mounting-strategic-pressures/",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/commentaries/copper-prices-have-hit-record-highs-but-smelters-face-mounting-strategic-pressures/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/global-critical-minerals-outlook-2025/overview-of-outlook-for-key-minerals",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/global-critical-minerals-outlook-2025/overview-of-outlook-for-key-minerals",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.bhp.com/-/media/documents/media/reports-and-presentations/2026/bhp-operational-review-for-the-half-year-ended-31-december-2025.pdf",
+        "contentType": "application/pdf"
+      }
+    ]
+  },
+  {
+    "industry": "储能",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://www.iea.org/reports/global-energy-review-2026/technology-battery-storage",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/global-energy-review-2026/technology-battery-storage",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/electricity-2026/flexibility",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/electricity-2026/flexibility",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.nea.gov.cn/20260130/50f657ce87f848e1a9a1861d1fd9aa23/c.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.nea.gov.cn/20260130/50f657ce87f848e1a9a1861d1fd9aa23/c.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://ir.tesla.com/press-release/tesla-first-quarter-2026-production-deliveries-and-deployments",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://ir.tesla.com/press-release/tesla-first-quarter-2026-production-deliveries-and-deployments",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026026673/tsla-20260331.htm",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026026673/tsla-20260331.htm",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary",
+        "contentType": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "industry": "锂电池",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 15
+    },
+    "sources": [
+      {
+        "url": "https://www.iea.org/reports/global-ev-outlook-2026/electric-vehicle-batteries",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/global-ev-outlook-2026/electric-vehicle-batteries",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/global-ev-outlook-2026/manufacturing-and-trade",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/global-ev-outlook-2026/manufacturing-and-trade",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/reports/global-critical-minerals-outlook-2025/overview-of-outlook-for-key-minerals",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/global-critical-minerals-outlook-2025/overview-of-outlook-for-key-minerals",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.iea.org/commentaries/global-battery-markets-are-growing-strongly-and-so-are-the-supply-risks",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/commentaries/global-battery-markets-are-growing-strongly-and-so-are-the-supply-risks",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://ir.tesla.com/press-release/tesla-first-quarter-2026-production-deliveries-and-deployments",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://ir.tesla.com/press-release/tesla-first-quarter-2026-production-deliveries-and-deployments",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026026673/tsla-20260331.htm",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026026673/tsla-20260331.htm",
+        "contentType": "text/html"
+      }
+    ]
+  },
+  {
+    "industry": "光伏",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://iea-pvps.org/snapshot-reports/snapshot-2026/",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://iea-pvps.org/snapshot-reports/snapshot-2026/",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://iea-pvps.org/wp-content/uploads/2026/05/Snapshot-2026-FS.pdf",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://iea-pvps.org/wp-content/uploads/2026/05/Snapshot-2026-FS.pdf",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://www.iea.org/reports/electricity-2026/supply",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/electricity-2026/supply",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.nea.gov.cn/20260427/4b751e59b0d7463a95f74096fed83e14/c.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.nea.gov.cn/20260427/4b751e59b0d7463a95f74096fed83e14/c.html",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://www.iea.org/reports/solar-pv-global-supply-chains/executive-summary",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.iea.org/reports/solar-pv-global-supply-chains/executive-summary",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.nea.gov.cn/20260212/742b8c6a078347b0b39de676c05c5d58/c.html",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.nea.gov.cn/20260212/742b8c6a078347b0b39de676c05c5d58/c.html",
+        "contentType": "text/html"
+      }
+    ]
+  },
+  {
+    "industry": "半导体设备",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.semi.org/en/products-services/market-data/equipment/billings-report",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.semi.org/en/products-services/market-data/equipment/billings-report",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-first-quarter-2026-results",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-first-quarter-2026-results",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://ir.appliedmaterials.com/static-files/8beb86c0-2533-4d20-ba09-41fab41fc451",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://ir.appliedmaterials.com/static-files/8beb86c0-2533-4d20-ba09-41fab41fc451",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://www.asml.com/en/news/press-releases/2026/q1-2026-financial-results",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.asml.com/en/news/press-releases/2026/q1-2026-financial-results",
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://www.asml.com/en/investors/financial-results/q2-2026",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.asml.com/en/investors/financial-results/q2-2026",
+        "contentType": "text/html; charset=utf-8"
+      }
+    ]
+  },
+  {
+    "industry": "先进封装",
+    "checkedAt": "2026-07-16T05:46:02.970Z",
+    "discovery": {
+      "ok": true,
+      "status": 200,
+      "resultCount": 17
+    },
+    "sources": [
+      {
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000017/amkr3312026erex-991.htm",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000017/amkr3312026erex-991.htm",
+        "contentType": "text/html"
+      },
+      {
+        "url": "https://ir.amkor.com/static-files/819e825e-c207-468d-97b0-e3e6592d2042",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://ir.amkor.com/static-files/819e825e-c207-468d-97b0-e3e6592d2042",
+        "contentType": "application/pdf"
+      },
+      {
+        "url": "https://ir.amkor.com/press-releases",
+        "ok": true,
+        "status": 200,
+        "finalUrl": "https://ir.amkor.com/press-releases",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://investor.tsmc.com/static/annualReports/2025/english/pdf/2025_tsmc_ar_e_ch5.pdf",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.tsmc.com/static/annualReports/2025/english/pdf/2025_tsmc_ar_e_ch5.pdf",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-04/3cef85204275f94fd111485cfdf4adb3c0263c45/TSMC%201Q26%20Transcript.pdf",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-04/3cef85204275f94fd111485cfdf4adb3c0263c45/TSMC%201Q26%20Transcript.pdf",
+        "contentType": "text/html; charset=UTF-8"
+      },
+      {
+        "url": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "ok": false,
+        "status": 403,
+        "finalUrl": "https://www.semi.org/en/semi-press-release/semi-reports-global-semiconductor-equipment-billings-increased-14-percent-year-over-year-in-q1-2026",
+        "contentType": "text/html; charset=UTF-8"
+      }
+    ]
+  }
+]

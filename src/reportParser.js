@@ -524,7 +524,7 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
       date: date || '未标注',
       geography: geography || '未标注',
       dataCurrency: dataCurrency || '未标注',
-      stage: inferStage(judgment),
+      stage: matchAnyLine(content, ['周期阶段', 'Cycle stage']) || inferStage(judgment),
       judgment,
       bottlenecks: bottlenecks.length ? bottlenecks : ['未提取到明确关键瓶颈'],
       sourceHints,

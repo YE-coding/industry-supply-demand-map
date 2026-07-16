@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
+    "reports:refresh": "node scripts/researchAndRewriteAllReports.mjs",
+    "reports:audit-sources": "node scripts/auditReportSources.mjs",
+    "reports:validate": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validateAllReports.ps1",
     "report:advanced-packaging": "node scripts/upgradeReports.mjs --report 18_先进封装行业供需周期分析.md",
     "validate:advanced-packaging": "python .skill-staging/industry-cycle-analysis/scripts/validate_report.py 18_先进封装行业供需周期分析.md --mode full --strict",
     "extract": "node scripts/extractCases.mjs",
