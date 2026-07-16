@@ -365,6 +365,11 @@ textarea:focus-visible,
   color: #f8fbf9;
 }
 
+.atlas-actions .graph-reset.is-confirmed {
+  border-color: var(--atlas-flow);
+  background: var(--atlas-flow);
+}
+
 .industry-sidebar {
   position: fixed;
   z-index: 24;
@@ -496,16 +501,21 @@ textarea:focus-visible,
 .purpose-line {
   position: relative;
   z-index: 3;
+  top: auto;
+  bottom: auto;
   right: auto;
   left: auto;
   display: grid;
-  grid-template-columns: minmax(320px, 0.9fr) minmax(370px, 1.1fr);
-  align-items: end;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(430px, 1.14fr);
+  align-items: center;
   width: auto;
   max-width: none;
-  gap: 34px;
-  margin: 0;
-  padding: 8px 10px 18px;
+  gap: clamp(28px, 4vw, 58px);
+  margin: 0 0 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 18px;
+  background: rgba(252, 253, 251, 0.62);
 }
 
 .purpose-copy {
@@ -523,28 +533,49 @@ textarea:focus-visible,
 }
 
 .purpose-line h1 {
-  max-width: 680px;
+  max-width: 520px;
   margin: 0;
   font-family: var(--atlas-display);
-  font-size: clamp(38px, 4.3vw, 72px);
+  font-size: clamp(34px, 3.2vw, 48px);
   font-stretch: condensed;
   font-weight: 690;
-  letter-spacing: -0.055em;
-  line-height: 0.96;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  white-space: nowrap;
+}
+
+.purpose-copy .micro-title {
+  margin-bottom: 5px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
 }
 
 .purpose-copy > p:last-child {
   max-width: 620px;
-  margin: 12px 0 0;
+  margin: 9px 0 0;
   color: var(--atlas-muted);
   font-size: 12px;
-  line-height: 1.8;
+  line-height: 1.65;
+}
+
+.purpose-line .supply-pulse {
+  width: 100%;
+  padding-top: 22px;
+}
+
+.graph-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 214px;
+  align-items: start;
+  gap: 14px;
 }
 
 .graph-frame {
   position: relative;
-  height: calc(100vh - 250px);
-  min-height: 470px;
+  width: 100%;
+  height: clamp(420px, calc(100vh - 310px), 720px);
+  min-height: 420px;
+  margin: 0;
   overflow: hidden;
   border: 1px solid var(--atlas-line);
   border-radius: 22px;
@@ -555,6 +586,8 @@ textarea:focus-visible,
   background-size: 42px 42px;
   box-shadow: var(--atlas-shadow);
   cursor: grab;
+  overscroll-behavior: contain;
+  touch-action: none;
 }
 
 .graph-frame::before {
@@ -622,35 +655,48 @@ textarea:focus-visible,
   top: 14px;
   right: 14px;
   display: flex;
-  gap: 5px;
+  gap: 6px;
 }
 
 .graph-tools button {
-  min-width: 34px;
+  min-width: 58px;
   min-height: 34px;
-  padding: 0 9px;
+  padding: 0 10px;
   border-radius: 9px;
-  font-family: var(--atlas-data);
-  font-size: 10px;
+  font-family: var(--atlas-body);
+  font-size: 9px;
+  white-space: nowrap;
 }
 
 .graph-hint {
   position: absolute;
   z-index: 3;
-  bottom: 12px;
+  bottom: 14px;
   left: 16px;
+  right: auto;
+  max-width: calc(100% - 32px);
   margin: 0;
+  padding: 7px 10px;
+  overflow: hidden;
+  border: 1px solid var(--atlas-line);
+  border-radius: 8px;
+  background: rgba(248, 251, 249, 0.88);
   color: var(--atlas-muted);
   font-size: 9px;
+  line-height: 1.35;
   letter-spacing: 0.03em;
+  text-overflow: ellipsis;
+  transform: none;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .analysis-lens {
-  position: absolute;
-  z-index: 5;
-  top: 266px;
-  right: 40px;
-  width: 190px;
+  position: relative;
+  z-index: 2;
+  top: auto;
+  right: auto;
+  width: 100%;
   padding: 15px;
   border: 1px solid var(--atlas-line);
   border-radius: 15px;
@@ -702,15 +748,14 @@ textarea:focus-visible,
 }
 
 .graph-legend {
-  position: absolute;
-  z-index: 4;
-  right: 42px;
-  bottom: 30px;
+  position: static;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 5px 11px;
   max-width: 520px;
+  margin: 11px 0 0;
+  padding-left: 4px;
   color: var(--atlas-muted);
   font-size: 9px;
 }
@@ -810,6 +855,10 @@ textarea:focus-visible,
   z-index: 8;
   top: 16px;
   display: inline-flex;
+  width: fit-content;
+  height: fit-content;
+  align-self: start;
+  justify-self: start;
   align-items: center;
   min-height: 40px;
   padding: 0 14px;
@@ -928,6 +977,91 @@ textarea:focus-visible,
   background: rgba(255, 255, 255, 0.62);
   color: var(--atlas-muted);
   font-size: 9px;
+}
+
+.decision-board {
+  grid-column: 2;
+  width: min(1180px, 100%);
+  margin: 22px auto 0;
+  padding: clamp(24px, 3.5vw, 42px);
+  overflow: visible;
+  border: 1px solid rgba(47, 124, 119, 0.28);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 86% 10%, rgba(158, 203, 194, 0.19), transparent 26%),
+    var(--atlas-ink);
+  color: #f5f8f6;
+  box-shadow: 0 24px 62px rgba(19, 35, 40, 0.18);
+}
+
+.decision-board > header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.decision-board .micro-title {
+  color: var(--atlas-flow-soft);
+}
+
+.decision-board h3 {
+  margin: 0;
+  font-family: var(--atlas-display);
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 660;
+  letter-spacing: -0.035em;
+}
+
+.decision-board > header > span {
+  max-width: 42%;
+  color: rgba(245, 248, 246, 0.58);
+  font-family: var(--atlas-data);
+  font-size: 9px;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(245, 248, 246, 0.16);
+}
+
+.decision-grid section {
+  position: relative;
+  min-width: 0;
+  padding: 20px 18px 4px 0;
+}
+
+.decision-grid section + section {
+  padding-left: 18px;
+  border-left: 1px solid rgba(245, 248, 246, 0.12);
+}
+
+.decision-grid section > span {
+  display: block;
+  margin-bottom: 28px;
+  color: var(--atlas-alert);
+  font-family: var(--atlas-data);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.decision-grid strong {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--atlas-display);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.decision-grid p {
+  margin: 0;
+  color: rgba(245, 248, 246, 0.7);
+  font-size: 11px;
+  line-height: 1.75;
 }
 
 .flow-card {
@@ -1128,14 +1262,20 @@ textarea:focus-visible,
     width: min(540px, 100%);
   }
 
+  .graph-workbench {
+    grid-template-columns: 1fr;
+  }
+
   .graph-frame {
-    height: calc(100vh - 310px);
+    height: clamp(440px, 62vh, 680px);
   }
 
   .analysis-lens {
-    top: auto;
-    right: 36px;
-    bottom: 42px;
+    width: 100%;
+  }
+
+  .lens-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -1199,7 +1339,8 @@ textarea:focus-visible,
   }
 
   .purpose-line h1 {
-    font-size: clamp(40px, 12vw, 64px);
+    font-size: clamp(34px, 8vw, 46px);
+    white-space: normal;
   }
 
   .graph-frame {
@@ -1219,6 +1360,18 @@ textarea:focus-visible,
 
   .lens-list {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .decision-board {
+    grid-column: 1;
+  }
+
+  .decision-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .decision-grid section:nth-child(3) {
+    border-left: 0;
   }
 
   .detail-flow {
@@ -1269,6 +1422,10 @@ textarea:focus-visible,
     font-size: 11px;
   }
 
+  .purpose-line {
+    border-radius: 14px;
+  }
+
   .graph-frame {
     height: 58vh;
     min-height: 420px;
@@ -1294,6 +1451,29 @@ textarea:focus-visible,
 
   .lens-list {
     grid-template-columns: 1fr;
+  }
+
+  .decision-board > header {
+    display: grid;
+  }
+
+  .decision-board > header > span {
+    max-width: none;
+    text-align: left;
+  }
+
+  .decision-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-grid section + section {
+    padding-left: 0;
+    border-top: 1px solid rgba(245, 248, 246, 0.12);
+    border-left: 0;
+  }
+
+  .decision-grid section > span {
+    margin-bottom: 10px;
   }
 
   .guide-panel,

@@ -438,6 +438,8 @@ function App() {
   const [activeLensId, setActiveLensId] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
   const [focusedGraphId, setFocusedGraphId] = useState(null);
+  const [graphResetKey, setGraphResetKey] = useState(0);
+  const [resetAcknowledged, setResetAcknowledged] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [activeChainIndex, setActiveChainIndex] = useState(0);
   const [lockedChainIndex, setLockedChainIndex] = useState(null);
@@ -500,9 +502,14 @@ function App() {
     if (selectedId) setSelectedId(null);
   };
 
-  const clearAllGraphFilters = () => {
+  const clearAllGraphFilters = (event) => {
     clearGraphFocus();
+    setQuery('');
     setActiveLensId(null);
+    setGraphResetKey((current) => current + 1);
+    setResetAcknowledged(true);
+    event?.currentTarget?.blur?.();
+    window.setTimeout(() => setResetAcknowledged(false), 1200);
   };
 
   const openCaseFromLibrary = (id) => {
@@ -565,7 +572,14 @@ function App() {
         <nav className="atlas-actions" aria-label="页面工具">
           <button className="library-trigger" onClick={() => setLibraryOpen(true)}>案例档案</button>
           <button className="guide-trigger" onClick={() => setGuideOpen(true)}>生成调用词</button>
-          <button className="graph-reset" onClick={clearAllGraphFilters}>回到全图</button>
+          <button
+            type="button"
+            className={`graph-reset ${resetAcknowledged ? 'is-confirmed' : ''}`}
+            title="清除搜索、分析透镜和行业选择，并恢复图谱缩放位置"
+            onClick={clearAllGraphFilters}
+          >
+            {resetAcknowledged ? '已恢复' : '恢复全图'}
+          </button>
         </nav>
       </header>
       <section className={`graph-stage ${selectedCase ? 'is-faded' : ''}`} aria-label="产业关系图谱">
@@ -577,26 +591,29 @@ function App() {
           </div>
           <SupplyDemandPulse />
         </div>
-        <IndustryGraph
-          nodes={graph.nodes}
-          links={graph.links}
-          filteredIds={filteredIds}
-          neighborSet={neighborSet}
-          hoveredId={hoveredId}
-          focusedId={focusedGraphId}
-          onHover={setHoveredId}
-          onFocus={activateIndustry}
-          onOpenDetail={setSelectedId}
-          onClearFocus={clearGraphFocus}
-        />
-        <AnalysisLensPanel
-          cases={cases}
-          activeLensId={activeLensId}
-          onSelect={(id) => {
-            setActiveLensId((current) => (current === id ? null : id));
-            clearGraphFocus();
-          }}
-        />
+        <div className="graph-workbench">
+          <IndustryGraph
+            nodes={graph.nodes}
+            links={graph.links}
+            filteredIds={filteredIds}
+            neighborSet={neighborSet}
+            hoveredId={hoveredId}
+            focusedId={focusedGraphId}
+            resetKey={graphResetKey}
+            onHover={setHoveredId}
+            onFocus={activateIndustry}
+            onOpenDetail={setSelectedId}
+            onClearFocus={clearGraphFocus}
+          />
+          <AnalysisLensPanel
+            cases={cases}
+            activeLensId={activeLensId}
+            onSelect={(id) => {
+              setActiveLensId((current) => (current === id ? null : id));
+              clearGraphFocus();
+            }}
+          />
+        </div>
         <GraphLegend />
         <FocusCard item={focusedCase} onOpen={() => focusedCase && setSelectedId(focusedCase.id)} />
         <HoverCaption item={hoveredCase} />
@@ -816,6 +833,7 @@ function IndustryGraph({
   neighborSet,
   hoveredId,
   focusedId,
+  resetKey,
   onHover,
   onFocus,
   onOpenDetail,
@@ -888,10 +906,32 @@ function IndustryGraph({
     }));
   };
 
-  const handleWheel = (event) => {
-    event.preventDefault();
-    zoom(event.deltaY > 0 ? -0.08 : 0.08);
-  };
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return undefined;
+    const handleWheel = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const delta = event.deltaY > 0 ? -0.08 : 0.08;
+      setView((current) => ({
+        ...current,
+        scale: Math.min(2.4, Math.max(0.72, current.scale + delta)),
+      }));
+    };
+    frame.addEventListener('wheel', handleWheel, { passive: false });
+    return () => frame.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  useEffect(() => {
+    if (!resetKey) return;
+    const seeded = createLayoutNodes(nodes, links, 'concept-core');
+    layoutNodesRef.current = seeded;
+    setLayoutNodes(seeded);
+    setView(defaultView);
+    alphaRef.current = 0.58;
+    radialUntilRef.current = performance.now() + 600;
+    if (!layoutRafRef.current) layoutRafRef.current = window.requestAnimationFrame(runLayoutFrame);
+  }, [resetKey]);
 
   const handlePointerMove = (event) => {
     if (!svgRef.current) return;
@@ -989,9 +1029,9 @@ function IndustryGraph({
       }}
     >
       <div className="graph-tools" aria-label="图谱缩放控制">
-        <button onClick={() => zoom(0.12)}>+</button>
-        <button onClick={() => zoom(-0.12)}>-</button>
-        <button onClick={() => setView(defaultView)}>复位</button>
+        <button type="button" title="放大图谱" onClick={() => zoom(0.12)}>＋ 放大</button>
+        <button type="button" title="缩小图谱" onClick={() => zoom(-0.12)}>－ 缩小</button>
+        <button type="button" title="恢复默认缩放和位置" onClick={() => setView(defaultView)}>适应图谱</button>
       </div>
       <svg
         ref={svgRef}
@@ -999,7 +1039,6 @@ function IndustryGraph({
         viewBox="0 0 100 100"
         role="img"
         aria-label="行业关系网络"
-        onWheel={handleWheel}
         onPointerDown={startDrag}
         onPointerMove={handlePointerMove}
         onPointerUp={stopDrag}
@@ -1110,7 +1149,7 @@ function IndustryGraph({
           </>
         )}
       </aside>
-      <p className="graph-hint">悬停高亮，拖动节点；单击打开摘要，双击进入详情。</p>
+      <p className="graph-hint">图谱内滚轮缩放 · 拖动画布或节点 · 单击看摘要 · 双击进详情</p>
     </div>
   );
 }
@@ -1502,6 +1541,8 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
         </div>
       </article>
 
+      <IndustryDecisionBoard item={item} chainNodes={chainNodes} metricHints={metricHints} />
+
       <ConclusionAudit item={item} chainNodes={chainNodes} metricHints={metricHints} />
 
       <EvidenceTrace item={item} metricHints={metricHints} />
@@ -1644,6 +1685,42 @@ function OriginalMarkdownModal({ item, onClose, onDownload }) {
       </div>
     </section>,
     document.body,
+  );
+}
+
+function IndustryDecisionBoard({ item, chainNodes, metricHints }) {
+  const firstNode = chainNodes[0] || '产业链上游';
+  const lastNode = chainNodes[chainNodes.length - 1] || '终端需求';
+  const payerNode = chainNodes.find((node) => /预算|付款|客户|终端需求|需求方/u.test(node)) || lastNode;
+  const bottleneck = item.bottlenecks[0] || '报告尚未提取出明确瓶颈';
+  const invalidation = buildConclusionLayers(item, chainNodes, metricHints)
+    .find(([label]) => label === '反证')?.[1] || '关键证据反转时，需要重新判断周期位置。';
+  const questions = [
+    ['01', '谁在付钱', `报告把“${payerNode}”列为预算或需求起点；仍要用资本开支、采购和订单数据核实，不能把概念热度当成真实付款。`],
+    ['02', '真正卡在哪', compactText(bottleneck, 112)],
+    ['03', '利润怎么走', compactText(getInsightCopy(item, 'profit', chainNodes, metricHints), 124)],
+    ['04', '什么会推翻', compactText(invalidation, 124)],
+  ];
+
+  return (
+    <article className="decision-board">
+      <header>
+        <div>
+          <p className="micro-title">30 秒决策板</p>
+          <h3>先回答四个问题，再读完整报告</h3>
+        </div>
+        <span>{firstNode} → {lastNode}</span>
+      </header>
+      <div className="decision-grid">
+        {questions.map(([number, title, body]) => (
+          <section key={number}>
+            <span>{number}</span>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </section>
+        ))}
+      </div>
+    </article>
   );
 }
 
