@@ -238,3 +238,33 @@ GPU/HBM --> 2.5D/3D集成 --> OSAT与测试 --> AI服务器
   assert.equal(equipment.buyers, '2.5D/3D集成厂、OSAT');
   assert.notEqual(equipment.suppliers, '封装材料与基板');
 });
+
+test('treats rerun/version suffixes as report metadata rather than a new industry', () => {
+  const report = `# 半导体行业供需周期分析（v1.4 新路由重跑）
+
+分析日期：2026-07-16 09:53:31 +08:00
+地理范围：全球
+数据时效：截至 2026 年 6 月
+
+## 0. 结论与证据就绪度
+
+一句话判断：AI 逻辑与成熟制程处于结构性分化。
+
+## 2. 产业链与关系
+
+\`\`\`text
+设备 -> 晶圆制造 -> 先进封装 -> 终端需求
+\`\`\`
+
+## 5. 供需矛盾与高频信号
+
+### Core conflict
+
+- 当前偏紧的是达到良率并通过客户验证的有效产能。
+- 名义扩产必须经过设备安装、良率爬坡和客户验证。
+`;
+  const result = parseReportMarkdown(report, '01_半导体行业供需周期分析_v1.4新路由重跑_2026-07-16.md');
+  assert.equal(result.caseItem.industry, '半导体');
+  assert.equal(result.caseItem.bottlenecks.length, 2);
+  assert.match(result.caseItem.bottlenecks[0], /有效产能/u);
+});

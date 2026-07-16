@@ -3,19 +3,27 @@ import { createPortal } from 'react-dom';
 import dataset from './data/cases.json';
 import { loadMarkdownText } from './staticAssets';
 import { officialIndustryLayer, relationSeeds } from './industryTaxonomy';
+import { dedupeCasesByIndustry } from './caseIdentity';
 
 const introWords = ['看懂行业'];
 const baseCases = dedupeCasesByIndustry(dataset.cases || [], { preferLatestDate: true });
 
 const categories = {
-  core: { label: '分析框架', color: '#d9dde5' },
-  dimension: { label: '分析维度', color: '#d9dde5' },
-  tech: { label: '科技成长', color: '#b7d1e8' },
-  ai: { label: 'AI 基建', color: '#cfc2ea' },
-  traditional: { label: '传统周期', color: '#c2ddce' },
-  energy: { label: '能源电力', color: '#efd6b2' },
-  material: { label: '材料化工', color: '#e9c2b7' },
+  core: { label: '分析框架', color: '#b8c7c5' },
+  dimension: { label: '分析维度', color: '#c7d2d0' },
+  tech: { label: '科技成长', color: '#9cc7d8' },
+  ai: { label: 'AI 基建', color: '#c5b9df' },
+  traditional: { label: '传统周期', color: '#b5d2c0' },
+  energy: { label: '能源电力', color: '#e6c58d' },
+  material: { label: '材料化工', color: '#ddb2a5' },
 };
+
+const pulseSteps = [
+  ['预算', '谁决定花钱'],
+  ['订单', '需求如何传递'],
+  ['产能', '哪里真正卡住'],
+  ['利润', '价值最终留下'],
+];
 
 const graphConcepts = [
   { id: 'concept-ai', name: 'AI需求', short: 'AI', category: 'dimension', keywords: ['AI', '算力', 'GPU', '大模型', '数据中心'] },
@@ -67,32 +75,6 @@ function downloadMarkdown(item) {
 
 function normalize(value) {
   return String(value || '').toLowerCase();
-}
-
-function industryKey(value) {
-  const industry = typeof value === 'string' ? value : value?.industry;
-  return normalize(industry)
-    .replace(/\s+/gu, '')
-    .replace(/行业$/u, '')
-    .trim();
-}
-
-function reportDateValue(item) {
-  const date = String(item?.date || '').match(/\d{4}-\d{2}-\d{2}/u)?.[0];
-  return date ? Date.parse(`${date}T00:00:00Z`) : 0;
-}
-
-function dedupeCasesByIndustry(items, { preferLatestDate = false } = {}) {
-  const byIndustry = new Map();
-  items.forEach((item) => {
-    const key = industryKey(item);
-    if (!key) return;
-    const current = byIndustry.get(key);
-    if (!current || !preferLatestDate || reportDateValue(item) >= reportDateValue(current)) {
-      byIndustry.set(key, item);
-    }
-  });
-  return [...byIndustry.values()];
 }
 
 function classifyCase(item) {
@@ -551,10 +533,12 @@ function App() {
   if (!entered) {
     return (
       <main className={`intro-screen ${zooming ? 'is-zooming' : ''}`} onClick={openExperience}>
-        <button className="intro-word" aria-label="进入行业图谱">
-          {introWords[0]}
-        </button>
-        <p>点击或滑动进入</p>
+        <div className="intro-lockup">
+          <span className="intro-kicker">INDUSTRY SUPPLY / DEMAND ATLAS</span>
+          <button className="intro-word" aria-label="进入行业图谱">{introWords[0]}</button>
+          <SupplyDemandPulse compact />
+        </div>
+        <p>点击或滑动，沿着订单进入产业链</p>
       </main>
     );
   }
@@ -569,20 +553,29 @@ function App() {
         onActivate={activateIndustry}
       />
       <header className={`search-row ${selectedCase ? 'is-muted' : ''}`}>
+        <div className="atlas-brand" aria-label="产业供需地图">
+          <strong>供需地图</strong>
+          <span>{cases.length} 个行业 · 静态研究库</span>
+        </div>
         <div className="search-box">
           <span aria-hidden="true">⌕</span>
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索行业、瓶颈、上游、利润流向" />
+          <kbd>SEARCH</kbd>
         </div>
-        <button className="library-trigger" onClick={() => setLibraryOpen(true)}>案例库</button>
-        <button className="guide-trigger" onClick={() => setGuideOpen(true)}>Skill 调用词</button>
-        <button onClick={() => {
-          clearAllGraphFilters();
-        }}>图谱</button>
+        <nav className="atlas-actions" aria-label="页面工具">
+          <button className="library-trigger" onClick={() => setLibraryOpen(true)}>案例档案</button>
+          <button className="guide-trigger" onClick={() => setGuideOpen(true)}>生成调用词</button>
+          <button className="graph-reset" onClick={clearAllGraphFilters}>回到全图</button>
+        </nav>
       </header>
       <section className={`graph-stage ${selectedCase ? 'is-faded' : ''}`} aria-label="产业关系图谱">
         <div className="purpose-line">
-          <h1>建立行业供需坐标</h1>
-          <p>中间只显示真实产业关系；分析透镜用于高亮某个方法维度，不再混作产业节点。</p>
+          <div className="purpose-copy">
+            <p className="micro-title">从付款方开始</p>
+            <h1>沿着订单，找到利润</h1>
+            <p>关系图只画真实产业连接。先看谁付钱，再追踪需求经过哪些瓶颈，最后判断利润落在哪个环节。</p>
+          </div>
+          <SupplyDemandPulse />
         </div>
         <IndustryGraph
           nodes={graph.nodes}
@@ -635,6 +628,21 @@ function App() {
         />
       )}
     </main>
+  );
+}
+
+function SupplyDemandPulse({ compact = false }) {
+  return (
+    <div className={`supply-pulse ${compact ? 'is-compact' : ''}`} aria-label="预算到利润的传导路径">
+      <div className="pulse-track" aria-hidden="true"><i /></div>
+      {pulseSteps.map(([title, description], index) => (
+        <div className="pulse-step" key={title}>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <strong>{title}</strong>
+          {!compact && <small>{description}</small>}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -1159,8 +1167,9 @@ function IndustrySidebar({ cases, activeId, selectedId, onHover, onActivate }) {
   return (
     <aside className="industry-sidebar" aria-label="行业列表">
       <div className="sidebar-head">
-        <strong>行业</strong>
-        <span>按产业对象层级浏览</span>
+        <span className="sidebar-index">INDEX</span>
+        <strong>产业索引</strong>
+        <span>按产业层级进入研究对象</span>
       </div>
       <div className="sidebar-list">
         {groupedCases.map((group) => (
@@ -1474,9 +1483,15 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
       </div>
 
       <article className="industry-brief">
-        <p className="micro-title">行业入口</p>
-        <h2>{item.title}</h2>
-        <p>{item.judgment}</p>
+        <div className="brief-heading">
+          <div>
+            <p className="micro-title">行业入口 / {caseOriginLabel(item)}</p>
+            <h2>{item.title}</h2>
+          </div>
+          <span className="brief-stage">{item.stage}</span>
+        </div>
+        <p className="brief-judgment">{item.judgment}</p>
+        <SupplyDemandPulse />
         <div className="brief-grid">
           <span>案例来源：{caseOriginLabel(item)}</span>
           <span>可见状态：{publicationLabel(item)}</span>

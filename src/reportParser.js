@@ -254,7 +254,7 @@ const describeNode = (node, industry, content, bottlenecks, chainNodes, index) =
 
 const extractBottlenecks = (content, industry) => {
   const lines = content.replace(/\r/g, '').split('\n');
-  const headingPattern = /^\s*(?:#{1,6}\s*)?(?:\*\*)?(?:关键瓶颈|核心瓶颈|Key Bottlenecks?)/iu;
+  const headingPattern = /^\s*(?:#{1,6}\s*)?(?:\*\*)?(?:关键瓶颈|核心瓶颈|核心矛盾|Key Bottlenecks?|Core Conflict)/iu;
   const start = lines.findIndex((line) => headingPattern.test(line));
   if (start < 0) return fallbackBottlenecks[industry] || [];
 
@@ -330,6 +330,7 @@ const extractIndustry = (title, file) =>
     .replace(/Industry Supply-Demand Cycle Analysis/iu, '')
     .replace(/Supply-Demand Cycle Analysis/iu, '')
     .replace(/（v2）/u, '')
+    .replace(/(?:（[^）]*(?:v\d|skill|重跑|新路由)[^）]*）|\([^)]*(?:v\d|skill|rerun|new route)[^)]*\))$/iu, '')
     .trim() || file.replace(/\.md$/u, '');
 
 const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNodes, bottlenecks, sourceHints, metricHints }, content) => {

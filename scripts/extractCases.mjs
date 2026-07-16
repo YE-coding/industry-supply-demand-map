@@ -2,6 +2,7 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { parseReportMarkdown } from '../src/reportParser.js';
+import { dedupeCasesByIndustry } from '../src/caseIdentity.js';
 
 const root = process.cwd();
 const outputDir = path.join(root, 'src', 'data');
@@ -12,7 +13,7 @@ const files = (await readdir(root))
   .filter((file) => /^\d+_.*供需周期分析.*\.md$/u.test(file))
   .sort((a, b) => a.localeCompare(b, 'zh-CN', { numeric: true }));
 
-const cases = [];
+const candidates = [];
 
 await rm(officialReportsDir, { recursive: true, force: true });
 await mkdir(officialReportsDir, { recursive: true });
@@ -22,8 +23,7 @@ for (const file of files) {
   const { caseItem, quality } = parseReportMarkdown(content, file);
   const id = file.replace(/\.md$/u, '').replace(/[^\w\u4e00-\u9fa5-]+/gu, '-');
 
-  await writeFile(path.join(officialReportsDir, `${id}.md`), content, 'utf8');
-  cases.push({
+  candidates.push({
     id,
     file,
     industry: caseItem.industry,
@@ -41,7 +41,15 @@ for (const file of files) {
     chainNodeDetails: caseItem.chainNodeDetails,
     quality,
     markdownUrl: `official-reports/${encodeURIComponent(id)}.md`,
+    originalContent: content,
   });
+}
+
+const cases = dedupeCasesByIndustry(candidates, { preferLatestDate: true });
+
+for (const item of cases) {
+  await writeFile(path.join(officialReportsDir, `${item.id}.md`), item.originalContent, 'utf8');
+  delete item.originalContent;
 }
 
 await mkdir(outputDir, { recursive: true });
@@ -51,4 +59,4 @@ await writeFile(
   'utf8',
 );
 
-console.log(`Extracted ${cases.length} industry cases to ${path.relative(root, outputFile)}`);
+console.log(`Extracted ${cases.length} unique industries from ${candidates.length} reports to ${path.relative(root, outputFile)}`);
