@@ -375,27 +375,63 @@ function tickForceLayout(nodes, links, alpha, radialStrength = 0, activeNodeId =
     }
   });
 
-  for (let i = 0; i < next.length; i += 1) {
-    for (let j = i + 1; j < next.length; j += 1) {
-      const a = next[i];
-      const b = next[j];
-      if (activeNodeId && (!activeIds.has(a.id) || !activeIds.has(b.id))) continue;
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const distance = Math.hypot(dx, dy) || 0.001;
-      const minDistance = collisionRadius(a) + collisionRadius(b) + 0.22;
-      if (distance >= minDistance) continue;
+  // Collision is global, even while one node is being dragged. A dragged node may be
+  // unrelated to the node underneath it, so adjacency must never gate collision checks.
+  // Resolve overlap directly instead of waiting for a weak velocity force to catch up.
+  const collisionPasses = activeNodeId ? 3 : 2;
+  for (let pass = 0; pass < collisionPasses; pass += 1) {
+    for (let i = 0; i < next.length; i += 1) {
+      for (let j = i + 1; j < next.length; j += 1) {
+        const a = next[i];
+        const b = next[j];
+        let dx = b.x - a.x;
+        let dy = b.y - a.y;
+        let distance = Math.hypot(dx, dy);
+        if (distance < 0.001) {
+          const angle = (seededJitter(`${a.id}-${b.id}`, Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+          dx = Math.cos(angle);
+          dy = Math.sin(angle);
+          distance = 1;
+        }
+        const minDistance = collisionRadius(a) + collisionRadius(b) + 0.22;
+        if (distance >= minDistance) continue;
 
-      const push = ((minDistance - distance) / distance) * 0.38 * alpha;
-      const px = dx * push;
-      const py = dy * push;
-      if (a.fx == null) {
-        a.vx -= px;
-        a.vy -= py;
-      }
-      if (b.fx == null) {
-        b.vx += px;
-        b.vy += py;
+        const overlapX = (dx / distance) * (minDistance - distance + 0.04);
+        const overlapY = (dy / distance) * (minDistance - distance + 0.04);
+        if (a.fx != null && b.fx == null) {
+          b.x += overlapX;
+          b.y += overlapY;
+          b.vx += overlapX * 0.22;
+          b.vy += overlapY * 0.22;
+        } else if (b.fx != null && a.fx == null) {
+          a.x -= overlapX;
+          a.y -= overlapY;
+          a.vx -= overlapX * 0.22;
+          a.vy -= overlapY * 0.22;
+        } else if (a.fx != null && b.fx != null && activeNodeId === a.id) {
+          b.x += overlapX;
+          b.y += overlapY;
+          b.fx = b.x;
+          b.fy = b.y;
+          b.baseX = b.x;
+          b.baseY = b.y;
+        } else if (a.fx != null && b.fx != null && activeNodeId === b.id) {
+          a.x -= overlapX;
+          a.y -= overlapY;
+          a.fx = a.x;
+          a.fy = a.y;
+          a.baseX = a.x;
+          a.baseY = a.y;
+        } else if (a.fx == null && b.fx == null) {
+          a.x -= overlapX * 0.5;
+          a.y -= overlapY * 0.5;
+          b.x += overlapX * 0.5;
+          b.y += overlapY * 0.5;
+          a.vx -= overlapX * 0.11;
+          a.vy -= overlapY * 0.11;
+          b.vx += overlapX * 0.11;
+          b.vy += overlapY * 0.11;
+        }
       }
     }
   }
@@ -404,12 +440,6 @@ function tickForceLayout(nodes, links, alpha, radialStrength = 0, activeNodeId =
     if (node.fx != null) {
       node.x = node.fx;
       node.y = node.fy;
-      node.vx = 0;
-      node.vy = 0;
-      return;
-    }
-
-    if (activeIds && !activeIds.has(node.id)) {
       node.vx = 0;
       node.vy = 0;
       return;
@@ -847,6 +877,7 @@ function IndustryGraph({
   const alphaRef = useRef(0);
   const radialUntilRef = useRef(0);
   const dragFixedRef = useRef(null);
+  const nodeDragStartRef = useRef(null);
   const localNodeRef = useRef(null);
   const defaultView = { scale: 1.14, x: -6.8, y: -7.6 };
   const [view, setView] = useState(defaultView);
@@ -933,19 +964,36 @@ function IndustryGraph({
     if (!layoutRafRef.current) layoutRafRef.current = window.requestAnimationFrame(runLayoutFrame);
   }, [resetKey]);
 
+  const pointerToGraphPoint = (event) => {
+    const svg = svgRef.current;
+    const matrix = svg?.getScreenCTM?.();
+    if (!svg || !matrix) return null;
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const svgPoint = point.matrixTransform(matrix.inverse());
+    return {
+      x: (svgPoint.x - view.x) / view.scale,
+      y: (svgPoint.y - view.y) / view.scale,
+    };
+  };
+
   const handlePointerMove = (event) => {
     if (!svgRef.current) return;
     const box = svgRef.current.getBoundingClientRect();
 
-    if (nodeDragStart) {
-      const dx = ((event.clientX - nodeDragStart.x) / box.width) * 100 / view.scale;
-      const dy = ((event.clientY - nodeDragStart.y) / box.height) * 100 / view.scale;
-      if (Math.abs(event.clientX - nodeDragStart.x) + Math.abs(event.clientY - nodeDragStart.y) <= 3) return;
+    const activeNodeDrag = nodeDragStartRef.current;
+    if (activeNodeDrag) {
+      const pointer = pointerToGraphPoint(event);
+      if (!pointer) return;
+      const dx = pointer.x - activeNodeDrag.pointerX;
+      const dy = pointer.y - activeNodeDrag.pointerY;
+      if (Math.abs(event.clientX - activeNodeDrag.x) + Math.abs(event.clientY - activeNodeDrag.y) <= 3) return;
       dragMovedRef.current = true;
       const fixed = {
-        id: nodeDragStart.id,
-        x: Math.max(4, Math.min(96, nodeDragStart.nodeX + dx)),
-        y: Math.max(4, Math.min(96, nodeDragStart.nodeY + dy)),
+        id: activeNodeDrag.id,
+        x: Math.max(4, Math.min(96, activeNodeDrag.nodeX + dx)),
+        y: Math.max(4, Math.min(96, activeNodeDrag.nodeY + dy)),
       };
       dragFixedRef.current = fixed;
       layoutNodesRef.current = layoutNodesRef.current.map((node) =>
@@ -953,8 +1001,9 @@ function IndustryGraph({
           ? { ...node, x: fixed.x, y: fixed.y, fx: fixed.x, fy: fixed.y, vx: 0, vy: 0 }
           : node,
       );
-      setLayoutNodes(layoutNodesRef.current);
-      warmLayout(0.16);
+      // The animation frame publishes only the newest pointer position. Avoid queuing a
+      // React render for every pointer event, which made the node visibly trail the cursor.
+      warmLayout(0.42);
       return;
     }
 
@@ -984,35 +1033,51 @@ function IndustryGraph({
   const startNodeDrag = (event, node) => {
     event.preventDefault();
     event.stopPropagation();
+    // Only the most recently placed non-core node stays pinned. Releasing older
+    // manual pins guarantees the next dragged node can still collide with them.
+    layoutNodesRef.current = layoutNodesRef.current.map((item) =>
+      item.id !== node.id && item.graphLevel !== 0 && item.fx != null
+        ? { ...item, fx: null, fy: null, vx: 0, vy: 0 }
+        : item,
+    );
     const current = layoutNodesRef.current.find((item) => item.id === node.id) || node;
-    setNodeDragStart({
+    const pointer = pointerToGraphPoint(event);
+    if (!pointer) return;
+    const start = {
       id: node.id,
       x: event.clientX,
       y: event.clientY,
+      pointerX: pointer.x,
+      pointerY: pointer.y,
       nodeX: current.x,
       nodeY: current.y,
-    });
+    };
+    nodeDragStartRef.current = start;
+    dragFixedRef.current = { id: node.id, x: current.x, y: current.y };
+    setNodeDragStart(start);
     dragMovedRef.current = false;
     localNodeRef.current = node.id;
     event.currentTarget.setPointerCapture?.(event.pointerId);
   };
 
   const stopDrag = () => {
-    if (nodeDragStart && dragMovedRef.current) {
+    const activeNodeDrag = nodeDragStartRef.current;
+    if (activeNodeDrag && dragMovedRef.current) {
       layoutNodesRef.current = layoutNodesRef.current.map((node) =>
-        node.id === nodeDragStart.id
-          ? { ...node, fx: null, fy: null, baseX: node.x, baseY: node.y, vx: 0, vy: 0 }
+        node.id === activeNodeDrag.id
+          ? { ...node, fx: node.x, fy: node.y, baseX: node.x, baseY: node.y, vx: 0, vy: 0 }
           : node,
       );
       setLayoutNodes(layoutNodesRef.current);
       dragFixedRef.current = null;
-      localNodeRef.current = nodeDragStart.id;
+      localNodeRef.current = activeNodeDrag.id;
       warmLayout(0.1);
     } else {
       dragFixedRef.current = null;
       localNodeRef.current = null;
     }
     setDragStart(null);
+    nodeDragStartRef.current = null;
     setNodeDragStart(null);
   };
 
