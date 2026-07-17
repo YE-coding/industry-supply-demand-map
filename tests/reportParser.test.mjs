@@ -33,7 +33,7 @@ test('extracts Chinese nodes for a new industry without generic fallbacks', () =
 
   const result = parseReportMarkdown(report, '铜行业供需周期分析.md');
 
-  assert.equal(result.quality.score, 100);
+  assert.equal(result.quality.level, '建议补充');
   assert.equal(result.caseItem.industry, '铜');
   assert.equal(result.caseItem.stage, '扩张期');
   assert.deepEqual(result.caseItem.chainNodes, [
@@ -89,7 +89,7 @@ Risk: demand may weaken if grid capex is delayed.
   ]);
 });
 
-test('keeps the established fallback chain for a known industry with an incomplete chain', () => {
+test('keeps incomplete legacy chains as reported instead of hard-coded industry fallbacks', () => {
   const report = `# 半导体行业供需周期分析
 
 分析日期：2026-07-13
@@ -113,18 +113,11 @@ test('keeps the established fallback chain for a known industry with an incomple
 
   const result = parseReportMarkdown(report, '半导体.md');
 
-  assert.deepEqual(result.caseItem.chainNodes, [
-    '硅材料/特种气体',
-    '设备',
-    '晶圆制造',
-    '先进封装',
-    '测试',
-    '芯片设计',
-    '终端应用',
-  ]);
+  assert.deepEqual(result.caseItem.chainNodes, ['材料', '制造', '应用']);
+  assert.match(result.caseItem.chainNodeDetails[0].evidence, /页面不自动补写/u);
 });
 
-test('does not turn a multi-column box diagram into fake chain nodes', () => {
+test('does not turn a multi-column box diagram into fake chain nodes or hard-coded fallbacks', () => {
   const report = `# 化工行业供需周期分析
 
 分析日期：2026-07-13
@@ -148,16 +141,10 @@ test('does not turn a multi-column box diagram into fake chain nodes', () => {
 
   const result = parseReportMarkdown(report, '化工行业供需周期分析.md');
 
-  assert.deepEqual(result.caseItem.chainNodes, [
-    '原油/煤炭/天然气',
-    '基础化工原料',
-    '中间体',
-    '精细化工',
-    '终端制造',
-  ]);
+  assert.deepEqual(result.caseItem.chainNodes, []);
 });
 
-test('supplies concrete bottlenecks for legacy reports without a bottleneck heading', () => {
+test('does not synthesize bottlenecks for legacy reports without a bottleneck heading', () => {
   const report = `# 电力电网行业供需周期分析
 
 分析日期：2026-07-13
@@ -181,9 +168,7 @@ test('supplies concrete bottlenecks for legacy reports without a bottleneck head
 
   const result = parseReportMarkdown(report, '电力电网行业供需周期分析.md');
 
-  assert.equal(result.caseItem.bottlenecks.length, 3);
-  assert.match(result.caseItem.bottlenecks[0], /输电|配电|并网/u);
-  assert.doesNotMatch(result.caseItem.bottlenecks.join(' '), /未提取|待补充/u);
+  assert.deepEqual(result.caseItem.bottlenecks, ['未提取到明确关键瓶颈']);
 });
 
 test('uses explicit chain relationships instead of inferring suppliers and buyers from row order', () => {
@@ -345,4 +330,140 @@ test('extracts beginner-facing profit, cycle, watch and real time-series structu
   assert.equal(caseItem.watchIndicators[0].frequency, 'monthly');
   assert.equal(caseItem.comparableSeries.length, 1);
   assert.deepEqual(caseItem.comparableSeries[0].points.map((point) => point.value), [416975, 442680]);
+});
+
+test('keeps company role punctuation and dual listings inside one representative company row', () => {
+  const report = `# 半导体行业供需周期分析
+
+分析日期：2026-07-17
+地理范围：全球
+数据时效：2026 年第二季度
+供给判断：先进产能扩张仍需经过良率爬坡和客户认证。
+
+## 1. 产业链地图
+
+### 1.2 各环节详解
+
+#### 1.2.1 晶圆代工与 IDM
+
+晶圆制造把设计版图转成硅片上的电路。[E3]
+
+| 代表企业 | 角色 | 上市地/代码 | 观察意义 |
+|---|---|---|---|
+| TSMC | 全球晶圆代工 | 台湾证券交易所 / 2330；纽约证券交易所 / TSM | 先进制程价格与产能 |
+| Samsung Electronics | DRAM、NAND、HBM 存储 IDM | 韩国交易所 / 005930 | 存储周期 |
+
+#### 1.2.2 封装测试
+
+封装测试把芯片集成为可交付产品。[E4]
+
+| 代表企业 | 角色 | 上市地/代码 | 观察意义 |
+|---|---|---|---|
+| ASE | 封装与测试 | 台湾证券交易所 / 3711 | 封测利用率 |
+
+#### 1.2.3 终端系统
+
+终端系统形成最终采购需求。[E5]
+
+| 代表企业 | 角色 | 上市地/代码 | 观察意义 |
+|---|---|---|---|
+| Microsoft | 云计算与 AI 服务 | 纳斯达克 / MSFT | AI 资本开支 |
+`;
+
+  const result = parseReportMarkdown(report, '半导体行业供需周期分析.md');
+  const detail = result.caseItem.chainNodeDetails.find((node) => node.name === '晶圆代工与 IDM');
+
+  assert.equal(detail.companyRows.length, 2);
+  assert.deepEqual(detail.companyRows[0], {
+    name: 'TSMC',
+    role: '全球晶圆代工',
+    code: '台湾证券交易所 / 2330；纽约证券交易所 / TSM',
+    why: '先进制程价格与产能',
+  });
+  assert.equal(detail.companyRows[1].role, 'DRAM、NAND、HBM 存储 IDM');
+  assert.match(detail.companies, /DRAM、NAND、HBM/u);
+  assert.equal(result.caseItem.supplyStatus, '先进产能扩张仍需经过良率爬坡和客户认证。');
+});
+
+test('parses the current Chinese profit-map headers and sorts Chinese quarters chronologically', () => {
+  const report = `# 半导体行业供需周期分析
+
+分析日期：2026-07-17
+地理范围：全球
+数据时效：2026 年第二季度
+
+## 0. 一页看懂
+
+半导体处于结构性短缺与扩产并行阶段。
+
+### 当前判断
+
+- **周期位置**：结构性短缺与扩产并行
+- **置信度**：中等偏高
+
+## 1. 产业链地图
+
+晶圆制造 -> 封装测试 -> 终端系统
+
+### 1.3 钱怎么流：利益传导
+
+| 问题 | 回答（必须点名具体环节和企业，禁止通用套话） | 证据 | 缺口 |
+|---|---|---|---|
+| 谁最终付款？ | 云厂商和企业客户 | E1 | 消费端未拆分 |
+| 利润当前集中在哪个环节，为什么？ | 先进晶圆制造 | E2 | 口径不可横比 |
+
+## 9. 观察哨与跟踪
+
+### 9.1 可比时间序列
+
+| 日期 | 指标 | 数值 | 单位 | 来源 | 含义 |
+|---|---|---:|---|---|---|
+| 2025 年第二季度 | 季度收入 | 300.7 | 亿美元 | E2 | 同口径 |
+| 2026 年第二季度 | 季度收入 | 402.0 | 亿美元 | E2 | 同口径 |
+| 2026 年第一季度 | 季度收入 | 359.0 | 亿美元 | E2 | 同口径 |
+`;
+
+  const { caseItem } = parseReportMarkdown(report, '半导体行业供需周期分析.md');
+
+  assert.equal(caseItem.profitMap.length, 2);
+  assert.equal(caseItem.profitMap[0].answer, '云厂商和企业客户');
+  assert.equal(caseItem.currentStage.confidence, '中等偏高');
+  assert.deepEqual(
+    caseItem.comparableSeries[0].points.map((point) => point.date),
+    ['2025 年第二季度', '2026 年第一季度', '2026 年第二季度'],
+  );
+});
+
+test('does not treat a repeated core-conflict sentence as the bottleneck', () => {
+  const report = `# 光通信供需周期分析
+
+分析日期：2026-07-16 18:30:00 +08:00
+地理范围：全球
+数据时效：事实截至 2026-07-16
+一句话判断：光通信的真实付款方是云厂商和运营商；当前利润优先流向高速光模块、光芯片和具备客户认证的器件厂，但新增产线只有通过良率和客户验证才算有效供给。
+
+## 1. 产业链与关系
+
+### 1.2 产业链节点说明
+
+| 节点 | 节点定义与作用 | 供应方 | 采购方 | 代表企业 | 变现方式 | 瓶颈作用 | 证据ID |
+|---|---|---|---|---|---|---|---|
+| 云/运营商预算 | 形成最终付款 | 终端客户 | 光模块厂 | Microsoft | 云收入 | 资本回报与建设节奏 | E1 |
+| 光芯片与激光器 | 定义性能和规格 | 上游材料 | 模块厂 | Coherent | 芯片销售 | 高端激光器/硅光良率 | E2 |
+| 光器件/模块 | 集成为客户可用产品 | 光芯片厂 | 交换机厂 | 中际旭创 | 模块销售 | 800G/1.6T 认证和交付 | E3 |
+
+## 4. 供需矛盾与高频信号
+
+供给判断：资本回报与建设节奏；高端激光器/硅光良率；800G/1.6T 认证和交付。
+
+核心矛盾：光通信的真实付款方是云厂商和运营商；当前利润优先流向高速光模块、光芯片和具备客户认证的器件厂，但新增产线只有通过良率和客户验证才算有效供给。
+`;
+
+  const { caseItem } = parseReportMarkdown(report, '02_光通信供需周期分析.md');
+
+  assert.notEqual(caseItem.bottlenecks[0], caseItem.judgment);
+  assert.deepEqual(caseItem.bottlenecks.slice(0, 2), [
+    '高端激光器/硅光良率',
+    '800G/1.6T 认证和交付',
+  ]);
 });

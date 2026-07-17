@@ -4,6 +4,8 @@ import dataset from './data/cases.json';
 import { loadMarkdownText } from './staticAssets';
 import { officialIndustryLayer, relationSeeds } from './industryTaxonomy';
 import { dedupeCasesByIndustry } from './caseIdentity';
+import { comparePeriodLabels } from './periodSort';
+import { comparisonBottleneck, comparisonSupplyStatus } from './comparisonCopy';
 
 const introWords = ['看懂行业'];
 const baseCases = dedupeCasesByIndustry(dataset.cases || [], { preferLatestDate: true });
@@ -113,7 +115,7 @@ function extractChainNodes(item) {
     .slice(0, 8);
 
   if (parts.length >= 3) return [...new Set(parts)];
-  return ['上游资源', '核心环节', '终端需求'];
+  return [];
 }
 
 function extractMetricHints(item) {
@@ -126,7 +128,6 @@ function extractMetricHints(item) {
 function describeChainNode(node, item, index, total) {
   const fromData = item.chainNodeDetails?.find((detail) => detail.name === node) || item.chainNodeDetails?.[index];
   if (fromData) return fromData;
-  const text = `${node} ${item.judgment} ${item.bottlenecks.join(' ')}`;
   const position =
     index === 0
       ? '上游入口'
@@ -136,27 +137,15 @@ function describeChainNode(node, item, index, total) {
           ? '中游转化'
           : '下游兑现';
 
-  const dictionary = [
-    [/硅|材料|气体|锂|铁矿|焦煤|冷却液|原料/u, ['原材料与基础资源', '它提供后续生产所需的物理基础，价格波动会向中下游传导。']],
-    [/设备|光刻|刻蚀|沉积|工艺|CDU/u, ['设备与工艺能力', '它决定产能释放速度、良率上限和技术路线，通常也是扩产周期最长的环节。']],
-    [/制造|晶圆|封装|测试|电池|组件|模块|服务器/u, ['制造与集成环节', '它把上游资源变成可交付产品，是产能利用率、订单和毛利率最容易体现的位置。']],
-    [/芯片|GPU|ASIC|HBM|光芯片|器件/u, ['核心部件', '它通常决定产品性能和供需弹性，一旦短缺，会让下游订单无法顺利兑现。']],
-    [/数据中心|电站|电网|终端|应用|需求|AI|模型/u, ['需求承接方', '它代表最终付款或使用场景，决定行业增长是真实需求、政策推动还是库存周期。']],
-  ];
-
-  const matched = dictionary.find(([rule]) => rule.test(text));
-  const [what, role] = matched ? matched[1] : ['产业链节点', '它是产业传导中的一个环节，需要继续确认它的客户、供应商、产能和定价权。'];
-  const related = item.bottlenecks[index] || item.bottlenecks[0] || item.judgment;
-
   return {
     position,
-    what,
-    role,
-    why: `在 ${item.industry} 中，这个节点要和上下游一起看：${related}`,
-    suppliers: index === 0 ? '上游资源、设备、资本或政策条件' : '上一环节',
-    buyers: index === total - 1 ? '终端客户或预算方' : '下一环节',
-    money: '通过产品销售、加工费、价差、服务费或规模效率获取收益。',
-    evidence: related,
+    what: '',
+    role: '',
+    why: '',
+    suppliers: '',
+    buyers: '',
+    money: '',
+    evidence: '这份报告没有按新版 Skill 单独写出该节点的具体动作、上下游、代表企业和证据；页面不自动补写。',
   };
 }
 
@@ -721,13 +710,20 @@ function buildSkillPrompt({ industry, geography, dataScope, depth }) {
    分析日期：YYYY-MM-DD
    地理范围：${scope}
    数据时效：${currency}
-4. 必须包含网站解析所需章节：
-   ## 0. 一句话判断
-   ## 1. 产业链
-   关键瓶颈
-   来源与数据提示
-5. 尽量保留 skill 原本输出的事实、推断、假设、反证、供需、利润、周期和观察清单。
-6. 不要输出买卖建议，不要做短线荐股。`;
+4. 必须按 skill 的新版 full report 模板输出，保留这些章节契约：
+   ## 0. 一页看懂
+   ## 1. 产业链地图
+   ## 4. 供需矛盾与高频信号
+   ## 5. 周期位置与传导
+   ## 6. 资金动向
+   ## 7. 未来资金可能流向
+   ## 8. 分歧与反证
+   ## 9. 观察哨与跟踪
+   ## 10. 术语表
+   ## 附录A 证据台账
+5. 平行输入要用 mermaid 分支表达；代表企业要写上市地/代码、位置和代表性，不要只列名字。
+6. 缺数据时明确写缺口和下一步监控来源，不要用通用套话补齐。
+7. 不要输出买卖建议，不要做短线荐股。`;
 }
 
 function PromptGuidePanel({ open, onClose }) {
@@ -1363,6 +1359,9 @@ const stagePlainLanguage = {
   短缺期: '真实需求超过可交付的有效供给，交期、价格或利润通常会向稀缺环节集中。',
   扩张期: '企业已经看到需求，正在投入设备和产能；利润可能仍好，但未来供给压力也在累积。',
   盈利兑现期: '需求不再只是故事：订单已经进入收入和毛利，利润开始在关键环节的财报里出现；与此同时，扩产也在加速。',
+  结构性短缺期: '不是全行业都缺，而是特定环节的合格产能、认证、良率或交期跟不上真实订单。',
+  结构性短缺与扩产并行: '最紧的先进环节仍供不应求，但企业已经加速投设备和产能；短期利润强，后续要防供给追上后的价格和毛利变化。',
+  震荡期: '需求、库存、价格和产能信号没有同向确认，行业可能在修复与回落之间反复，需要用观察哨继续验证。',
   过剩期: '可交付供给超过真实需求，库存、价格、利用率和利润开始承压。',
   出清期: '低效率或高成本供给开始退出，库存和资本开支收缩，为下一轮修复腾出空间。',
   待验证: '当前证据还不足以把行业放进一个明确阶段，需要补充订单、供给、库存或利润数据。',
@@ -1373,6 +1372,7 @@ function explainStage(stage) {
 }
 
 function evidenceStatusLabel(item) {
+  if (item.quality?.level) return item.quality.level;
   const score = item.quality?.score;
   if (score == null) return '证据状态未评估';
   if (score >= 78) return '多环节已有证据';
@@ -1398,11 +1398,11 @@ function stageInvalidation(item) {
 
 function profitQuestionLabel(question = '') {
   const normalizedQuestion = String(question).toLowerCase();
-  if (/who pays|谁付款|谁出钱/u.test(normalizedQuestion)) return '谁出钱';
-  if (/captures gross profit|拿走.*利润|利润.*集中/u.test(normalizedQuestion)) return '利润主要留在哪';
-  if (/bears capex|inventory risk|承担.*风险/u.test(normalizedQuestion)) return '谁承担扩产与库存风险';
-  if (/pricing power|定价权/u.test(normalizedQuestion)) return '谁更有定价权';
-  if (/monetize less|变现.*弱|赚钱.*少/u.test(normalizedQuestion)) return '谁重要，但未必更赚钱';
+  if (/who pays|谁付款|谁出钱|谁最终付款/u.test(normalizedQuestion)) return '谁出钱';
+  if (/captures gross profit|拿走.*利润|利润.*集中|利润当前集中/u.test(normalizedQuestion)) return '利润主要留在哪';
+  if (/bears capex|inventory risk|承担.*风险|谁承担.*资本开支/u.test(normalizedQuestion)) return '谁承担扩产与库存风险';
+  if (/pricing power|定价权|谁有定价权/u.test(normalizedQuestion)) return '谁更有定价权';
+  if (/monetize less|变现.*弱|赚钱.*少|赚不到钱|谁重要但/u.test(normalizedQuestion)) return '谁重要，但未必更赚钱';
   return question;
 }
 
@@ -1429,9 +1429,30 @@ function profitRows(item, chainNodes) {
 }
 
 function splitCompanies(value = '') {
-  return String(value)
-    .split(/[、,，;；]/u)
+  return [...new Set(String(value)
+    .split(/\s*(?:\r?\n|\|)\s*/u)
     .map((company) => company.trim())
+    .filter(Boolean))]
+    .slice(0, 8);
+}
+
+function representativeCompanies(description = {}) {
+  if (!Array.isArray(description.companyRows) || !description.companyRows.length) {
+    return splitCompanies(description.companies);
+  }
+
+  const seen = new Set();
+  return description.companyRows
+    .map((company) => {
+      const name = String(company.name || '').trim();
+      const key = name.toLocaleLowerCase();
+      if (!name || seen.has(key)) return '';
+      seen.add(key);
+      return [name, company.code, company.role || company.why]
+        .map((part) => String(part || '').trim())
+        .filter(Boolean)
+        .join(' · ');
+    })
     .filter(Boolean)
     .slice(0, 8);
 }
@@ -1527,6 +1548,9 @@ function buildEvidenceRows(item, metricHints) {
 }
 
 function buildWatchpoints(item, chainNodes) {
+  if (item.watchIndicators?.length) {
+    return item.watchIndicators.slice(0, 6).map((row) => `${row.indicator}：基线 ${row.baseline}；正向触发 ${row.positiveTrigger || '见原报告'}；反证触发 ${row.disconfirmingTrigger || '见原报告'}。`);
+  }
   const firstNode = chainNodes[0] || '上游';
   const middleNode = chainNodes[Math.floor(chainNodes.length / 2)] || '核心环节';
   const lastNode = chainNodes[chainNodes.length - 1] || '终端需求';
@@ -1592,20 +1616,30 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
           </div>
           <span>点一个环节，下方只解释这个环节</span>
         </div>
-        <div className="chain-axis">
-          {chainNodes.map((node, index) => (
-            <button
-              key={`${node}-${index}`}
-              className={currentIndex === index ? 'is-current' : ''}
-              onMouseEnter={() => setActiveChainIndex(index)}
-              onClick={() => setLockedChainIndex(index)}
-            >
-              <i />
-              <span>{node}</span>
-            </button>
-          ))}
-        </div>
-        <NodeReadout item={item} currentNode={currentNode} index={currentIndex} />
+        <MermaidChainPanel item={item} />
+        {chainNodes.length ? (
+          <>
+            <div className="chain-axis">
+              {chainNodes.map((node, index) => (
+                <button
+                  key={`${node}-${index}`}
+                  className={currentIndex === index ? 'is-current' : ''}
+                  onMouseEnter={() => setActiveChainIndex(index)}
+                  onClick={() => setLockedChainIndex(index)}
+                >
+                  <i />
+                  <span>{node}</span>
+                </button>
+              ))}
+            </div>
+            <NodeReadout item={item} currentNode={currentNode} index={currentIndex} />
+          </>
+        ) : (
+          <div className="data-gap-box">
+            <strong>这份报告没有可安全拆分的产业链节点</strong>
+            <p>页面不会把框图、来源行或通用行业词硬拆成节点。请按新版 Skill 的 1.2 环节详解补齐。</p>
+          </div>
+        )}
       </article>
 
       <ProfitFlowMap item={item} chainNodes={chainNodes} />
@@ -1614,17 +1648,24 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
 
       <CycleHistory item={item} />
 
+      <CapitalFlowCard item={item} />
+
+      <FutureCapitalFlowCard item={item} />
+
       <details className="research-basis">
         <summary>
           <div>
-            <span>研究员模式</span>
-            <strong>查看判断依据、来源、对比与原始报告</strong>
+            <span>进阶视角</span>
+            <strong>查看分歧、反证、术语和证据台账</strong>
           </div>
           <em>展开</em>
         </summary>
         <div className="research-basis-body">
           <ConclusionAudit item={item} chainNodes={chainNodes} metricHints={metricHints} />
+          <AdvancedInsightCard item={item} />
           <EvidenceTrace item={item} metricHints={metricHints} />
+          <GlossaryCard item={item} />
+          <EvidenceLedgerCard item={item} />
           <ComparisonTable item={item} cases={cases} />
           <UpdateHistory item={item} />
           <WatchList item={item} chainNodes={chainNodes} />
@@ -1721,9 +1762,252 @@ function OriginalMarkdownModal({ item, onClose, onDownload }) {
   );
 }
 
+let mermaidRenderCount = 0;
+const MIN_MERMAID_ZOOM = 0.25;
+const MAX_MERMAID_ZOOM = 2.5;
+const MERMAID_STAGE_MARGIN = 18;
+
+function clampMermaidZoom(value) {
+  return Math.min(MAX_MERMAID_ZOOM, Math.max(MIN_MERMAID_ZOOM, value));
+}
+
+function MermaidChainPanel({ item }) {
+  const viewportRef = useRef(null);
+  const canvasRef = useRef(null);
+  const dragRef = useRef(null);
+  const [renderState, setRenderState] = useState('loading');
+  const [renderError, setRenderError] = useState('');
+  const [diagramSize, setDiagramSize] = useState({ width: 0, height: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const hasDiagram = /flowchart|graph|-->/iu.test(item.chain || '');
+
+  const positionAfterZoom = (nextZoom, anchorX, anchorY) => {
+    const viewport = viewportRef.current;
+    if (!viewport || !diagramSize.width) return;
+    const oldZoom = zoom;
+    const resolvedX = anchorX ?? viewport.clientWidth / 2;
+    const resolvedY = anchorY ?? viewport.clientHeight / 2;
+    const graphX = (viewport.scrollLeft + resolvedX - MERMAID_STAGE_MARGIN) / oldZoom;
+    const graphY = (viewport.scrollTop + resolvedY - MERMAID_STAGE_MARGIN) / oldZoom;
+
+    setZoom(nextZoom);
+    requestAnimationFrame(() => {
+      viewport.scrollLeft = MERMAID_STAGE_MARGIN + graphX * nextZoom - resolvedX;
+      viewport.scrollTop = MERMAID_STAGE_MARGIN + graphY * nextZoom - resolvedY;
+    });
+  };
+
+  const changeZoom = (factor) => {
+    const nextZoom = clampMermaidZoom(Number((zoom * factor).toFixed(3)));
+    if (nextZoom !== zoom) positionAfterZoom(nextZoom);
+  };
+
+  const fitDiagram = () => {
+    const viewport = viewportRef.current;
+    if (!viewport || !diagramSize.width || !diagramSize.height) return;
+    const availableWidth = Math.max(1, viewport.clientWidth - MERMAID_STAGE_MARGIN * 2);
+    const availableHeight = Math.max(1, viewport.clientHeight - MERMAID_STAGE_MARGIN * 2);
+    const nextZoom = clampMermaidZoom(Math.min(
+      availableWidth / diagramSize.width,
+      availableHeight / diagramSize.height,
+      1,
+    ));
+    setZoom(nextZoom);
+    requestAnimationFrame(() => {
+      viewport.scrollLeft = Math.max(0, (viewport.scrollWidth - viewport.clientWidth) / 2);
+      viewport.scrollTop = Math.max(0, (viewport.scrollHeight - viewport.clientHeight) / 2);
+    });
+  };
+
+  const resetDiagram = () => {
+    const viewport = viewportRef.current;
+    setZoom(1);
+    requestAnimationFrame(() => {
+      if (!viewport) return;
+      viewport.scrollLeft = 0;
+      viewport.scrollTop = Math.max(0, (viewport.scrollHeight - viewport.clientHeight) / 2);
+    });
+  };
+
+  const startDragging = (event) => {
+    if (event.button !== 0 || !viewportRef.current) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragRef.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      scrollLeft: viewportRef.current.scrollLeft,
+      scrollTop: viewportRef.current.scrollTop,
+    };
+    setIsDragging(true);
+  };
+
+  const dragDiagram = (event) => {
+    const drag = dragRef.current;
+    const viewport = viewportRef.current;
+    if (!drag || !viewport || drag.pointerId !== event.pointerId) return;
+    viewport.scrollLeft = drag.scrollLeft - (event.clientX - drag.x);
+    viewport.scrollTop = drag.scrollTop - (event.clientY - drag.y);
+  };
+
+  const stopDragging = (event) => {
+    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    dragRef.current = null;
+    setIsDragging(false);
+  };
+
+  const moveWithKeyboard = (event) => {
+    const viewport = viewportRef.current;
+    if (!viewport || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+    event.preventDefault();
+    const movement = event.shiftKey ? 160 : 64;
+    if (event.key === 'ArrowLeft') viewport.scrollLeft -= movement;
+    if (event.key === 'ArrowRight') viewport.scrollLeft += movement;
+    if (event.key === 'ArrowUp') viewport.scrollTop -= movement;
+    if (event.key === 'ArrowDown') viewport.scrollTop += movement;
+  };
+
+  useEffect(() => {
+    if (!hasDiagram) return undefined;
+    let cancelled = false;
+    const renderDiagram = async () => {
+      setRenderState('loading');
+      setRenderError('');
+      setDiagramSize({ width: 0, height: 0 });
+      setZoom(1);
+      try {
+        const { default: mermaid } = await import('mermaid');
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: 'strict',
+          suppressErrorRendering: true,
+          theme: 'base',
+          themeVariables: {
+            primaryColor: '#edf6f2',
+            primaryTextColor: '#193338',
+            primaryBorderColor: '#6aa69c',
+            lineColor: '#6f8888',
+            secondaryColor: '#f7f2e9',
+            tertiaryColor: '#ffffff',
+            fontFamily: 'Inter, "Noto Sans SC", sans-serif',
+          },
+          flowchart: {
+            curve: 'basis',
+            htmlLabels: false,
+            useMaxWidth: false,
+          },
+        });
+        mermaidRenderCount += 1;
+        const { svg, bindFunctions } = await mermaid.render(`industry-chain-${mermaidRenderCount}`, item.chain);
+        if (cancelled || !canvasRef.current) return;
+        canvasRef.current.innerHTML = svg;
+        bindFunctions?.(canvasRef.current);
+        const svgElement = canvasRef.current.querySelector('svg');
+        const width = Math.max(1, svgElement?.viewBox?.baseVal?.width || 1200);
+        const height = Math.max(1, svgElement?.viewBox?.baseVal?.height || 360);
+        if (svgElement) {
+          svgElement.removeAttribute('width');
+          svgElement.removeAttribute('height');
+          svgElement.style.maxWidth = 'none';
+        }
+        const viewportWidth = viewportRef.current?.clientWidth || 960;
+        const initialZoom = clampMermaidZoom(Math.min(1, Math.max(0.72, (viewportWidth * 1.9) / width)));
+        setDiagramSize({ width, height });
+        setZoom(initialZoom);
+        setRenderState('ready');
+        requestAnimationFrame(() => {
+          const viewport = viewportRef.current;
+          if (!viewport) return;
+          viewport.scrollLeft = 0;
+          viewport.scrollTop = Math.max(0, (viewport.scrollHeight - viewport.clientHeight) / 2);
+        });
+      } catch (error) {
+        if (cancelled) return;
+        if (canvasRef.current) canvasRef.current.replaceChildren();
+        setRenderError(error instanceof Error ? error.message : '结构图语法无法识别');
+        setRenderState('error');
+      }
+    };
+
+    renderDiagram();
+    return () => {
+      cancelled = true;
+    };
+  }, [hasDiagram, item.chain]);
+
+  if (!hasDiagram) return null;
+  return (
+    <section className="mermaid-chain-panel">
+      <div className="mermaid-chain-head">
+        <div>
+          <span>报告原始结构图</span>
+          <strong>保留平行输入，不压平成一条线</strong>
+        </div>
+        <div className="mermaid-chain-toolbar" role="group" aria-label="结构图缩放控制">
+          <button type="button" aria-label="缩小结构图" title="缩小" onClick={() => changeZoom(1 / 1.2)} disabled={zoom <= MIN_MERMAID_ZOOM}>−</button>
+          <output aria-live="polite">{Math.round(zoom * 100)}%</output>
+          <button type="button" aria-label="放大结构图" title="放大" onClick={() => changeZoom(1.2)} disabled={zoom >= MAX_MERMAID_ZOOM}>+</button>
+          <button type="button" aria-label="让结构图适应视口" title="适应视口" onClick={fitDiagram}>⛶</button>
+          <button type="button" className="mermaid-reset-button" aria-label="恢复结构图百分之百大小" title="恢复 100%" onClick={resetDiagram}>1:1</button>
+        </div>
+      </div>
+      <div
+        className={`mermaid-chain-viewport is-${renderState} ${isDragging ? 'is-dragging' : ''}`}
+        ref={viewportRef}
+        role="img"
+        aria-label="可缩放、可拖动的产业链结构图"
+        tabIndex={0}
+        onPointerDown={startDragging}
+        onPointerMove={dragDiagram}
+        onPointerUp={stopDragging}
+        onPointerCancel={stopDragging}
+        onKeyDown={moveWithKeyboard}
+      >
+        <div
+          className="mermaid-chain-stage"
+          style={{
+            width: diagramSize.width ? diagramSize.width * zoom : 0,
+            height: diagramSize.height ? diagramSize.height * zoom : 0,
+          }}
+        >
+          <div
+            className="mermaid-chain-canvas"
+            ref={canvasRef}
+            aria-live="polite"
+            style={{
+              width: diagramSize.width || undefined,
+              height: diagramSize.height || undefined,
+              transform: `scale(${zoom})`,
+            }}
+          />
+        </div>
+      </div>
+      {renderState === 'loading' && <p className="mermaid-chain-loading">正在绘制产业链...</p>}
+      {renderState === 'error' && (
+        <div className="mermaid-chain-error">
+          <strong>结构图暂时无法绘制</strong>
+          <p>{renderError}</p>
+          <details>
+            <summary>查看原始 Mermaid</summary>
+            <pre>{item.chain}</pre>
+          </details>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function CycleOverview({ item }) {
   const reasons = stageReasons(item);
-  const confidence = String(item.currentStage?.confidence || '报告未单独标注').replace(/[。.!！]+$/u, '');
+  const confidence = String(item.currentStage?.confidence || '报告未单独标注')
+    .split(/[。；;!！]/u)[0]
+    .trim();
+  const keyNumbers = item.onePage?.keyNumbers || [];
+  const intro = item.onePage?.industryIntro;
 
   return (
     <article className="industry-brief cycle-overview">
@@ -1739,6 +2023,25 @@ function CycleOverview({ item }) {
           <small>{evidenceStatusLabel(item)}</small>
         </div>
       </div>
+
+      {intro && (
+        <section className="industry-intro">
+          <span>这个行业是做什么的</span>
+          <p>{intro}</p>
+        </section>
+      )}
+
+      {keyNumbers.length > 0 && (
+        <div className="key-number-grid">
+          {keyNumbers.slice(0, 3).map((row) => (
+            <section key={`${row.number}-${row.period}`}>
+              <strong>{row.number}</strong>
+              <span>{row.period}</span>
+              <p>{row.conclusion || row.question}</p>
+            </section>
+          ))}
+        </div>
+      )}
 
       <div className="cycle-explainer-grid">
         <section className="stage-in-plain-words">
@@ -1781,7 +2084,7 @@ function ProfitFlowMap({ item, chainNodes }) {
           <p className="micro-title">02 · 钱与利润怎么走</p>
           <h3>不再打分，直接说谁出钱、谁赚钱、谁担风险</h3>
         </div>
-        <span>{isStructured ? '来自新版报告的 Power and Profit Map' : '旧报告兼容模式：缺失项明确留空'}</span>
+        <span>{isStructured ? '来自新版报告的 Power and Profit Map' : item.onePage ? '新版报告未写利益传导表：缺失项明确留空' : '旧报告兼容模式：缺失项明确留空'}</span>
       </div>
       <div className="profit-story-grid">
         {rows.map((row, index) => (
@@ -1878,7 +2181,8 @@ function ActualTimeSeries({ item }) {
     );
   }
 
-  const values = series.points.map((point) => point.value);
+  const points = [...series.points].sort((a, b) => comparePeriodLabels(a.date, b.date));
+  const values = points.map((point) => point.value);
   const rawMin = Math.min(...values);
   const rawMax = Math.max(...values);
   const padding = Math.max((rawMax - rawMin) * 0.16, rawMax * 0.035, 1);
@@ -1887,14 +2191,14 @@ function ActualTimeSeries({ item }) {
   const width = 900;
   const height = 360;
   const left = 88;
-  const right = 34;
+  const right = 80;
   const top = 42;
   const bottom = 72;
   const plotWidth = width - left - right;
   const plotHeight = height - top - bottom;
-  const x = (index) => left + (plotWidth * index) / Math.max(1, series.points.length - 1);
+  const x = (index) => left + (plotWidth * index) / Math.max(1, points.length - 1);
   const y = (value) => top + ((max - value) / Math.max(1, max - min)) * plotHeight;
-  const path = series.points.map((point, index) => `${index ? 'L' : 'M'} ${x(index)} ${y(point.value)}`).join(' ');
+  const path = points.map((point, index) => `${index ? 'L' : 'M'} ${x(index)} ${y(point.value)}`).join(' ');
   const ticks = Array.from({ length: 5 }, (_, index) => max - ((max - min) * index) / 4);
 
   return (
@@ -1909,16 +2213,16 @@ function ActualTimeSeries({ item }) {
       </div>
       <div className="time-series-scroll">
         <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${series.indicator}时间序列折线图`}>
-          <title>{series.indicator}，{series.points[0].date} 至 {series.points[series.points.length - 1].date}</title>
+          <title>{series.indicator}，{points[0].date} 至 {points[points.length - 1].date}</title>
           {ticks.map((tick) => (
             <g key={tick}>
               <line x1={left} x2={width - right} y1={y(tick)} y2={y(tick)} className="series-grid-line" />
               <text x={left - 14} y={y(tick) + 4} className="series-y-label">{chartValueLabel(tick, series.unit, true)}</text>
             </g>
           ))}
-          <path d={`${path} L ${x(series.points.length - 1)} ${top + plotHeight} L ${x(0)} ${top + plotHeight} Z`} className="series-area" />
+          <path d={`${path} L ${x(points.length - 1)} ${top + plotHeight} L ${x(0)} ${top + plotHeight} Z`} className="series-area" />
           <path d={path} className="series-line" />
-          {series.points.map((point, index) => (
+          {points.map((point, index) => (
             <g key={`${point.date}-${point.value}`}>
               <circle cx={x(index)} cy={y(point.value)} r="6" className="series-point" />
               <text x={x(index)} y={y(point.value) - 16} className="series-value-label">{chartValueLabel(point.value, series.unit, true)}</text>
@@ -1934,7 +2238,7 @@ function ActualTimeSeries({ item }) {
 }
 
 function CycleHistory({ item }) {
-  const rows = item.cycleTimeline || [];
+  const rows = [...(item.cycleTimeline || [])].sort((a, b) => comparePeriodLabels(a.period, b.period));
   const actualIndexes = rows
     .map((row, index) => (/计划|风险|预测|预期/iu.test(row.period) ? -1 : index))
     .filter((index) => index >= 0);
@@ -1971,6 +2275,162 @@ function CycleHistory({ item }) {
         <div className="data-gap-box">
           <strong>这份旧报告没有结构化周期时间线</strong>
           <p>当前只能显示“{item.stage}”这个阶段标签，无法可靠还原从订单到利润、再到扩产或过剩的历史过程。新版 Skill 报告会补齐。</p>
+        </div>
+      )}
+    </article>
+  );
+}
+
+function CapitalFlowCard({ item }) {
+  const attempts = item.capitalFlows?.attempts || [];
+  const summary = item.capitalFlows?.summary || [];
+
+  return (
+    <article className="flow-card capital-card">
+      <div className="card-head">
+        <div>
+          <p className="micro-title">05 · 资金动向</p>
+          <h3>先看市场已经交易了什么，再看缺口在哪里</h3>
+        </div>
+        <span>来自新版 Skill 第 6 节</span>
+      </div>
+      {attempts.length ? (
+        <div className="capital-attempt-grid">
+          {attempts.slice(0, 5).map((row) => (
+            <section key={`${row.sourceType}-${row.result}`}>
+              <strong>{row.sourceType || row.source}</strong>
+              <p>{row.result || row.source}</p>
+              {row.limitation && <small>{row.limitation}</small>}
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>这份报告没有资金动向规定动作记录</strong>
+          <p>新版 Skill 要求先记录估值、ETF/资金流、两融或同类指标、龙头股价与盈利剪刀差等尝试，再判断已定价或未定价。</p>
+        </div>
+      )}
+      {summary.length > 0 && (
+        <div className="capital-summary">
+          {summary.map((line) => <p key={line}>{line}</p>)}
+        </div>
+      )}
+    </article>
+  );
+}
+
+function FutureCapitalFlowCard({ item }) {
+  const rows = item.futureCapitalFlows || [];
+  return (
+    <article className="flow-card future-flow-card">
+      <div className="card-head">
+        <div>
+          <p className="micro-title">06 · 未来资金可能流向</p>
+          <h3>按情景看利润池可能往哪里移动</h3>
+        </div>
+        <span>不构成买卖建议</span>
+      </div>
+      {rows.length ? (
+        <div className="future-flow-grid">
+          {rows.slice(0, 4).map((row) => (
+            <section key={row.scenario}>
+              <strong>{row.scenario}</strong>
+              <p>{row.flow || row.trigger}</p>
+              {row.evidence && <small>证据：{row.evidence}</small>}
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>这份报告没有未来资金流向情景</strong>
+          <p>页面不会从股价走势推演资金去向；需要按订单、交期、认证壁垒和产能弹性补写基准、上行、下行情景。</p>
+        </div>
+      )}
+    </article>
+  );
+}
+
+function AdvancedInsightCard({ item }) {
+  const nodeInsights = (item.chainNodeDetails || []).flatMap((node) =>
+    (node.advanced || []).map((line) => ({ title: node.name, body: line })),
+  );
+  const disagreements = item.disagreements || [];
+  return (
+    <article className="flow-card advanced-card">
+      <p className="micro-title">分歧与进阶视角</p>
+      <h3>把口径陷阱、争议和反证条件放在一起</h3>
+      {nodeInsights.length || disagreements.length ? (
+        <div className="advanced-grid">
+          {nodeInsights.slice(0, 6).map((row) => (
+            <section key={`${row.title}-${row.body}`}>
+              <span>{row.title}</span>
+              <p>{row.body}</p>
+            </section>
+          ))}
+          {disagreements.slice(0, 5).map((row) => (
+            <section key={`${row.narrative}-${row.judgment}`}>
+              <span>{row.narrative}</span>
+              <p>{row.difference || row.judgment}</p>
+              {row.strongerEvidence && <small>{row.strongerEvidence}</small>}
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>这份报告没有结构化进阶视角</strong>
+          <p>新版 Skill 要求每个关键节点写口径陷阱或争议，并在第 8 节比较主流叙事与本报告判断。</p>
+        </div>
+      )}
+    </article>
+  );
+}
+
+function GlossaryCard({ item }) {
+  const rows = item.glossary || [];
+  return (
+    <article className="flow-card glossary-card">
+      <p className="micro-title">术语表</p>
+      <h3>小白读报告时不用离开页面查词</h3>
+      {rows.length ? (
+        <div className="glossary-grid">
+          {rows.slice(0, 18).map((row) => (
+            <section key={row.term}>
+              <strong>{row.term}</strong>
+              <p>{row.explanation}</p>
+              {row.why && <small>{row.why}</small>}
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>这份报告没有术语表</strong>
+          <p>新版 Skill 要求正文首次出现的术语、缩写全部进入第 10 节，用人话解释。</p>
+        </div>
+      )}
+    </article>
+  );
+}
+
+function EvidenceLedgerCard({ item }) {
+  const rows = item.evidenceLedger || [];
+  return (
+    <article className="flow-card ledger-card">
+      <p className="micro-title">证据台账</p>
+      <h3>每条证据都要能回到发布方、日期和局限</h3>
+      {rows.length ? (
+        <div className="ledger-list">
+          {rows.slice(0, 10).map((row) => (
+            <section key={`${row.id}-${row.publisher}`}>
+              <strong>{row.id || row.publisher}</strong>
+              <p>{[row.publisher, row.date, row.freshness].filter(Boolean).join(' · ')}</p>
+              <small>{row.locator || row.conclusion || row.limitation}</small>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>这份报告没有附录A证据台账</strong>
+          <p>新版 Skill 要求记录发布方、发布日期、访问日期、数据期间、原文定位、是否打开、时效和局限。</p>
         </div>
       )}
     </article>
@@ -2037,8 +2497,8 @@ function ComparisonTable({ item, cases }) {
         {[
           ['对象层级', (row) => classifyIndustryLayer(row)],
           ['周期阶段', (row) => row.stage],
-          ['供给状态', (row) => compactText(row.judgment, 46)],
-          ['核心瓶颈', (row) => compactText(row.bottlenecks[0], 54)],
+          ['供给状态', (row) => comparisonSupplyStatus(row)],
+          ['核心瓶颈', (row) => comparisonBottleneck(row)],
           ['报告时间', (row) => reportDate(row)],
           ['信息搜集范围', (row) => dataFreshness(row)],
         ].map(([label, getter]) => (
@@ -2088,7 +2548,7 @@ function NodeReadout({ item, currentNode, index }) {
   const chainNodes = extractChainNodes(item);
   const description = describeChainNode(currentNode, item, index, chainNodes.length);
   const role = description.does || description.what || description.role || '该节点的具体作用尚未在报告中结构化披露。';
-  const companies = splitCompanies(description.companies);
+  const companies = representativeCompanies(description);
   const fields = [
     ['向谁采购', description.suppliers],
     ['卖给谁', description.buyers],

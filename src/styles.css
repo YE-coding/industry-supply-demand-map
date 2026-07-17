@@ -606,6 +606,261 @@
   line-height: 1.7;
 }
 
+.industry-intro {
+  border-top: 1px solid var(--atlas-line);
+  padding-top: 18px;
+}
+
+.industry-intro span,
+.mermaid-chain-panel span,
+.capital-attempt-grid span,
+.advanced-grid span {
+  color: var(--atlas-flow);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.industry-intro p {
+  margin: 8px 0 0;
+  color: var(--atlas-ink-soft);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.key-number-grid,
+.capital-attempt-grid,
+.future-flow-grid,
+.advanced-grid,
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.key-number-grid section,
+.capital-attempt-grid section,
+.future-flow-grid section,
+.advanced-grid section,
+.glossary-grid section,
+.ledger-list section {
+  border: 1px solid var(--atlas-line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 14px;
+}
+
+.key-number-grid strong,
+.future-flow-grid strong,
+.glossary-grid strong,
+.ledger-list strong {
+  display: block;
+  color: var(--atlas-ink);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.key-number-grid span {
+  display: block;
+  margin-top: 6px;
+  color: var(--atlas-flow);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.key-number-grid p,
+.capital-attempt-grid p,
+.future-flow-grid p,
+.advanced-grid p,
+.glossary-grid p,
+.ledger-list p,
+.capital-summary p {
+  margin: 8px 0 0;
+  color: var(--atlas-ink-soft);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.capital-attempt-grid small,
+.future-flow-grid small,
+.advanced-grid small,
+.glossary-grid small,
+.ledger-list small {
+  display: block;
+  margin-top: 8px;
+  color: var(--atlas-muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.mermaid-chain-panel {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0;
+  border: 1px solid var(--atlas-line);
+  border-radius: 12px;
+  background: #fbfcfb;
+  padding: 16px;
+}
+
+.mermaid-chain-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.mermaid-chain-head strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--atlas-ink);
+  font-size: 14px;
+}
+
+.mermaid-chain-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 4px;
+}
+
+.mermaid-chain-toolbar button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--atlas-ink);
+  padding: 0;
+  font-family: var(--atlas-data);
+  font-size: 16px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.mermaid-chain-toolbar button:hover,
+.mermaid-chain-toolbar button:focus-visible {
+  outline: none;
+  background: rgba(47, 124, 119, 0.1);
+  color: var(--atlas-flow);
+}
+
+.mermaid-chain-toolbar button:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(47, 124, 119, 0.35);
+}
+
+.mermaid-chain-toolbar button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.mermaid-chain-toolbar .mermaid-reset-button {
+  width: 40px;
+  font-size: 10px;
+}
+
+.mermaid-chain-toolbar output {
+  width: 48px;
+  color: var(--atlas-muted);
+  font-family: var(--atlas-data);
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.mermaid-chain-viewport {
+  position: relative;
+  height: 380px;
+  overflow: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(47, 124, 119, 0.14);
+  background: #ffffff;
+  cursor: grab;
+  overscroll-behavior: contain;
+  scrollbar-color: rgba(47, 124, 119, 0.32) transparent;
+  touch-action: none;
+  user-select: none;
+}
+
+.mermaid-chain-viewport:focus-visible {
+  outline: 2px solid rgba(47, 124, 119, 0.45);
+  outline-offset: 2px;
+}
+
+.mermaid-chain-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.mermaid-chain-viewport.is-loading {
+  background: #f4f7f5;
+}
+
+.mermaid-chain-stage {
+  position: relative;
+  margin: 18px;
+}
+
+.mermaid-chain-canvas {
+  overflow: visible;
+  transform-origin: 0 0;
+}
+
+.mermaid-chain-loading {
+  z-index: 1;
+  grid-row: 2;
+  grid-column: 1;
+  align-self: center;
+  justify-self: center;
+  margin: 0;
+  color: var(--atlas-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.mermaid-chain-canvas svg {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  max-width: none;
+}
+
+.mermaid-chain-error {
+  border-left: 3px solid var(--atlas-alert);
+  background: rgba(214, 104, 81, 0.06);
+  padding: 12px 14px;
+}
+
+.mermaid-chain-error p,
+.mermaid-chain-error details {
+  margin: 7px 0 0;
+  color: var(--atlas-ink-soft);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.mermaid-chain-error pre {
+  max-height: 220px;
+  overflow: auto;
+  margin: 8px 0 0;
+  background: #102123;
+  padding: 12px;
+  color: #e8f2ee;
+  font-size: 11px;
+}
+
+.capital-summary,
+.ledger-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
 .research-basis {
   margin-top: 22px;
   border: 1px solid var(--atlas-line);
@@ -698,7 +953,12 @@
 
   .cycle-overview-head,
   .cycle-explainer-grid,
-  .time-series-empty {
+  .time-series-empty,
+  .key-number-grid,
+  .capital-attempt-grid,
+  .future-flow-grid,
+  .advanced-grid,
+  .glossary-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3649,6 +3909,10 @@ button {
 
 .compare-table > div {
   grid-template-columns: 0.62fr repeat(3, minmax(0, 1fr));
+}
+
+.compare-table p {
+  overflow-wrap: anywhere;
 }
 
 .compare-head strong {
