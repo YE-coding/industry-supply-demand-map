@@ -173,6 +173,7 @@ const extractSentenceAround = (content, keyword) => {
 const extractIndustry = (title, file) =>
   stripMarkdown(title)
     .replace(/^#\s*/u, '')
+    .replace(/行业供需周期分析[：:—\-].*$/u, '')
     .replace(/行业供需周期分析(?:（v2）)?/u, '')
     .replace(/供需周期分析(?:（v2）)?/u, '')
     .replace(/Industry Supply-Demand Cycle Analysis/iu, '')
