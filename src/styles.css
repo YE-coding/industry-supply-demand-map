@@ -862,6 +862,10 @@
 }
 
 .research-basis {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  height: max-content;
+  min-height: 92px;
   margin-top: 22px;
   border: 1px solid var(--atlas-line);
   border-radius: 16px;
@@ -869,39 +873,39 @@
   overflow: clip;
 }
 
-.research-basis > summary {
+.research-basis-toggle {
   display: flex;
+  width: 100%;
   min-height: 92px;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  border: 0;
+  background: transparent;
+  color: inherit;
   padding: 22px 28px;
   cursor: pointer;
-  list-style: none;
+  text-align: left;
 }
 
-.research-basis > summary::-webkit-details-marker {
-  display: none;
-}
-
-.research-basis > summary div {
+.research-basis-toggle div {
   display: grid;
   gap: 7px;
 }
 
-.research-basis > summary span {
+.research-basis-toggle span {
   color: var(--atlas-flow);
   font-size: 11px;
   font-weight: 900;
 }
 
-.research-basis > summary strong {
+.research-basis-toggle strong {
   color: var(--atlas-ink);
   font-family: var(--atlas-display);
   font-size: clamp(20px, 2.6vw, 30px);
 }
 
-.research-basis > summary em {
+.research-basis-toggle em {
   display: inline-flex;
   min-height: 38px;
   align-items: center;
@@ -914,17 +918,8 @@
   font-weight: 900;
 }
 
-.research-basis[open] > summary {
+.research-basis.is-open > .research-basis-toggle {
   border-bottom: 1px solid var(--atlas-line);
-}
-
-.research-basis[open] > summary em {
-  font-size: 0;
-}
-
-.research-basis[open] > summary em::before {
-  content: "收起";
-  font-size: 11px;
 }
 
 .research-basis-body {
@@ -1033,7 +1028,7 @@
 
   .time-series-head,
   .card-head,
-  .research-basis > summary {
+  .research-basis-toggle {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -1042,7 +1037,7 @@
     text-align: left;
   }
 
-  .research-basis > summary {
+  .research-basis-toggle {
     display: flex;
     padding: 20px;
   }
@@ -4816,5 +4811,319 @@ button {
   .cycle-explainer-grid > section,
   .cycle-explainer-grid > section + section {
     padding-right: 0;
+  }
+}
+
+/* Mobile interaction guard --------------------------------------------------
+   The atlas has accumulated multiple visual layers. Keep this final block as
+   the authoritative mobile contract so later desktop rules cannot reintroduce
+   fixed widths, hidden labels, or non-scrollable navigation. */
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 900px) {
+  .knowledge-shell {
+    width: 100%;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .search-row {
+    position: sticky;
+    top: 0;
+    right: auto;
+    left: auto;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: auto;
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 0 0 16px 16px;
+    transform: none;
+  }
+
+  .search-box,
+  .atlas-actions,
+  .atlas-actions button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .atlas-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .atlas-actions button {
+    padding-inline: 7px;
+    white-space: nowrap;
+  }
+
+  .industry-sidebar {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    display: grid;
+    grid-template-rows: auto auto;
+    width: auto;
+    height: auto;
+    max-height: none;
+    margin: 12px;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  .sidebar-head {
+    padding: 4px 6px 10px;
+  }
+
+  .sidebar-list {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0 10px;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-gutter: stable;
+    touch-action: pan-x pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar-group {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .sidebar-group > p {
+    display: none;
+  }
+
+  .sidebar-list button {
+    flex: 0 0 148px;
+    width: 148px;
+    min-height: 52px;
+    scroll-snap-align: start;
+  }
+
+  .graph-stage {
+    width: 100%;
+    min-width: 0;
+    min-height: auto;
+    margin: 0;
+    padding: 18px 12px 32px;
+  }
+
+  .purpose-line,
+  .graph-workbench,
+  .analysis-lens,
+  .graph-legend,
+  .focus-card,
+  .hover-caption {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .purpose-line {
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  .graph-workbench {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .graph-frame {
+    width: 100%;
+    max-width: 100%;
+    height: clamp(420px, 62dvh, 620px);
+    min-height: 420px;
+    margin: 0;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .industry-graph {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .analysis-lens,
+  .graph-legend,
+  .focus-card,
+  .hover-caption {
+    position: static;
+    margin-top: 12px;
+  }
+
+  .graph-legend {
+    justify-content: flex-start;
+  }
+
+  .detail-flow {
+    box-sizing: border-box;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .detail-flow > *,
+  .flow-card,
+  .research-basis,
+  .research-basis-body,
+  .research-basis-body > *,
+  .mermaid-chain-panel,
+  .mermaid-chain-viewport,
+  .time-series-panel,
+  .time-series-scroll,
+  .advanced-grid,
+  .future-flow-grid,
+  .glossary-grid,
+  .key-number-grid,
+  .capital-attempt-grid,
+  .evidence-table,
+  .compare-table {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .research-basis {
+    overflow: hidden;
+  }
+
+  .research-basis-body {
+    padding: 8px 12px 16px;
+  }
+
+  .key-number-grid,
+  .capital-attempt-grid,
+  .future-flow-grid,
+  .advanced-grid,
+  .glossary-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .key-number-grid section,
+  .capital-attempt-grid section,
+  .future-flow-grid section,
+  .advanced-grid section,
+  .glossary-grid section,
+  .ledger-list section,
+  .evidence-table > div,
+  .compare-table > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .evidence-table > div,
+  .compare-table > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mermaid-chain-head,
+  .mermaid-chain-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .mermaid-chain-viewport {
+    height: clamp(300px, 54dvh, 430px);
+  }
+
+  .guide-layer,
+  .library-layer {
+    padding: 12px;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .guide-panel,
+  .library-panel {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 24px);
+    padding: 18px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    touch-action: pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) {
+  .research-basis {
+    min-height: 130px;
+  }
+
+  .graph-node.case .node-label {
+    display: block;
+    font-size: 2.15px;
+  }
+
+  .graph-tools {
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .graph-tools button {
+    min-height: 34px;
+    padding-inline: 9px;
+  }
+
+  .graph-hint {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    max-width: none;
+    font-size: 10px;
+    text-align: center;
+    transform: none;
+    white-space: normal;
+  }
+
+  .flow-card {
+    padding: 16px;
+  }
+
+  .research-basis-toggle {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .guide-form,
+  .library-grid,
+  .lens-list {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
