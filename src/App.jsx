@@ -7,6 +7,7 @@ import { dedupeCasesByIndustry } from './caseIdentity';
 import { comparePeriodLabels } from './periodSort';
 import { comparisonBottleneck, comparisonSupplyStatus } from './comparisonCopy';
 import { clampGraphScale, graphDefaultView, pinchGraphView } from './graphViewport';
+import { detailCaseFromSearch } from './detailRoute';
 
 const introWords = ['看懂行业'];
 const baseCases = dedupeCasesByIndustry(dataset.cases || [], { preferLatestDate: true });
@@ -450,17 +451,18 @@ function tickForceLayout(nodes, links, alpha, radialStrength = 0, activeNodeId =
 function App() {
   const [officialMarkdownCache, setOfficialMarkdownCache] = useState({});
   const cases = baseCases;
-  const [entered, setEntered] = useState(false);
+  const routeCase = detailCaseFromSearch(cases, typeof window === 'undefined' ? '' : window.location.search);
+  const [entered, setEntered] = useState(() => Boolean(routeCase));
   const [zooming, setZooming] = useState(false);
   const [query, setQuery] = useState('');
   const [guideOpen, setGuideOpen] = useState(false);
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [activeLensId, setActiveLensId] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
-  const [focusedGraphId, setFocusedGraphId] = useState(null);
+  const [focusedGraphId, setFocusedGraphId] = useState(() => routeCase?.id || null);
   const [graphResetKey, setGraphResetKey] = useState(0);
   const [resetAcknowledged, setResetAcknowledged] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(() => routeCase?.id || null);
   const [activeChainIndex, setActiveChainIndex] = useState(0);
   const [lockedChainIndex, setLockedChainIndex] = useState(null);
 
@@ -558,6 +560,15 @@ function App() {
     setActiveChainIndex(0);
     setLockedChainIndex(null);
   }, [selectedId]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const selected = cases.find((item) => item.id === selectedId);
+    const url = new URL(window.location.href);
+    if (selected) url.searchParams.set('industry', selected.industry);
+    else url.searchParams.delete('industry');
+    window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [cases, selectedId]);
 
   useEffect(() => {
     if (!guideOpen && !libraryOpen) return undefined;
