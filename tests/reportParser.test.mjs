@@ -557,3 +557,30 @@ test('leaves ambiguous legacy upstream and downstream text blank', () => {
   assert.equal(node.suppliers, '');
   assert.equal(node.buyers, '');
 });
+
+test('normalizes CRLF before preserving multiline report structures', () => {
+  const lfReport = `# 换行基准行业供需周期分析
+
+分析日期：2026-07-18 22:00:00 +08:00
+地理范围：全球
+数据时效：2026Q2
+
+## 0. 一句话判断
+
+换行基准行业处于验证期。
+
+## 1. 产业链
+
+\`\`\`mermaid
+flowchart LR
+  A[原料] --> B[制造]
+  B --> C[客户]
+\`\`\`
+`;
+  const crlfReport = lfReport.replace(/\n/gu, '\r\n');
+  const lf = parseReportMarkdown(lfReport, '换行基准.md').caseItem;
+  const crlf = parseReportMarkdown(crlfReport, '换行基准.md').caseItem;
+
+  assert.equal(crlf.chain, lf.chain);
+  assert.deepEqual(crlf.chainNodes, lf.chainNodes);
+});

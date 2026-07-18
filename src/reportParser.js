@@ -982,6 +982,7 @@ const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNod
 };
 
 export function parseReportMarkdown(content, filename = '行业分析报告.md') {
+  content = String(content || '').replace(/\r\n?/gu, '\n');
   const title = content.match(/^#\s+(.+)$/mu)?.[1] || filename.replace(/\.md$/u, '');
   const industry = extractIndustry(title, filename);
   const judgment = extractJudgment(content);
