@@ -89,6 +89,17 @@ const tableRowsFromLines = (lines, startIndex = 0) => {
 
 const readFirstTableInSection = (section = '') => tableRowsFromLines(section.replace(/\r/g, '').split('\n'));
 
+const readAllTablesInSection = (section = '') => {
+  const lines = section.replace(/\r/g, '').split('\n');
+  const tables = [];
+  for (let index = 0; index < lines.length - 1; index += 1) {
+    if (!lines[index].trim().startsWith('|') || !isMarkdownSeparator(lines[index + 1])) continue;
+    tables.push(tableRowsFromLines(lines, index));
+    while (index < lines.length && lines[index].trim().startsWith('|')) index += 1;
+  }
+  return tables;
+};
+
 const readTableAfterHeading = (content, headingPattern) => {
   const lines = content.replace(/\r/g, '').split('\n');
   const start = lines.findIndex((line) => headingPattern.test(line));
@@ -293,8 +304,13 @@ const extractOnePage = (content) => {
     || [];
   const boldIntro = matchAnyLine(section, ['这个行业是做什么的', 'What This Industry Does']);
   const boldJudgment = matchAnyLine(section, ['一句话判断', '当前判断', 'Current Judgment']);
+  const statusLine = /^(?:[-*]\s*)?(?:\*\*)?(?:周期阶段|周期位置|结论状态|置信度|证据截至时间|上调条件|下调条件|最大缺口)(?:\*\*)?[：:]/u;
+  const cleanedIntro = introSection.split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith('#') && !line.startsWith('|') && !statusLine.test(line))
+    .join(' ');
   return {
-    industryIntro: stripMarkdown(introSection.split('\n').filter((line) => line && !line.startsWith('#')).join(' ')) || boldIntro,
+    industryIntro: stripMarkdown(cleanedIntro).replace(/\s*结论状态[：:].*$/u, '').trim() || boldIntro,
     keyNumbers: keyNumbers.map((row) => ({
       number: pickTableValue(row, ['数字', 'Number']),
       period: pickTableValue(row, ['截止期间', '期间', '时点', 'Period']),
@@ -311,6 +327,11 @@ const extractOnePage = (content) => {
         .map((line) => stripMarkdown(line.replace(/^[-*]\s*/u, '')))
         .filter((line) => line && !line.startsWith('###'))
       : [boldJudgment].filter(Boolean),
+    conclusionStatus: matchAnyLine(section, ['结论状态', 'Conclusion status']),
+    confidence: matchAnyLine(section, ['置信度', 'Confidence']),
+    evidenceAsOf: matchAnyLine(section, ['证据截至时间', 'Evidence as of']),
+    upgradeCondition: matchAnyLine(section, ['上调条件', 'Upgrade condition']),
+    downgradeCondition: matchAnyLine(section, ['下调条件', 'Downgrade condition']),
   };
 };
 
@@ -536,6 +557,7 @@ const extractCycleTimeline = (content) => {
   );
   const parsedRows = (rows || []).map((row) => ({
     period: pickTableValue(row, ['Stage / Date', 'Stage', 'Date', '阶段 / 日期', '时期', '时间', '阶段/日期']),
+    type: pickTableValue(row, ['性质（已发生/计划/预测/风险窗口）', '性质', '类型']),
     signal: pickTableValue(row, ['Signal', '信号', '可观察信号', '需求']),
     profitShift: pickTableValue(row, ['Profit Pool Shift', '利润池变化', '利润变化', '利润池往哪移', '价格/利润']),
     lag: pickTableValue(row, ['Key Lag', '关键时滞', '关键滞后', '时滞']),
@@ -578,6 +600,9 @@ const extractCycleTimeline = (content) => {
 };
 
 const extractCurrentStage = (content) => {
+  // v1.6 keeps the conclusion contract in its own subsection so that stage,
+  // status and confidence cannot be conflated with the narrative above it.
+  const contractSection = subsectionAfter(content, /###\s*v1\.6[^\n]*/iu);
   // Try specific subsection with numbered-heading support (e.g. ### 5.1 当前处于哪一段)
   const specificSection = subsectionAfter(
     content,
@@ -589,7 +614,8 @@ const extractCurrentStage = (content) => {
   const judgmentSection = subsectionAfter(content, /###\s*当前判断/iu);
   const section = specificSection || section5 || judgmentSection;
   if (!section) return {};
-  const field = (labels) => matchAnyLine(specificSection, labels)
+  const field = (labels) => matchAnyLine(contractSection, labels)
+    || matchAnyLine(specificSection, labels)
     || matchAnyLine(section5, labels)
     || matchAnyLine(judgmentSection, labels);
   // proveWrong may live in 进阶视角 within section 5, so search section5 broadly
@@ -606,6 +632,10 @@ const extractCurrentStage = (content) => {
     entryAnchor: field(['Entry date / anchor', 'Entry anchor', '进入时间 / 锚点', '进入时间/锚点', '进入锚点']),
     expectedTransition: field(['Expected transition', '预期转换', '下一阶段', '预期切换条件']),
     confidence: field(['Confidence', '置信度']),
+    conclusionStatus: field(['Conclusion status', '结论状态']),
+    evidenceAsOf: field(['Evidence as of', '证据截至时间']),
+    upgradeCondition: field(['Upgrade condition', '上调条件']),
+    downgradeCondition: field(['Downgrade condition', '下调条件']),
     proveWrong: proveWrongField(['What would prove this wrong', 'What proves this wrong', '反证条件', '什么会证明判断错误', '什么会证明这个判断错了']) || proveWrongText,
   };
 };
@@ -666,9 +696,14 @@ const extractComparableSeries = (content) => {
 
 const extractCapitalFlows = (content) => {
   const section = sectionAfter(content, /##\s*6[.、]?\s*资金动向/iu);
-  if (!section) return { attempts: [], pricingRows: [], summary: [] };
-  const attempts = readTableAfterHeading(section, /^###\s*6\.1/u) || readFirstTableInSection(section);
-  const pricingRows = readTableAfterHeading(section, /^###\s*6\.2/u) || [];
+  if (!section) return { attempts: [], pricingRows: [], proxyRows: [], summary: [] };
+  const tables = readAllTablesInSection(section);
+  const findTable = (aliases) => tables.find((rows) => rows.some((row) => (
+    aliases.some((alias) => row?.[normalizeTableHeader(alias)] !== undefined)
+  ))) || [];
+  const attempts = findTable(['尝试的来源类型', '来源类型', '检索项目']);
+  const proxyRows = findTable(['代理层级（行业/子链/公司）', '代理层级']);
+  const pricingRows = findTable(['产业现实', '市场叙事/定价证据']);
   const summary = compactLines(section)
     .filter((line) => !line.trim().startsWith('#'))  // skip heading lines like ### 6.2
     .map((line) => stripMarkdown(line.replace(/^[-*]\s*/u, '')))
@@ -688,6 +723,15 @@ const extractCapitalFlows = (content) => {
       source: pickTableValue(row, ['来源']),
       interpretation: pickTableValue(row, ['解读']),
     })).filter((row) => row.reality || row.narrative),
+    proxyRows: (proxyRows || []).map((row) => ({
+      tier: pickTableValue(row, ['代理层级（行业/子链/公司）', '代理层级']),
+      instrument: pickTableValue(row, ['工具/主体', '工具', '主体']),
+      coverage: pickTableValue(row, ['覆盖节点']),
+      metric: pickTableValue(row, ['指标与期间']),
+      source: pickTableValue(row, ['来源']),
+      conclusion: pickTableValue(row, ['结论']),
+      limitation: pickTableValue(row, ['局限']),
+    })).filter((row) => row.instrument && row.metric),
     summary,
   };
 };
@@ -846,7 +890,7 @@ const inferStage = (judgment) => {
   return hit ? hit[1] : '待验证';
 };
 
-const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNodes, chainNodeDetails, bottlenecks, sourceHints, metricHints, capitalFlows, futureCapitalFlows, glossary, evidenceLedger }, content) => {
+const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNodes, chainNodeDetails, bottlenecks, sourceHints, metricHints, capitalFlows, futureCapitalFlows, glossary, evidenceLedger, onePage, currentStage, cycleTimeline }, content) => {
   const nodeFields = (node) => [node.what || node.does, node.suppliers, node.buyers, node.money, node.why];
   const nodeFieldMinimums = [12, 10, 10, 20, 10];
   const completeNodes = chainNodeDetails.filter((node) => (
@@ -864,7 +908,7 @@ const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNod
       + (node.advanced || []).reduce((subtotal, value) => subtotal + normalizeMeaning(value).length, 0)
     ), 0) / chainNodeDetails.length
     : 0;
-  const checks = [
+  const structureChecks = [
     ['reportDate', '分析日期', Boolean(date)],
     ['dataCurrency', '数据时效', Boolean(dataCurrency)],
     ['geography', '地理范围', Boolean(geography)],
@@ -877,21 +921,56 @@ const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNod
     ['bottlenecks', '关键瓶颈', bottlenecks.length >= 1],
     ['sources', '来源线索', sourceHints.length >= 2],
     ['metrics', '量化线索', metricHints.length >= 2],
-    ['falsification', '反证或风险条件', /反证|证伪|风险|若|如果|一旦|下修/u.test(content)],
-    ['capitalFlows', '资金动向', Boolean(capitalFlows?.attempts?.length || capitalFlows?.summary?.length)],
-    ['futureCapitalFlows', '未来资金流向', futureCapitalFlows.length >= 2],
     ['glossary', '术语表', glossary.length >= 3],
     ['evidenceLedger', '证据台账', evidenceLedger.length >= 3],
   ].map(([id, label, ok]) => ({ id, label, ok }));
-  const passed = checks.filter((item) => item.ok).length;
-  const score = Math.round((passed / checks.length) * 100);
-  const level = score >= 78 ? '新版结构完整' : score >= 56 ? '建议补充' : '旧版待重跑';
+  const marketUsable = (capitalFlows?.proxyRows || []).filter((row) => (
+    /\d{4}|\d+(?:\.\d+)?%|\d+(?:\.\d+)?倍/u.test(row.metric || '')
+    && Boolean(row.source)
+    && !/无公开数据|未取得|不可得|未构建/u.test(row.metric || '')
+  ));
+  const completeScenarios = futureCapitalFlows.filter((row) => (
+    row.scenario && row.trigger && row.flow && row.first && row.later && row.evidence
+  ));
+  const conclusionStatus = onePage?.conclusionStatus || currentStage?.conclusionStatus || '';
+  const confidence = onePage?.confidence || currentStage?.confidence || '';
+  const evidenceAsOf = onePage?.evidenceAsOf || currentStage?.evidenceAsOf || '';
+  const evidenceChecks = [
+    ['stageStatus', '阶段与结论状态分离', Boolean(currentStage?.phase || onePage?.currentJudgment?.length) && Boolean(conclusionStatus)],
+    ['confidence', '结论置信度', Boolean(confidence)],
+    ['evidenceAsOf', '证据截至时间', Boolean(evidenceAsOf)],
+    ['upgradeCondition', '上调条件', Boolean(onePage?.upgradeCondition || currentStage?.upgradeCondition)],
+    ['downgradeCondition', '下调条件', Boolean(onePage?.downgradeCondition || currentStage?.downgradeCondition || currentStage?.proveWrong)],
+    ['falsification', '反证或风险条件', /反证|证伪|风险|若|如果|一旦|下修/u.test(content)],
+    ['capitalAttempts', '资本市场检索记录', (capitalFlows?.attempts || []).length >= 3],
+    ['marketEvidence', '资本市场可用代理证据', marketUsable.length >= 2],
+    ['futureCapitalFlows', '未来资金情景六字段', futureCapitalFlows.length === 3 && completeScenarios.length === 3],
+    ['cycleTimeline', '四至六个事件锚点', cycleTimeline.length >= 4 && cycleTimeline.length <= 6],
+    ['evidenceDepth', '证据台账深度', evidenceLedger.length >= 8],
+  ].map(([id, label, ok]) => ({ id, label, ok }));
+  const structurePassed = structureChecks.filter((item) => item.ok).length;
+  const evidencePassed = evidenceChecks.filter((item) => item.ok).length;
+  const structureScore = Math.round((structurePassed / structureChecks.length) * 100);
+  const evidenceScore = Math.round((evidencePassed / evidenceChecks.length) * 100);
+  const checks = [...structureChecks, ...evidenceChecks];
+  const passed = structurePassed + evidencePassed;
+  const score = Math.round((structureScore + evidenceScore) / 2);
+  const level = structureScore >= 90 && evidenceScore >= 90
+    ? '结构完整 · 证据充足'
+    : structureScore >= 78 ? '结构可用 · 证据待补' : '结构待重跑';
   return {
     score,
+    structureScore,
+    evidenceScore,
     passed,
     total: checks.length,
     level,
     checks,
+    marketEvidenceCoverage: {
+      usable: marketUsable.length,
+      total: (capitalFlows?.proxyRows || []).length,
+      status: marketUsable.length >= 2 ? '有代理证据' : marketUsable.length ? '部分代理证据' : '证据缺口',
+    },
     nodeMetrics: {
       total: chainNodeDetails.length,
       complete: completeNodes.length,
@@ -903,6 +982,7 @@ const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNod
 };
 
 export function parseReportMarkdown(content, filename = '行业分析报告.md') {
+  content = String(content || '').replace(/\r\n?/gu, '\n');
   const title = content.match(/^#\s+(.+)$/mu)?.[1] || filename.replace(/\.md$/u, '');
   const industry = extractIndustry(title, filename);
   const judgment = extractJudgment(content);
@@ -958,6 +1038,9 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
     futureCapitalFlows,
     glossary,
     evidenceLedger,
+    onePage,
+    currentStage,
+    cycleTimeline,
   }, content);
 
   return {
@@ -973,6 +1056,12 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
       dataCurrency: dataCurrency || '未标注',
       supplyStatus,
       stage,
+      conclusionStatus: onePage.conclusionStatus || currentStage.conclusionStatus || '',
+      confidence: onePage.confidence || currentStage.confidence || '',
+      evidenceAsOf: onePage.evidenceAsOf || currentStage.evidenceAsOf || '',
+      upgradeCondition: onePage.upgradeCondition || currentStage.upgradeCondition || '',
+      downgradeCondition: onePage.downgradeCondition || currentStage.downgradeCondition || currentStage.proveWrong || '',
+      marketEvidenceCoverage: quality.marketEvidenceCoverage,
       judgment,
       bottlenecks: bottlenecks.length ? bottlenecks : ['未提取到明确关键瓶颈'],
       sourceHints,

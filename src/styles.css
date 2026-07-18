@@ -84,7 +84,7 @@
   line-height: 0.96;
 }
 
-.cycle-stage-answer small::before {
+.cycle-stage-answer > small::before {
   display: inline-block;
   width: 8px;
   height: 8px;
@@ -92,6 +92,25 @@
   border-radius: 50%;
   background: var(--atlas-flow-soft);
   content: "";
+}
+
+.cycle-status-meta {
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid rgba(246, 250, 247, 0.16);
+  padding-top: 14px;
+}
+
+.cycle-status-meta small {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr);
+  gap: 8px;
+  line-height: 1.45;
+}
+
+.cycle-status-meta b {
+  color: var(--atlas-flow-soft);
+  font-weight: 900;
 }
 
 .cycle-explainer-grid {
@@ -629,12 +648,104 @@
 
 .key-number-grid,
 .capital-attempt-grid,
+.market-proxy-grid,
 .future-flow-grid,
 .advanced-grid,
 .glossary-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
+
+.market-proxy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.market-proxy-grid > section {
+  border: 1px solid var(--atlas-line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 16px;
+}
+
+.market-proxy-grid > section > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.market-proxy-grid span {
+  color: var(--atlas-flow);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.market-proxy-grid p {
+  margin: 10px 0;
+  color: var(--atlas-ink);
+  font-family: var(--atlas-data);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.market-proxy-grid dl,
+.future-flow-details {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.market-proxy-grid dl div,
+.future-flow-details div {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.market-proxy-grid dt,
+.future-flow-details dt {
+  color: var(--atlas-muted);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.market-proxy-grid dd,
+.future-flow-details dd {
+  margin: 0;
+  color: var(--atlas-ink-soft);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.market-proxy-grid small {
+  display: block;
+  margin-top: 10px;
+  color: var(--atlas-muted);
+  font-size: 10px;
+}
+
+.capital-attempts {
+  margin-top: 12px;
+  border-top: 1px solid var(--atlas-line);
+  padding-top: 12px;
+}
+
+.capital-attempts summary {
+  color: var(--atlas-flow);
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.capital-attempts .capital-attempt-grid {
+  margin-top: 12px;
+}
+
+.future-flow-details {
+  margin-top: 12px;
 }
 
 .key-number-grid section,
@@ -999,7 +1110,7 @@
 
   .cycle-time-marker i {
     position: absolute;
-    left: 0;
+    left: -36px;
   }
 }
 
@@ -4792,6 +4903,7 @@ button {
   .signal-story-card,
   .cycle-history-card,
   .research-basis {
+    grid-column: 1;
     justify-self: stretch;
   }
 
@@ -5017,6 +5129,7 @@ body,
   .glossary-grid,
   .key-number-grid,
   .capital-attempt-grid,
+  .market-proxy-grid,
   .evidence-table,
   .compare-table {
     box-sizing: border-box;
@@ -5035,6 +5148,7 @@ body,
 
   .key-number-grid,
   .capital-attempt-grid,
+  .market-proxy-grid,
   .future-flow-grid,
   .advanced-grid,
   .glossary-grid {

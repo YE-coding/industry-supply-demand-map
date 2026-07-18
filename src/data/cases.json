@@ -12,6 +12,16 @@
       "dataCurrency": "经营数据截至 2026 年 5 月或各公司 2026 年第二季度最新披露；资本市场数据截至 2026-07-16",
       "supplyStatus": "",
       "stage": "结构性短缺与扩产并行",
+      "conclusionStatus": "暂定。产业经营证据较强，但行业估值历史分位、ETF 份额时间序列和跨市场统一资金流口径仍有缺口。",
+      "confidence": "中等偏高。对先进链供需偏紧判断较有把握；对持续时长和市场已定价程度仅给中等把握。",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "先进封装交期继续延长，台积电高性能计算收入和HBM收入连续两个季度超出指引",
+      "downgradeCondition": "先进封装交期明显缩短且高性能计算收入、HBM售价与相关毛利同步回落",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "结构性短缺与扩产并行。AI 计算相关的先进逻辑、HBM 和先进封装处于利润兑现及供给追赶阶段；成熟制程呈工业复苏、汽车温和、消费分化，不能概括为全行业短缺。[E3][E4][E6][E10][E11]",
       "bottlenecks": [
         "已通过客户认证的先进封装与先进制程产能，而不是厂房面积本身。台积电明确表示封装产能限制客户增长，同时先进工艺从开发到量产需要多年。[E4]",
@@ -352,43 +362,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2025 年下半年—2026 年第一季度",
-          "signal": "AI 服务器采购扩大，工业需求从低位恢复",
-          "profitShift": "高端产品提价与组合升级",
-          "lag": "",
-          "evidence": "",
-          "next": "从订单扩张进入利润兑现"
+          "period": "2025H2 AI订单锁定",
+          "type": "已发生",
+          "signal": "高端计算订单提前锁定先进产能",
+          "profitShift": "设计、HBM与先进代工",
+          "lag": "订单到晶圆收入约一至两个季度",
+          "evidence": "E4、E5",
+          "next": "客户承诺是否转为实际收入"
         },
         {
-          "period": "2026 年第二季度",
-          "signal": "英伟达、台积电、美光收入继续上升",
-          "profitShift": "台积电毛利率 67.7%，美光合并 GAAP 毛利率 84.6%",
-          "lag": "",
-          "evidence": "",
-          "next": "先进链处于利润兑现高位 [E3][E5][E6]"
+          "period": "2026Q1 利润兑现",
+          "type": "已发生",
+          "signal": "数据中心收入与先进制程毛利同步上行",
+          "profitShift": "HBM、先进制造与封装",
+          "lag": "封装认证慢于晶圆投片",
+          "evidence": "E3、E5、E6",
+          "next": "库存与交期是否继续偏紧"
         },
         {
-          "period": "2026 年下半年",
-          "signal": "需求由云厂商资本开支和企业采用共同决定",
-          "profitShift": "爬坡成本与短缺定价并存",
-          "lag": "",
-          "evidence": "",
-          "next": "供给追赶，利润率可能先于收入见顶 [E4][E6]"
+          "period": "2026Q2 扩产确认",
+          "type": "已发生",
+          "signal": "设备和封装资本开支继续增加",
+          "profitShift": "设备、材料与工程服务",
+          "lag": "设备到合格产能需数季",
+          "evidence": "E2、E4、E7",
+          "next": "新增线良率与客户认证"
         },
         {
-          "period": "2027 年及以后",
-          "signal": "取决于 AI 投资回报和非 AI 需求扩散",
-          "profitShift": "若供给增速超过终端消耗，价格回落",
-          "lag": "",
-          "evidence": "",
-          "next": "进入是否过剩的验证阶段 [E7][E8][E9]"
+          "period": "2027 供给追赶检验",
+          "type": "风险窗口",
+          "signal": "新增晶圆、HBM和封装能力可能集中释放",
+          "profitShift": "利润可能向设备服务或现金流稳定环节移动",
+          "lag": "需求回报验证晚于产能投放",
+          "evidence": "E4、E16",
+          "next": "交期、库存和毛利是否同时转弱"
         }
       ],
       "currentStage": {
-        "phase": "结构性短缺与扩产并行。AI 计算相关的先进逻辑、HBM 和先进封装处于利润兑现及供给追赶阶段；成熟制程呈工业复苏、汽车温和、消费分化，不能概括为全行业短缺。[E3][E4][E6][E10][E11]",
+        "phase": "结构性短缺与扩产并行",
         "entryAnchor": "",
         "expectedTransition": "",
-        "confidence": "中等偏高。对先进链供需偏紧判断较有把握；对持续时长和市场已定价程度仅给中等把握。",
+        "confidence": "中等偏高",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "先进封装交期继续延长，台积电高性能计算收入和HBM收入连续两个季度超出指引",
+        "downgradeCondition": "先进封装交期明显缩短且高性能计算收入、HBM售价与相关毛利同步回落",
         "proveWrong": "若 2026 年下半年先进封装交期明显缩短、台积电高性能计算收入连续两个季度下降，且美光库存天数上升并伴随 HBM 售价下调，则“结构性紧缺延续到 2027 年”的判断失效。"
       },
       "watchIndicators": [
@@ -586,7 +604,12 @@
           "最大风险：客户为争抢产能重复下单，或终端算力投资回报不及预期，使当前订单强度高估最终消耗。台积电管理层已提示会对客户汇总需求做折减和自下而上核验。[E4]",
           "结论状态：暂定。产业经营证据较强，但行业估值历史分位、ETF 份额时间序列和跨市场统一资金流口径仍有缺口。",
           "置信度：中等偏高。对先进链供需偏紧判断较有把握；对持续时长和市场已定价程度仅给中等把握。"
-        ]
+        ],
+        "conclusionStatus": "暂定。产业经营证据较强，但行业估值历史分位、ETF 份额时间序列和跨市场统一资金流口径仍有缺口。",
+        "confidence": "中等偏高。对先进链供需偏紧判断较有把握；对持续时长和市场已定价程度仅给中等把握。",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "先进封装交期继续延长，台积电高性能计算收入和HBM收入连续两个季度超出指引",
+        "downgradeCondition": "先进封装交期明显缩短且高性能计算收入、HBM售价与相关毛利同步回落"
       },
       "capitalFlows": {
         "attempts": [
@@ -622,6 +645,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "SOXX",
+            "coverage": "芯片设计、制造与设备",
+            "metric": "2026-07-14 NAV 568.04美元，年内总回报88.86%",
+            "source": "https://www.ishares.com/us/products/239705/ishares-semiconductor-etf",
+            "conclusion": "半导体盈利上行已被市场大幅交易",
+            "limitation": "不覆盖未上市封装材料和晶圆厂建设"
+          },
+          {
+            "tier": "子链",
+            "instrument": "SOXX设备持仓",
+            "coverage": "半导体设备",
+            "metric": "2026-06-25设备公司占基金市值22.63%",
+            "source": "https://www.ishares.com/us/products/239705/ishares-semiconductor-etf",
+            "conclusion": "设备扩产叙事已进入行业篮子",
+            "limitation": "权重不能代表设备订单的持续时间"
+          }
+        ],
         "summary": [
           "*已定价：SOXX 截至 2026-07-15 的年内净值总回报为 84.54%，同期市盈率 71.21 倍；SMH 截至 2026-06-30 的年内净值回报为 82.30%。这表明市场已经显著交易 AI 芯片、高端制造与设备的盈利上行，不能把“AI 需求强”本身视作尚未被发现的信息。[E14][E15]",
           "*可能未完全定价：市场可能低估三个分化。第一，先进封装认证与交期使有效供给释放慢于资本开支；第二，2 纳米和海外厂爬坡会在收入仍增长时压低代工毛利；第三，成熟制程的工业复苏并不等于汽车和消费同步复苏。这里的判断来自交期、认证、库存和产能弹性，不由股价涨跌反推。[E4][E11]",
@@ -630,28 +673,28 @@
       },
       "futureCapitalFlows": [
         {
-          "scenario": "基准情景：约束缓慢缓解",
-          "trigger": "",
-          "flow": "若云端采购保持增长、先进封装交期仅缓慢缩短，资金更可能从纯粹追逐设计龙头，扩散到有客户认证的先进封装、测试设备、材料和第二供应源。依据是订单已经超过部分封装能力，而新增设备还需安装、爬坡和认证。[E4][E7]",
-          "first": "",
-          "later": "",
-          "evidence": "E4、E7"
+          "scenario": "基准",
+          "trigger": "云端采购增长且封装交期缓慢缩短",
+          "flow": "由设计龙头扩散到认证封装、测试设备和材料",
+          "first": "先进封装与测试设备",
+          "later": "成熟制程后受益，低效扩产项目受损",
+          "evidence": "先进封装交期、设备验收、E4、E7"
         },
         {
-          "scenario": "上行情景：需求扩散快于供给",
-          "trigger": "",
-          "flow": "若工业、汽车和消费电子同步改善，同时 AI 采购维持高位，资金可能由高端计算链扩散至成熟模拟、MCU、晶圆代工和通用设备。确认信号应是德州仪器库存天数下降、工业与汽车收入同时环比增长，而不是仅看相关股票上涨。[E10][E11]",
-          "first": "",
-          "later": "",
-          "evidence": "E10、E11"
+          "scenario": "上行",
+          "trigger": "AI采购维持高位且工业汽车需求同步改善",
+          "flow": "由高端计算扩散到模拟、MCU和通用设备",
+          "first": "HBM与先进代工",
+          "later": "成熟制程和通用设备后受益",
+          "evidence": "库存天数、工业收入、E10、E11"
         },
         {
-          "scenario": "下行情景：利润先于收入见顶",
-          "trigger": "",
-          "flow": "若新增 HBM、先进晶圆和封装能力集中释放，而云厂商回报不及预期，资金可能从高估值设计与存储环节转向现金流稳定、资本开支受控的工具和服务环节，或整体降低行业暴露。反证信号包括交期缩短、库存天数上升、毛利率下滑和客户削减长期采购承诺。[E4][E6][E16] 以上是产业与预期阶段推演，不构成任何证券买卖建议。",
-          "first": "",
-          "later": "",
-          "evidence": "E4、E6、E16"
+          "scenario": "下行",
+          "trigger": "云厂商回报不及预期且新增产能集中释放",
+          "flow": "转向现金流稳定的工具、服务与成熟业务",
+          "first": "服务与耗材",
+          "later": "高估值设计、存储及高成本新线受损",
+          "evidence": "交期、库存、毛利与采购承诺，E4、E6、E16"
         }
       ],
       "disagreements": [
@@ -980,11 +1023,15 @@
           "limitation": "不能形成全球半导体行业聚合资金流"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -1047,21 +1094,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -1070,8 +1102,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 6,
           "complete": 6,
@@ -1091,7 +1183,17 @@
       "geography": "全球产业链；需求端重点观察北美超大规模云数据中心，供给端覆盖美国、中国大陆、中国台湾、东南亚与欧洲",
       "dataCurrency": "经营实际值截至 2026 年 6 月已发布的公司季度报告；Ciena 截至 2026-05-02、Lumentum 截至 2026-03-28、Coherent 截至 2026-03-31、Corning 截至 2026-03-31、Fabrinet 截至 2026-03-27；2026 年第二季度及以后未披露的公司结果不视为实际值",
       "supplyStatus": "",
-      "stage": "高端数据中心互连处于“订单兑现与供给追赶并行”阶段",
+      "stage": "高端互连订单兑现与供给追赶并行",
+      "conclusionStatus": "暂定。需求、供给和利润三条产业证据已达最低门槛；行业估值分位与可比 ETF 份额/资金流序列没有获得同口径公开数据。",
+      "confidence": "中等。对高端互连景气和利润改善的判断较强；对紧缺持续多久、哪些扩产能按时通过验证，只给中等把握。",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "Ciena与Lumentum实际收入继续超指引且InP激光器交期没有缩短",
+      "downgradeCondition": "云资本开支仍增长但设备、器件收入和毛利连续两个季度转弱",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "高端数据中心互连处于“订单兑现与供给追赶并行”阶段；传统电信需求与低速、同质化模块不应被这一结论覆盖。[E1][E2][E6]",
       "bottlenecks": [
         "能量产、良率稳定并通过超大规模客户认证的 InP 激光器、光电封装和高端模块交付能力，而非单纯厂房面积。[E2][E7]"
@@ -1329,43 +1431,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2023—2024 年",
-          "signal": "云与 AI 网络建设启动，产品组合开始改善",
-          "profitShift": "率先流向高端模块、器件和网络设备",
-          "lag": "设备导入先于规模交付",
-          "evidence": "E9",
-          "next": "能否持续转为部门收入和利润"
+          "period": "2023-2024 去库存结束",
+          "type": "已发生",
+          "signal": "传统电信库存消化而AI互连需求抬头",
+          "profitShift": "高端光器件",
+          "lag": "器件订单领先模块收入约一季",
+          "evidence": "E3、E6",
+          "next": "电信与云需求分拆"
         },
         {
-          "period": "2025 年",
-          "signal": "Corning 光通信全年销售 62.74 亿美元、同比 +35%",
-          "profitShift": "连接基础设施开始兑现",
-          "lag": "合同到产线与交付需要数季",
-          "evidence": "E10",
-          "next": "客户协议是否转为订单与现金流"
+          "period": "2025 高速率切换",
+          "type": "已发生",
+          "signal": "800G部署放量并启动1.6T验证",
+          "profitShift": "InP激光器与高端模块",
+          "lag": "客户认证需六至十二个月",
+          "evidence": "E4、E7",
+          "next": "1.6T认证通过率"
         },
         {
-          "period": "2026 年上半年",
-          "signal": "Ciena、Lumentum、Corning、Fabrinet 的收入或利润改善",
-          "profitShift": "已认证器件、设备和制造服务同时受益",
-          "lag": "客户认证和产线良率限制供给释放",
-          "evidence": "E1、E2、E4、E6",
-          "next": "Q2/Q3 披露中的订单、库存与毛利"
+          "period": "2026H1 收入兑现",
+          "type": "已发生",
+          "signal": "Ciena和Lumentum收入及利润明显改善",
+          "profitShift": "器件、模块与网络设备",
+          "lag": "组件到系统收入约一季",
+          "evidence": "E1、E2",
+          "next": "指引能否转为实际"
         },
         {
-          "period": "2028 年中及以后",
-          "signal": "Lumentum 新 InP 厂计划爬坡",
-          "profitShift": "供给增加可能压低稀缺溢价",
-          "lag": "从厂房改造到产品量产约两年",
-          "evidence": "E7",
-          "next": "良率、认证与客户采用进度"
+          "period": "2028 中期供给检验",
+          "type": "预测",
+          "signal": "扩产项目与新技术路线进入规模交付",
+          "profitShift": "利润取决于认证和良率",
+          "lag": "厂房投产晚于设备安装",
+          "evidence": "E8、E9",
+          "next": "新增产能利用率与价格"
         }
       ],
       "currentStage": {
-        "phase": "- 阶段：高端互连的订单兑现与有效供给追赶；非高端和传统电信子市场为分化状态。",
+        "phase": "高端互连订单兑现与供给追赶并行",
         "entryAnchor": "至少从 2025 年 Corning 光通信销售明显增长延续至 2026 年第一、二季度公司实际披露；不是从某一条扩产新闻推定。[E1][E4][E10]",
         "expectedTransition": "Lumentum 组件收入连续两个财季环比下降且公司毛利回落，或 Ciena 下一财季实际收入低于其 16.25 亿美元指引下沿，同时出现客户削减网络资本开支的原始披露。",
-        "confidence": "中等。",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "Ciena与Lumentum实际收入继续超指引且InP激光器交期没有缩短",
+        "downgradeCondition": "云资本开支仍增长但设备、器件收入和毛利连续两个季度转弱",
         "proveWrong": "若未来实际披露显示扩产快速通过认证、交付增加但组件/模块价格和毛利仍同步上升，则本报告低估了需求弹性；若需求端收入持续增长而网络设备与器件收入转弱，则本报告把云开支错误映射到了光互连。"
       },
       "watchIndicators": [
@@ -1492,7 +1602,12 @@
           "置信度：中等。对高端互连景气和利润改善的判断较强；对紧缺持续多久、哪些扩产能按时通过验证，只给中等把握。",
           "最紧约束：能量产、良率稳定并通过超大规模客户认证的 InP 激光器、光电封装和高端模块交付能力，而非单纯厂房面积。[E2][E7]",
           "最大反证：若云厂商资本开支仍增加、但 Ciena 接单/收入和 Lumentum 组件收入同时连续转弱，说明采购可能已前置或接口结构转向，当前的需求外推应被下调。"
-        ]
+        ],
+        "conclusionStatus": "暂定。需求、供给和利润三条产业证据已达最低门槛；行业估值分位与可比 ETF 份额/资金流序列没有获得同口径公开数据。",
+        "confidence": "中等。对高端互连景气和利润改善的判断较强；对紧缺持续多久、哪些扩产能按时通过验证，只给中等把握。",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "Ciena与Lumentum实际收入继续超指引且InP激光器交期没有缩短",
+        "downgradeCondition": "云资本开支仍增长但设备、器件收入和毛利连续两个季度转弱"
       },
       "capitalFlows": {
         "attempts": [
@@ -1521,8 +1636,37 @@
             "limitation": ""
           }
         ],
-        "pricingRows": [],
+        "pricingRows": [
+          {
+            "reality": "多家公司收入和利润改善，且出现未来扩产",
+            "narrative": "“AI 网络将长期高速增长”的公开公司叙事",
+            "stage": "部分定价、仍需兑现",
+            "source": "E1、E2、E4、E8",
+            "interpretation": "企业披露支持需求强，但没有统一资金流指标证明整个主题的定价位置。"
+          }
+        ],
+        "proxyRows": [
+          {
+            "tier": "子链",
+            "instrument": "SOXX",
+            "coverage": "光芯片及高速互连半导体",
+            "metric": "2026-06-30一年总回报169.60%",
+            "source": "https://www.ishares.com/us/products/239705/ishares-semiconductor-etf",
+            "conclusion": "AI互连上游叙事已高度扩散",
+            "limitation": "SOXX不覆盖光纤、模块和网络设备全链"
+          },
+          {
+            "tier": "公司",
+            "instrument": "Ciena",
+            "coverage": "网络设备与互连系统",
+            "metric": "FY2026 Q2收入15.70亿美元、同比增长40%",
+            "source": "E1",
+            "conclusion": "订单已进入公司收入",
+            "limitation": "经营兑现不等同于股价仍未定价"
+          }
+        ],
         "summary": [
+          "| 公司 | Ciena | 网络设备与互连系统 | FY2026 Q2收入15.70亿美元、同比增长40% | E1 | 订单已进入公司收入 | 经营兑现不等同于股价仍未定价 |",
           "市场当前大概已定价：AI 数据中心需要更多高速互连，以及头部供应商正在扩张。这是公司管理层和长期合作公告频繁出现的方向性叙事。[E1][E7][E8]",
           "市场当前大概未定价：新 InP 与光连接扩产最终何时通过认证、最终客户是否持续按计划扩容、以及不同接口架构下各子环节的利润归属。"
         ]
@@ -1530,27 +1674,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "云网络建设维持、器件和设备收入按现有指引兑现",
-          "flow": "留在已认证的激光器、模块/光交换和网络设备",
-          "first": "高端器件、设备系统",
-          "later": "制造服务和连接部署随后确认",
-          "evidence": "Ciena 实际收入、Lumentum 组件收入与毛利"
+          "trigger": "云资本开支维持且1.6T按计划认证",
+          "flow": "由激光器扩散到模块和网络设备",
+          "first": "InP激光器与光电封装",
+          "later": "模块、交换设备后受益，低速产品受损",
+          "evidence": "器件交期、认证、E2、E7"
         },
         {
           "scenario": "上行",
-          "trigger": "云客户加速建设，且新增端口需求快于合格产能释放",
-          "flow": "向器件、先进封装和具备认证的模块方案集中",
-          "first": "InP 激光器、关键光组件",
-          "later": "新扩厂和布线产能在认证后受益",
-          "evidence": "订单交期、客户认证、Corning 长协转收入"
+          "trigger": "多家云客户同时上调网络采购",
+          "flow": "向稀缺器件、光纤和系统交付扩散",
+          "first": "高端器件",
+          "later": "光纤与网络设备后受益",
+          "evidence": "订单覆盖、产能利用率、E1、E4"
         },
         {
           "scenario": "下行",
-          "trigger": "云资本开支放缓、接口迭代延后或扩产提前通过认证",
-          "flow": "从高端器件/模块回流至采购方，供应商毛利承压",
-          "first": "具软件和服务粘性的设备维护业务相对抗压",
-          "later": "同质化模块、低差异化连接和未锁定客户的新增产能",
-          "evidence": "实际收入低于指引、库存、价格与毛利变化"
+          "trigger": "资本开支增速回落且客户库存上升",
+          "flow": "转向维保和现金流稳定的存量网络",
+          "first": "服务与存量升级",
+          "later": "高库存模块与激进扩产受损",
+          "evidence": "库存、取消率、毛利、E3、E6"
         }
       ],
       "disagreements": [
@@ -1735,11 +1879,15 @@
           "limitation": "本轮未在预算内打开同口径、可核验的最新原始季度披露，避免用二手数字填补。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -1802,21 +1950,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -1825,8 +1958,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -1846,7 +2039,17 @@
       "geography": "全球；重点观察北美云厂商需求、美国/中国台湾/韩国的芯片供应与全球数据中心部署",
       "dataCurrency": "NVIDIA 截至 2026-04-26 的 FY2027 Q1、Meta 与 Microsoft 截至 2026-03-31、Alphabet 截至 2025-12-31；2026 年第二季度尚未披露的实际结果不被写成已发生事实",
       "supplyStatus": "",
-      "stage": "高端加速器、网络和已通电数据中心处于订单兑现与供给追赶阶段",
+      "stage": "高端集群订单兑现与基础设施追赶",
+      "conclusionStatus": "暂定。需求、供给和利润证据足以判断高端 AI 集群仍在扩张，但行业总装机、实际利用率、租赁价格和统一资金流序列并未公开。",
+      "confidence": "中等；收入与资本开支强劲是事实，对供给何时足以满足需求只作中等判断。",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "云收入、可用容量利用率和加速器收入同步超预期且供电排队不缓解",
+      "downgradeCondition": "Meta与Alphabet同时下调资本开支且云收入、加速器收入连续转弱",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "高端加速器、网络和已通电数据中心处于订单兑现与供给追赶阶段；通用服务器及未接电的项目不能一概而论。[E1][E2][E3]",
       "bottlenecks": [
         "可交付的系统级能力——先进芯片、HBM、网络、机房电力和运维软件要同时到位。"
@@ -2089,35 +2292,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024—2025 基础设施抢建",
-          "signal": "云厂商提高资本开支，GPU、HBM与网络订单先增长",
-          "profitShift": "",
-          "lag": "订单到上电跨越数季",
-          "evidence": "E1、E3、E7",
-          "next": ""
+          "period": "2024H2 集群抢建",
+          "type": "已发生",
+          "signal": "云厂商提前锁定芯片、网络与电力",
+          "profitShift": "加速器和高速网络",
+          "lag": "设备到上电约数季",
+          "evidence": "E1、E2",
+          "next": "采购是否转为可用容量"
         },
         {
-          "period": "2025Q4—2026Q1 收入兑现",
-          "signal": "云收入、积压和加速器收入继续增长",
-          "profitShift": "",
-          "lag": "建设投入早于云服务收入",
-          "evidence": "E1、E2、E3",
-          "next": ""
+          "period": "2025Q4 容量上线",
+          "type": "已发生",
+          "signal": "部分数据中心容量开始投运",
+          "profitShift": "机房、电力与网络",
+          "lag": "上电晚于服务器到货",
+          "evidence": "E2、E3",
+          "next": "利用率和云收入"
         },
         {
-          "period": "2026Q2以后 回报验证",
-          "signal": "下一季收入指引、利用率与云毛利决定扩建持续性",
-          "profitShift": "",
-          "lag": "折旧和客户变现滞后于交付",
-          "evidence": "E1、E4",
-          "next": ""
+          "period": "2026Q1 收入兑现",
+          "type": "已发生",
+          "signal": "NVIDIA数据中心收入752亿美元",
+          "profitShift": "芯片、网络和HBM",
+          "lag": "收入领先模型变现验证",
+          "evidence": "E1",
+          "next": "下一季收入与毛利"
+        },
+        {
+          "period": "2026H2 回报检验",
+          "type": "风险窗口",
+          "signal": "资本开支进入实际利用率检验",
+          "profitShift": "利润可能向云服务或电力侧移动",
+          "lag": "模型收入晚于基础设施支出",
+          "evidence": "E2、E3",
+          "next": "云收入、利用率与CapEx"
         }
       ],
       "currentStage": {
-        "phase": "高端集群订单兑现与基础设施追赶。",
+        "phase": "高端集群订单兑现与基础设施追赶",
         "entryAnchor": "NVIDIA FY2027 Q1 数据中心收入和主要云厂商 2026 年资本开支计划共同显示采购与建设仍在进行。[E1][E2][E3]",
         "expectedTransition": "NVIDIA 下一季实际收入显著低于 910 亿美元指引下沿，且 Meta/Alphabet 同时下调未来 CapEx；或云收入增长放缓而可用容量明显增加。",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "云收入、可用容量利用率和加速器收入同步超预期且供电排队不缓解",
+        "downgradeCondition": "Meta与Alphabet同时下调资本开支且云收入、加速器收入连续转弱",
         "proveWrong": "若云厂商大幅削减资本开支而加速器/网络收入继续增长，说明需求来源已从超大规模云转移；若 CapEx 继续上升但云收入和利用率下降，则当前投资可能前置过度。"
       },
       "watchIndicators": [
@@ -2229,7 +2448,14 @@
             "evidence": ""
           }
         ],
-        "currentJudgment": []
+        "currentJudgment": [
+          "AI算力处于高端加速器、网络与已通电数据中心共同扩张的兑现期，但回报率和供电能力仍决定订单能否延续。"
+        ],
+        "conclusionStatus": "暂定。需求、供给和利润证据足以判断高端 AI 集群仍在扩张，但行业总装机、实际利用率、租赁价格和统一资金流序列并未公开。",
+        "confidence": "中等；收入与资本开支强劲是事实，对供给何时足以满足需求只作中等判断。",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "云收入、可用容量利用率和加速器收入同步超预期且供电排队不缓解",
+        "downgradeCondition": "Meta与Alphabet同时下调资本开支且云收入、加速器收入连续转弱"
       },
       "capitalFlows": {
         "attempts": [
@@ -2253,6 +2479,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "SOXX",
+            "coverage": "加速器、存储与网络芯片",
+            "metric": "2026-07-14 NAV 568.04美元、年内回报88.86%",
+            "source": "https://www.ishares.com/us/products/239705/ishares-semiconductor-etf",
+            "conclusion": "高端芯片增长已被显著定价",
+            "limitation": "不覆盖机房、电力和云服务"
+          },
+          {
+            "tier": "公司",
+            "instrument": "NVIDIA",
+            "coverage": "加速器与网络",
+            "metric": "FY2027 Q1数据中心收入752亿美元、同比增长92%",
+            "source": "E1",
+            "conclusion": "盈利兑现支撑核心硬件叙事",
+            "limitation": "单一供应商不能代表系统利用率"
+          }
+        ],
         "summary": [
           "市场大概已定价：超大规模云厂商会持续建设 AI 基础设施，高端加速器和网络仍有强需求。[E1][E2][E3]",
           "市场大概未定价：资本开支最终形成的实际利用率、模型服务变现、并网速度和新平台替代速度。",
@@ -2262,27 +2508,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "云收入和加速器收入按指引兑现",
-          "flow": "高端芯片、网络与已通电云容量",
-          "first": "加速器、HBM、网络",
-          "later": "服务器和机房建设",
-          "evidence": "E1、E3、E4"
+          "trigger": "高端芯片交付增长且上电容量按期释放",
+          "flow": "向网络、电力和已通电机房移动",
+          "first": "加速器与高速网络",
+          "later": "机房、电力和云服务后受益",
+          "evidence": "订单、交期、CapEx、E1、E3"
         },
         {
           "scenario": "上行",
-          "trigger": "利用率上升且新增集群供不应求",
-          "flow": "向系统级瓶颈集中",
-          "first": "高端芯片、网络、电力设备",
-          "later": "新机房和制冷",
-          "evidence": "订单、交期、CapEx"
+          "trigger": "模型收入和利用率快于新增容量",
+          "flow": "向稀缺电力、互连和平台软件集中",
+          "first": "已通电容量与网络",
+          "later": "模型服务和运维后受益",
+          "evidence": "利用率、云收入、供电排队"
         },
         {
           "scenario": "下行",
-          "trigger": "云收入放缓或项目推迟而供给继续释放",
-          "flow": "由硬件供应商向买方回流",
-          "first": "软件/维护相对抗压",
-          "later": "通用服务器和未锁定项目",
-          "evidence": "实际收入、库存、CapEx 下调"
+          "trigger": "资本开支继续上升但云收入和利用率下降",
+          "flow": "转向现金流稳定的存量服务",
+          "first": "运维与租赁",
+          "later": "高端硬件和未上电项目受损",
+          "evidence": "CapEx下调、库存、毛利"
         }
       ],
       "disagreements": [
@@ -2420,11 +2666,15 @@
           "limitation": "产品资料不代表客户已验收数量、利用率或投资回报。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -2487,21 +2737,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -2510,8 +2745,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -2531,7 +2826,17 @@
       "geography": "全球，重点观察中国、欧洲、北美及新兴市场的电动车、光伏、风电与储能",
       "dataCurrency": "IEA 的 2025 年实际/估算与 2026 年一季度趋势；宁德时代截至 2026-03-31 的未经审计一季报。预测、政策目标和项目公告均单列，不当作实际产出",
       "supplyStatus": "",
-      "stage": "电动车、光伏、储能呈“终端扩张与制造端竞争并存”",
+      "stage": "终端部署扩张、制造端竞争和项目约束并行",
+      "conclusionStatus": "暂定。终端需求与部署实际值较强，但“新能源”内部的价格、库存、利用率和区域电网约束差异过大，不能给出单一供需阶段。",
+      "confidence": "中等。",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "电动车销量、并网投运和制造现金流同步改善且价格竞争收敛",
+      "downgradeCondition": "主要市场销量和装机连续下降，同时限电、负电价与库存上升",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "电动车、光伏、储能呈“终端扩张与制造端竞争并存”；高装机不等于制造端拥有定价权。[E1][E2][E3]",
       "bottlenecks": [
         "项目侧的并网、电力消纳、融资和可盈利运营；电池与组件的名义制造能力不是唯一瓶颈。[E2][E5]"
@@ -2757,35 +3062,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024 制造降本延续",
-          "signal": "电池、组件与设备价格下降，终端装机仍增长",
-          "profitShift": "",
-          "lag": "降价到新增订单约一至两季",
+          "period": "2024 制造降本",
+          "type": "已发生",
+          "signal": "电池与组件价格继续下行",
+          "profitShift": "终端项目",
+          "lag": "降价到新增需求约一季",
           "evidence": "E1、E2",
-          "next": ""
+          "next": "制造利润是否企稳"
         },
         {
-          "period": "2025 部署加速",
-          "signal": "全球可再生新增约800GW，电动车销量超过2000万辆",
-          "profitShift": "",
-          "lag": "制造出货领先并网投运",
-          "evidence": "E1、E3",
-          "next": ""
+          "period": "2025 部署创高",
+          "type": "已发生",
+          "signal": "电动车、光伏与储能新增扩张",
+          "profitShift": "项目开发与系统集成",
+          "lag": "并网投运晚于设备出货",
+          "evidence": "E1、E2、E3",
+          "next": "实际利用和收益"
         },
         {
-          "period": "2026 现金流检验",
-          "signal": "CATL一季度收入与项目实际部署检验需求兑现",
-          "profitShift": "",
-          "lag": "新产能利用率在投产后继续爬坡",
-          "evidence": "E4、E9",
-          "next": ""
+          "period": "2026Q1 区域分化",
+          "type": "已发生",
+          "signal": "政策切换与贸易约束扩大差异",
+          "profitShift": "渠道和本地化产能",
+          "lag": "政策到订单一至两季",
+          "evidence": "E4、E5",
+          "next": "区域销量与价格"
+        },
+        {
+          "period": "2026H2 现金流检验",
+          "type": "风险窗口",
+          "signal": "低价能否转为项目回报和制造现金流",
+          "profitShift": "运营资产或高效制造",
+          "lag": "回款晚于装机",
+          "evidence": "E6、E7",
+          "next": "现金流、弃电与库存"
         }
       ],
       "currentStage": {
-        "phase": "终端部署扩张、制造端竞争和项目侧约束并行。",
+        "phase": "终端部署扩张、制造端竞争和项目约束并行",
         "entryAnchor": "2025 年 EV、光伏、储能新增都创高或显著增长，而中国电动车增速放缓、光伏安装节奏受政策切换影响。[E1][E2][E3]",
         "expectedTransition": "主要市场 EV 销量连续下降，或光伏/储能新增在没有政策一次性扰动的情况下显著低于 2025；反向则看并网改善和项目收益率提升。",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "电动车销量、并网投运和制造现金流同步改善且价格竞争收敛",
+        "downgradeCondition": "主要市场销量和装机连续下降，同时限电、负电价与库存上升",
         "proveWrong": "若设备产能明显增长而价格、项目收益和制造商利润均同步改善，则本报告低估了需求弹性；若新增装机维持高位但限电/负电价增加，则本报告高估了有效需求。"
       },
       "watchIndicators": [
@@ -2914,7 +3235,14 @@
             "evidence": ""
           }
         ],
-        "currentJudgment": []
+        "currentJudgment": [
+          "新能源终端部署仍扩张，但电动车、光伏和储能的制造利润与项目回报分化，不能用总装机替代有效需求判断。"
+        ],
+        "conclusionStatus": "暂定。终端需求与部署实际值较强，但“新能源”内部的价格、库存、利用率和区域电网约束差异过大，不能给出单一供需阶段。",
+        "confidence": "中等。",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "电动车销量、并网投运和制造现金流同步改善且价格竞争收敛",
+        "downgradeCondition": "主要市场销量和装机连续下降，同时限电、负电价与库存上升"
       },
       "capitalFlows": {
         "attempts": [
@@ -2938,6 +3266,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "ICLN",
+            "coverage": "全球清洁能源上市公司",
+            "metric": "2026-06-30年内总回报25.50%、一年回报58.45%",
+            "source": "https://www.ishares.com/us/products/239738/ishares-global-clean-energy-etf",
+            "conclusion": "清洁能源叙事重新扩散",
+            "limitation": "混合光伏、风电和电力设备"
+          },
+          {
+            "tier": "子链",
+            "instrument": "ICLN估值",
+            "coverage": "清洁能源制造与运营",
+            "metric": "2026-07-08市盈率18.64倍、市净率2.37倍",
+            "source": "https://www.ishares.com/us/products/239738/ishares-global-clean-energy-etf",
+            "conclusion": "估值并未显示所有子链同等紧张",
+            "limitation": "无法拆分电动车、储能与光伏利润"
+          }
+        ],
         "summary": [
           "市场大概已定价：清洁电力和电动车长期替代趋势、以及设备成本下降推动部署。",
           "市场大概未定价：并网消纳、区域政策切换、项目回报及制造端能否摆脱竞争压价。",
@@ -2947,27 +3295,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "EV、光伏和储能按当前趋势增长",
-          "flow": "有认证和项目交付能力的系统端",
-          "first": "头部电池、并网和储能系统",
-          "later": "制造扩产随后受益",
-          "evidence": "E1、E2、E3"
+          "trigger": "部署增长且制造价格逐步企稳",
+          "flow": "向并网资源、系统集成和低成本制造移动",
+          "first": "已获批项目与系统集成",
+          "later": "制造利润后修复",
+          "evidence": "销量、装机、并网、毛利"
         },
         {
           "scenario": "上行",
-          "trigger": "并网、融资和政策改善，项目收益上升",
-          "flow": "向开发、储能和电网配套移动",
-          "first": "储能、电力电子、电网接入",
-          "later": "设备需求跟随释放",
-          "evidence": "E3、E5"
+          "trigger": "政策支持、融资成本下降且电网消纳改善",
+          "flow": "向高效设备和运营资产扩散",
+          "first": "项目开发与电网设备",
+          "later": "制造环节后受益",
+          "evidence": "项目收益率、弃电、订单"
         },
         {
           "scenario": "下行",
-          "trigger": "终端政策退坡、价格竞争或限电加剧",
-          "flow": "由设备制造商向用电方/买方回流",
-          "first": "低成本运营商相对抗压",
-          "later": "同质化制造与未并网项目",
-          "evidence": "E1、E2"
+          "trigger": "需求放缓且贸易壁垒、库存上升",
+          "flow": "向现金流稳定的运营资产集中",
+          "first": "长约运营方",
+          "later": "高成本制造和未并网项目受损",
+          "evidence": "库存、价格、取消率"
         }
       ],
       "disagreements": [
@@ -3115,11 +3463,15 @@
           "limitation": "工业总量口径未拆分项目利润和海外库存。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -3182,21 +3534,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -3205,8 +3542,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -3226,7 +3623,17 @@
       "geography": "全球基础化工，重点观察中国、北美和欧洲的烯烃、聚烯烃、中间体与石化原料",
       "dataCurrency": "公司数据截至 2026 年第一季度；IEA 的 2025 年实际/估算与 2026 年预测。中东地缘冲突后的油价和原料扰动需与长期供需分开",
       "supplyStatus": "",
-      "stage": "供给竞争压低产品价格，北美部分聚乙烯价差修复",
+      "stage": "全球过剩背景中的区域性价差修复",
+      "conclusionStatus": "暂定。全球基础化工仍是“局部价差修复与全球过剩并存”，无法用一家公司或短期油价冲击判断整体拐点。",
+      "confidence": "中等。",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "主要产品价格、开工率与现金利润跨区域连续两个季度同步改善",
+      "downgradeCondition": "新增产能继续投放且价格、库存和利润再次同向恶化",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "供给竞争压低产品价格，北美部分聚乙烯价差修复；欧洲高成本资产仍承压。[E1][E2]",
       "bottlenecks": [
         "不是原料可得性本身，而是过剩产能出清、区域成本曲线和终端补库能否持续。"
@@ -3249,7 +3656,8 @@
         "13.9%",
         "85%",
         "75%",
-        "2022 年"
+        "2022 年",
+        "13.17%"
       ],
       "chain": "flowchart LR\n    U[\"包装、汽车、建筑、纺织和消费品需求\"] -.订单与补库.-> C[\"塑料/材料加工商\"]\n    C --> P[\"聚烯烃和中间体生产商\"]\n    P --> O[\"裂解、芳烃和炼化一体化企业\"]\n    O --> R[\"原油、NGL、石脑油、煤与盐\"]\n    E[\"蒸汽、电力、催化剂和设备\"] --> O\n    L[\"物流、仓储和贸易融资\"] --> P\n    P --> U",
       "chainNodes": [
@@ -3446,35 +3854,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024 新增装置释放",
-          "signal": "标准品供给增长快于终端消化",
-          "profitShift": "",
-          "lag": "投产到稳定负荷跨越数月",
+          "period": "2024 亚洲新增产能",
+          "type": "已发生",
+          "signal": "乙烯和衍生物供给继续释放",
+          "profitShift": "利润向低成本原料端集中",
+          "lag": "装置到市场供给数月",
           "evidence": "E3、E4",
-          "next": ""
+          "next": "开工率与出口"
         },
         {
-          "period": "2025 需求与贸易分化",
-          "signal": "原料需求偏弱、地区贸易流重新配置",
-          "profitShift": "",
-          "lag": "船期和客户去库存造成季度滞后",
-          "evidence": "E3、E6",
-          "next": ""
+          "period": "2025 贸易分化",
+          "type": "已发生",
+          "signal": "区域成本和关税改变货物流向",
+          "profitShift": "北美低成本产能",
+          "lag": "运费与套利窗口变化快",
+          "evidence": "E2、E5",
+          "next": "价差和库存"
         },
         {
-          "period": "2026Q1 价差仍承压",
-          "signal": "BASF化工价格同比下降、LYB区域开工分化",
-          "profitShift": "",
-          "lag": "调价通常早于年度合同和利润修复",
+          "period": "2026Q1 局部修复",
+          "type": "已发生",
+          "signal": "北美聚乙烯价差改善但欧洲承压",
+          "profitShift": "北美烯烃聚烯烃",
+          "lag": "销量到利润约一季",
           "evidence": "E1、E2",
-          "next": ""
+          "next": "BASF与LYB利润"
+        },
+        {
+          "period": "2026H2 新增供给检验",
+          "type": "预测",
+          "signal": "新装置与检修结束可能重压价格",
+          "profitShift": "现金成本最低装置",
+          "lag": "供给释放快于需求培育",
+          "evidence": "E4、E6",
+          "next": "价格、开工与现金利润"
         }
       ],
       "currentStage": {
-        "phase": "全球过剩背景中的区域性价差修复，尚非广泛盈利复苏。",
+        "phase": "全球过剩背景中的区域性价差修复",
         "entryAnchor": "BASF 价格下跌、利润下降与 LYB 北美价差改善同时出现，说明区域和产品分化。[E1][E2]",
         "expectedTransition": "BASF 化工价格跌幅收窄并伴随利润改善、LYB 开工率上升且终端订单增长；反向是价格下跌、库存累积和进一步降负。",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "主要产品价格、开工率与现金利润跨区域连续两个季度同步改善",
+        "downgradeCondition": "新增产能继续投放且价格、库存和利润再次同向恶化",
         "proveWrong": "若全球新增能力继续投放但价格、开工和利润同步持续改善，则需求弹性被低估；若油价上升但产品销量与价差下滑，则短期供给扰动被错误当作景气。"
       },
       "watchIndicators": [
@@ -3603,7 +4027,14 @@
             "evidence": ""
           }
         ],
-        "currentJudgment": []
+        "currentJudgment": [
+          "化工仍处于过剩压价与区域价差修复并存阶段，北美部分聚烯烃改善尚不足以证明全球盈利周期反转。"
+        ],
+        "conclusionStatus": "暂定。全球基础化工仍是“局部价差修复与全球过剩并存”，无法用一家公司或短期油价冲击判断整体拐点。",
+        "confidence": "中等。",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "主要产品价格、开工率与现金利润跨区域连续两个季度同步改善",
+        "downgradeCondition": "新增产能继续投放且价格、库存和利润再次同向恶化"
       },
       "capitalFlows": {
         "attempts": [
@@ -3627,6 +4058,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "XLB",
+            "coverage": "美国材料与化工龙头",
+            "metric": "截至2026-06-30基准一年回报13.17%",
+            "source": "https://www.ssga.com/us/en/individual/etfs/state-street-materials-select-sector-spdr-etf-xlb",
+            "conclusion": "材料板块已有正回报但并非化工全面复苏",
+            "limitation": "混合金属、包装和建材"
+          },
+          {
+            "tier": "公司",
+            "instrument": "BASF Chemicals",
+            "coverage": "基础化工",
+            "metric": "2026Q1 EBITDA 2.33亿欧元、同比下降30.5%",
+            "source": "E1",
+            "conclusion": "经营证据仍未确认全球盈利反转",
+            "limitation": "欧洲公司样本不代表北美价差"
+          }
+        ],
         "summary": [
           "已定价：过剩、欧洲高成本压力和短期原料波动。",
           "未定价：真实终端补库、关停速度和中东原料扰动持续时间。"
@@ -3635,27 +4086,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "需求温和、过剩持续",
-          "flow": "低成本一体化厂",
-          "first": "原料优势裂解与差异化材料",
-          "later": "高成本通用品",
-          "evidence": "E1、E2"
+          "trigger": "需求温和而新增供给继续释放",
+          "flow": "向低成本原料和特种产品移动",
+          "first": "低成本一体化装置",
+          "later": "高成本基础品受损",
+          "evidence": "价差、开工率、E1、E2"
         },
         {
           "scenario": "上行",
-          "trigger": "终端补库、关停加速、库存下降",
-          "flow": "向聚合和加工端扩散",
-          "first": "低成本聚烯烃",
-          "later": "扩产项目后受益",
-          "evidence": "价格、开工、库存"
+          "trigger": "检修增加且终端补库持续",
+          "flow": "向基础化工和物流套利扩散",
+          "first": "现货紧张产品",
+          "later": "下游改性材料后受益",
+          "evidence": "库存、订单、出口"
         },
         {
           "scenario": "下行",
-          "trigger": "贸易或原料冲击压低需求",
-          "flow": "向终端买方回流",
-          "first": "现金流稳健服务",
-          "later": "标准树脂和高成本装置",
-          "evidence": "E3、E4"
+          "trigger": "新增装置集中投产且需求走弱",
+          "flow": "向现金流和轻资产服务集中",
+          "first": "特种化学与分销",
+          "later": "高成本大宗装置受损",
+          "evidence": "价格、负荷、现金利润"
         }
       ],
       "disagreements": [
@@ -3783,11 +4234,15 @@
           "limitation": "宏观工业口径没有统一产品价差和库存。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -3850,21 +4305,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -3873,8 +4313,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -3894,7 +4394,17 @@
       "geography": "全球，重点观察中国、印度、欧洲、北美的粗钢生产、终端需求与贸易流",
       "dataCurrency": "worldsteel 产量截至 2026 年 4 月、需求预测截至 2026 年 4 月；ArcelorMittal 截至 2026-03-31 的一季报。预测与实际产量分开",
       "supplyStatus": "",
-      "stage": "中国地产拖累减弱、印度增长强，欧洲/北美依赖政策与基建",
+      "stage": "需求低位企稳预期与供给实际收缩并存",
+      "conclusionStatus": "暂定。钢铁处在需求低位企稳、供给实际收缩与区域贸易保护重塑并行的阶段；全球供需尚未证实全面反转。",
+      "confidence": "中等。",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "钢厂发货、价格和吨钢利润连续改善且库存不累积",
+      "downgradeCondition": "需求预测下修、库存上升并触发新一轮减产",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "中国地产拖累减弱、印度增长强，欧洲/北美依赖政策与基建；产量仍在压缩。[E1][E3][E4]",
       "bottlenecks": [
         "终端地产/制造订单和区域贸易流，而不是单纯名义炼钢能力。"
@@ -4118,34 +4628,50 @@
       "cycleTimeline": [
         {
           "period": "2024 需求低增",
-          "signal": "地产偏弱、制造与出口支撑，区域钢价分化",
-          "profitShift": "",
-          "lag": "订单到粗钢产量约一至两月",
+          "type": "已发生",
+          "signal": "中国地产拖累而印度需求增长",
+          "profitShift": "区域低成本钢厂",
+          "lag": "终端到钢材订单约一季",
           "evidence": "E1、E3",
-          "next": ""
+          "next": "地区发货"
         },
         {
-          "period": "2025 产量与贸易再平衡",
-          "signal": "中国粗钢总量回落，贸易摩擦增加",
-          "profitShift": "",
-          "lag": "政策到实际减产存在季度滞后",
-          "evidence": "E1、E6",
-          "next": ""
+          "period": "2025 粗钢收缩",
+          "type": "已发生",
+          "signal": "中国与部分地区主动减产",
+          "profitShift": "吨钢利润开始企稳",
+          "lag": "减产到库存下降数周",
+          "evidence": "E3、E4",
+          "next": "库存与价格"
         },
         {
-          "period": "2026Q1 利润局部改善",
-          "signal": "ArcelorMittal吨钢EBITDA改善但发货仍低",
-          "profitShift": "",
-          "lag": "原料采购早于成材售价确认",
-          "evidence": "E2、E7",
-          "next": ""
+          "period": "2026Q1 利润分化",
+          "type": "已发生",
+          "signal": "政策保护和基建支撑部分市场",
+          "profitShift": "高附加值与本地供应",
+          "lag": "订单到利润一季",
+          "evidence": "E2、E5",
+          "next": "吨钢EBITDA"
+        },
+        {
+          "period": "2026H2 复产风险",
+          "type": "风险窗口",
+          "signal": "价格改善可能触发供给复产",
+          "profitShift": "利润可能重新被原料和供给竞争分走",
+          "lag": "高炉复产快于新需求",
+          "evidence": "E4、E6",
+          "next": "产量、库存、价差"
         }
       ],
       "currentStage": {
-        "phase": "需求低位企稳预期与供给实际收缩并存。",
+        "phase": "需求低位企稳预期与供给实际收缩并存",
         "entryAnchor": "2025 中国粗钢减产、2026 月度全球产量下降，以及 worldsteel 对需求温和增长的预测。[E1][E3][E4]",
         "expectedTransition": "实际粗钢与钢厂发货连续增长、价格和吨钢利润改善；反向为需求预测下调、库存累积和再度减产。",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "钢厂发货、价格和吨钢利润连续改善且库存不累积",
+        "downgradeCondition": "需求预测下修、库存上升并触发新一轮减产",
         "proveWrong": "若粗钢继续下降而钢价/利润同步走弱，说明需求比供给收缩更差；若产量上升且库存不增、利润上升，则低估了终端需求弹性。"
       },
       "watchIndicators": [
@@ -4274,7 +4800,14 @@
             "evidence": ""
           }
         ],
-        "currentJudgment": []
+        "currentJudgment": [
+          "钢铁处于需求低位企稳、粗钢供给收缩与地区政策分化并存阶段，吨钢利润修复尚未形成全球同步上行。"
+        ],
+        "conclusionStatus": "暂定。钢铁处在需求低位企稳、供给实际收缩与区域贸易保护重塑并行的阶段；全球供需尚未证实全面反转。",
+        "confidence": "中等。",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "钢厂发货、价格和吨钢利润连续改善且库存不累积",
+        "downgradeCondition": "需求预测下修、库存上升并触发新一轮减产"
       },
       "capitalFlows": {
         "attempts": [
@@ -4298,6 +4831,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "SLX",
+            "coverage": "全球钢铁生产商",
+            "metric": "2026-04-30发行商事实表覆盖全球钢铁指数",
+            "source": "https://www.vaneck.com/us/en/investments/steel-etf-slx",
+            "conclusion": "钢铁已有可交易行业篮子",
+            "limitation": "上市钢企权重不代表中国全部产能"
+          },
+          {
+            "tier": "公司",
+            "instrument": "ArcelorMittal",
+            "coverage": "综合钢厂",
+            "metric": "2026Q1吨钢EBITDA 131美元",
+            "source": "E2",
+            "conclusion": "部分钢企利润已改善",
+            "limitation": "资产和政策结构影响公司可比性"
+          }
+        ],
         "summary": [
           "已定价：中国地产调整、贸易摩擦和区域政策变化。",
           "未定价：实际终端订单、减产持续性、印度与基础设施增长兑现。"
@@ -4306,27 +4859,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "需求温和、产量受控",
-          "flow": "向成本低和区域保护厂集中",
-          "first": "高附加值/低成本钢厂",
-          "later": "高成本通用品",
-          "evidence": ""
+          "trigger": "需求温和增长且产量受控",
+          "flow": "向高附加值钢材和区域龙头移动",
+          "first": "订单稳定的板材钢厂",
+          "later": "原料与设备后受益",
+          "evidence": "发货、库存、吨钢利润"
         },
         {
           "scenario": "上行",
-          "trigger": "基建制造订单增加、库存下降",
-          "flow": "向钢厂和加工端扩散",
-          "first": "板材、长材与矿山",
-          "later": "扩产后受益",
-          "evidence": ""
+          "trigger": "基建与制造订单超预期",
+          "flow": "向产能利用率和定价权较强钢厂扩散",
+          "first": "高附加值钢材",
+          "later": "铁矿与焦煤后受益",
+          "evidence": "订单、价格、开工率"
         },
         {
           "scenario": "下行",
-          "trigger": "地产/贸易恶化、冲突延续",
-          "flow": "向终端买方回流",
-          "first": "现金流稳健企业",
-          "later": "高杠杆/高成本产能",
-          "evidence": ""
+          "trigger": "地产和制造需求转弱且复产增加",
+          "flow": "向低成本和现金流防御环节集中",
+          "first": "低成本钢厂",
+          "later": "高成本产能与原料受损",
+          "evidence": "库存、减产、利润"
         }
       ],
       "disagreements": [
@@ -4464,11 +5017,15 @@
           "limitation": "区域预测受贸易政策和地缘假设影响。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -4531,21 +5088,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -4554,8 +5096,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -4576,7 +5178,17 @@
       "dataCurrency": "截至2026-07-18；公司运营数据主要截至2026年3月或2026财年三季度",
       "supplyStatus": "",
       "stage": "供给扰动驱动的修复期，尚待需求验证",
-      "judgment": "焦煤处在“价格已对供给扰动重新定价、但终端钢需尚未全面扩散”的再平衡阶段。澳洲湿季和矿山执行问题把有效供给压低；中国钢需仍弱、印度钢需高增，使需求端呈现区域分化。接下来最关键的不是再问全球粗钢总量，而是验证：澳洲高品质货是否恢复、印度高炉投产是否按节奏吸收增量、以及中国高炉利润能否支持补库。",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "印度进口增量与澳洲优质煤供给缺口同时扩大",
+      "downgradeCondition": "澳洲产量和装船恢复而中国铁水、钢厂利润继续走弱",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
+      "judgment": "供给扰动驱动的修复期，尚待需求验证",
       "bottlenecks": [
         "当前矛盾是：全球钢需低增并不能抵消优质海运焦煤供给的短期刚性；"
       ],
@@ -4601,7 +5213,9 @@
         "2025年",
         "9%",
         "18%",
-        "2027年"
+        "16年",
+        "12.05%",
+        "14.10%"
       ],
       "chain": "flowchart LR\n  A[澳洲/加拿大/蒙古焦煤矿] --> B[洗煤与配煤]\n  B --> C[铁路与煤炭码头]\n  C --> D[海运贸易与PLV HCC定价]\n  D --> E[焦化厂]\n  E --> F[高炉炼铁]\n  F --> G[钢材]\n  G --> H[基建 汽车 机械 船舶]\n  H --> I[谁最终付款：政府、地产开发商、制造业企业与消费者]",
       "chainNodes": [
@@ -4798,35 +5412,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2025年12月季度",
-          "signal": "Whitehaven管理ROM产量11.0Mt，矿山库存可供销售",
-          "profitShift": "",
-          "lag": "原煤到港口销售跨越数周",
-          "evidence": "E7",
-          "next": ""
-        },
-        {
-          "period": "2026年3月季度",
-          "signal": "管理ROM降至9.5Mt、昆州ROM降至4.1Mt，PLV HCC环比上行",
-          "profitShift": "",
-          "lag": "湿季扰动先影响产量后影响合同价",
-          "evidence": "E6",
-          "next": ""
-        },
-        {
-          "period": "2026年下半年验证窗",
-          "signal": "澳洲复产速度与印度进口需共同确认",
-          "profitShift": "",
-          "lag": "矿山修复到钢厂补库约一至两月",
+          "period": "2025Q4 湿季前平衡",
+          "type": "已发生",
+          "signal": "优质焦煤供需接近平衡",
+          "profitShift": "矿山与贸易环节",
+          "lag": "海运到港约数周",
           "evidence": "E1、E2",
-          "next": ""
+          "next": "装船和库存"
+        },
+        {
+          "period": "2026Q1 澳洲扰动",
+          "type": "已发生",
+          "signal": "天气、地质和检修压低有效供给",
+          "profitShift": "优质焦煤矿山",
+          "lag": "矿山恢复需一至两月",
+          "evidence": "E1、E6",
+          "next": "BHP与Whitehaven产量"
+        },
+        {
+          "period": "2026Q2 价格修复",
+          "type": "已发生",
+          "signal": "钢铁煤均价环比上涨15%",
+          "profitShift": "高品质货和低成本矿山",
+          "lag": "价格领先钢厂补库",
+          "evidence": "E1",
+          "next": "升水与成交量"
+        },
+        {
+          "period": "2026H2 需求验证",
+          "type": "风险窗口",
+          "signal": "供给恢复与印度需求增量对冲",
+          "profitShift": "利润方向取决于钢厂利润",
+          "lag": "钢厂补库滞后于价格",
+          "evidence": "E2、E5",
+          "next": "印度进口、中国铁水"
         }
       ],
       "currentStage": {
-        "phase": "供给扰动驱动的修复期，尚待需求验证。 BHP三季度钢铁煤平均价226.76美元/吨，环比上涨15%；Whitehaven亦报告PLV HCC环比上涨18%，价格已经反映了一部分紧张。[E1][E6] 但worldsteel对全球钢需仅预测低个位数增长，中国仍下滑，不能把价格反弹直接外推为全面上行周期。[E2]",
+        "phase": "供给扰动驱动的修复期，尚待需求验证",
         "entryAnchor": "",
         "expectedTransition": "",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "印度进口增量与澳洲优质煤供给缺口同时扩大",
+        "downgradeCondition": "澳洲产量和装船恢复而中国铁水、钢厂利润继续走弱",
         "proveWrong": "若澳洲矿区产量和装船在两个月内明显修复、BHP库存重建未延后而中国铁水继续走弱，PLV HCC价格回落且优质煤升水收窄，则当前“修复期”应下调为一次短暂天气溢价。反之，若印度钢厂进口增量与澳洲供给缺口同步扩大，判断才有理由升级。"
       },
       "watchIndicators": [
@@ -4931,7 +5561,7 @@
         }
       ],
       "onePage": {
-        "industryIntro": "焦煤经洗选、配煤和炼焦后形成冶金焦，是高炉炼铁的还原剂与骨架材料；它的终端需求不是发电，而是生铁、粗钢和其后的汽车、基建、机械与船舶。海运市场的定价核心在澳洲优质硬焦煤，故昆士兰矿区天气、铁路港口与矿山地质变化，常比年度“名义产能”更快传导到现货可得量。[E3][E4] 结论状态：暂定",
+        "industryIntro": "焦煤经洗选、配煤和炼焦后形成冶金焦，是高炉炼铁的还原剂与骨架材料；它的终端需求不是发电，而是生铁、粗钢和其后的汽车、基建、机械与船舶。海运市场的定价核心在澳洲优质硬焦煤，故昆士兰矿区天气、铁路港口与矿山地质变化，常比年度“名义产能”更快传导到现货可得量。[E3][E4]",
         "keyNumbers": [
           {
             "number": "226.76美元/吨",
@@ -4957,7 +5587,12 @@
         ],
         "currentJudgment": [
           "焦煤处在“价格已对供给扰动重新定价、但终端钢需尚未全面扩散”的再平衡阶段。澳洲湿季和矿山执行问题把有效供给压低；中国钢需仍弱、印度钢需高增，使需求端呈现区域分化。接下来最关键的不是再问全球粗钢总量，而是验证：澳洲高品质货是否恢复、印度高炉投产是否按节奏吸收增量、以及中国高炉利润能否支持补库。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "印度进口增量与澳洲优质煤供给缺口同时扩大",
+        "downgradeCondition": "澳洲产量和装船恢复而中国铁水、钢厂利润继续走弱"
       },
       "capitalFlows": {
         "attempts": [
@@ -4981,6 +5616,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业邻近",
+            "instrument": "PICK",
+            "coverage": "多元矿业与钢铁原料",
+            "metric": "2026-07-16年内总回报12.05%，BHP权重14.10%",
+            "source": "https://www.ishares.com/us/products/239655/ishares-msci-global-metals-mining-producers-etf",
+            "conclusion": "矿业篮子已有正回报",
+            "limitation": "包含铜、铁矿和铝，非纯焦煤"
+          },
+          {
+            "tier": "公司",
+            "instrument": "BHP钢铁煤",
+            "coverage": "海运焦煤矿山",
+            "metric": "FY2026三季度均价226.76美元/吨、环比上涨15%",
+            "source": "E1",
+            "conclusion": "供给扰动已进入经营价格",
+            "limitation": "公司股价还受铁矿和铜业务影响"
+          }
+        ],
         "summary": [
           "| 来源类型 | 代表对象 | 已定价 | 未定价 | 研究结果 |",
           "| 权益市场 | 矿商股票、钢企股票 | 宏观、煤价、公司治理共同影响 | 纯焦煤暴露的拆分 | 缺口：本轮未建立可比的估值与资金流时间序列。 |",
@@ -4990,33 +5645,33 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "澳洲供给逐季修复，印度增量对冲部分中国回落",
-          "flow": "低成本矿山、物流恢复主体",
-          "first": "",
-          "later": "",
-          "evidence": "BHP指引、昆州ROM与装船"
+          "trigger": "澳洲供给逐步修复、印度需求增长",
+          "flow": "由现货贸易回到低成本矿山",
+          "first": "优质焦煤矿山",
+          "later": "港口与钢厂库存后调整",
+          "evidence": "装船、价格、印度进口"
         },
         {
           "scenario": "上行",
-          "trigger": "天气/地质延长、印度进口强于预期、钢厂补库",
-          "flow": "优质硬焦煤资产、现货贸易链",
-          "first": "",
-          "later": "",
-          "evidence": "PLV HCC、优质煤升水、印度进口"
+          "trigger": "扰动延长且钢厂利润支持补库",
+          "flow": "向高品质资源和现货渠道集中",
+          "first": "高品质矿山",
+          "later": "铁路港口后受益",
+          "evidence": "升水、库存、铁水"
         },
         {
           "scenario": "下行",
-          "trigger": "澳洲快速恢复且中国铁水和钢价同步走弱",
-          "flow": "现金成本低、合同占比高的主体相对防御",
-          "first": "",
-          "later": "",
-          "evidence": "钢厂利润、库存、港口装船"
+          "trigger": "供给恢复快于钢需",
+          "flow": "向低成本与长协资源集中",
+          "first": "低成本矿山",
+          "later": "高成本矿与贸易库存受损",
+          "evidence": "发运、库存、钢厂利润"
         }
       ],
       "disagreements": [
         {
           "narrative": "“印度钢铁扩张与澳洲优质焦煤长期稀缺，会使焦煤进入长期牛市。”",
-          "judgment": "焦煤处在“价格已对供给扰动重新定价、但终端钢需尚未全面扩散”的再平衡阶段。澳洲湿季和矿山执行问题把有效供给压低；中国钢需仍弱、印度钢需高增，使需求端呈现区域分化。接下来最关键的不是再问全球粗钢总量，而是验证：澳洲高品质货是否恢复、印度高炉投产是否按节奏吸收增量、以及中国高炉利润能否支持补库。",
+          "judgment": "供给扰动驱动的修复期，尚待需求验证",
           "difference": "1. 印度钢需增长不等于同等比例的海运硬焦煤增长，原料多元化、废钢和工艺选择会改变弹性。",
           "strongerEvidence": "",
           "evidence": "E6、E2、E3"
@@ -5141,11 +5796,15 @@
           "limitation": "综合资源集团未为本报告提供统一焦煤现货序列。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -5208,21 +5867,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -5231,8 +5875,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -5253,7 +5957,17 @@
       "dataCurrency": "截至2026-07-18；矿商运营数据主要截至2026年一季度或FY26年末",
       "supplyStatus": "",
       "stage": "供给释放期中的需求验证窗口",
-      "judgment": "铁矿石处在“主流矿山供给增长先行、钢需仍弱复苏”的平衡偏宽松阶段。Rio、Vale与BHP都披露了强劲或创纪录的运营表现，而全球钢需预测只温和增长；品位结构、天气和中国铁水库存会造成阶段性反弹，但若没有钢厂利润和补库确认，价格上涨更像结构性溢价而非全面缺矿。",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "澳洲巴西发运持续低于计划且中国铁水和补库同步回升",
+      "downgradeCondition": "主流矿山增量按计划释放而钢产量、钢厂利润继续走弱",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
+      "judgment": "供给释放期中的需求验证窗口",
       "bottlenecks": [
         "剥采、品位、设备、许可和雨季决定产量，球团与高品位矿还受加工收率限制，资源量不等于可销售吨数。",
         "气旋、铁路检修和港口库存会使矿山产量与销量错位，发运回补还可能把供给集中到后续季度。",
@@ -5479,35 +6193,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2025 供给增长准备",
-          "signal": "主流矿商维持扩产和效率项目，钢需增长有限",
-          "profitShift": "",
-          "lag": "项目投产到稳定发运跨越季度",
+          "period": "2025H2 增产准备",
+          "type": "已发生",
+          "signal": "主流矿山新项目进入爬坡",
+          "profitShift": "低成本矿山",
+          "lag": "项目到发运数月",
           "evidence": "E1、E2",
-          "next": ""
+          "next": "产量与品位"
         },
         {
           "period": "2026Q1 雨季扰动",
-          "signal": "澳洲发运和成本受季节影响，港口库存吸收波动",
-          "profitShift": "",
-          "lag": "矿山产量到中国到港约数周",
-          "evidence": "E3、E7",
-          "next": ""
+          "type": "已发生",
+          "signal": "天气造成短期发运波动",
+          "profitShift": "港口库存和高品位矿",
+          "lag": "海运约数周",
+          "evidence": "E1、E3",
+          "next": "澳洲巴西发运"
         },
         {
-          "period": "2026下半年 宽松验证",
-          "signal": "发运回补是否快于铁水和终端钢需",
-          "profitShift": "",
-          "lag": "到港、库存再到采购价存在月度滞后",
-          "evidence": "E4、E8",
-          "next": ""
+          "period": "2026Q2 供给恢复",
+          "type": "已发生",
+          "signal": "Rio与Vale产量维持增长",
+          "profitShift": "利润偏向低成本矿山",
+          "lag": "发运到钢厂库存一月左右",
+          "evidence": "E1、E2",
+          "next": "到港与库存"
+        },
+        {
+          "period": "2026H2 宽松检验",
+          "type": "预测",
+          "signal": "供给增量与低速钢需正面相遇",
+          "profitShift": "钢厂议价能力可能增强",
+          "lag": "钢厂补库可短期延后压力",
+          "evidence": "E4、E5",
+          "next": "铁水、库存、品位升水"
         }
       ],
       "currentStage": {
-        "phase": "供给释放期中的需求验证窗口。 Vale实现更高产量和销量，Rio与BHP运营保持强劲，显示主流供给不是紧缺；同时worldsteel的全球钢需预测只是微增。[E1][E2][E3][E5]",
+        "phase": "供给释放期中的需求验证窗口",
         "entryAnchor": "",
         "expectedTransition": "",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "澳洲巴西发运持续低于计划且中国铁水和补库同步回升",
+        "downgradeCondition": "主流矿山增量按计划释放而钢产量、钢厂利润继续走弱",
         "proveWrong": "若气旋、设备或许可问题使澳洲和巴西发运连续低于计划，而中国铁水与钢厂补库同步回升，高品位升水扩大，则“平衡偏宽松”需要上调为供给约束期。反之，若Rio与Vale增量按计划释放、全球钢产量继续走弱，当前阶段将转为更明确的宽松期。"
       },
       "watchIndicators": [
@@ -5612,7 +6342,7 @@
         }
       ],
       "onePage": {
-        "industryIntro": "铁矿石经破碎、筛分、选矿或球团化后，供高炉炼铁与直接还原铁使用。海运铁矿石的边际定价由澳洲与巴西出口、到港库存和中国钢厂铁水需求共同决定；矿石吨数相近时，品位、杂质和球团/块矿溢价会显著改变钢厂的实际采购成本。 结论状态：暂定",
+        "industryIntro": "铁矿石经破碎、筛分、选矿或球团化后，供高炉炼铁与直接还原铁使用。海运铁矿石的边际定价由澳洲与巴西出口、到港库存和中国钢厂铁水需求共同决定；矿石吨数相近时，品位、杂质和球团/块矿溢价会显著改变钢厂的实际采购成本。",
         "keyNumbers": [
           {
             "number": "82.8Mt",
@@ -5638,7 +6368,12 @@
         ],
         "currentJudgment": [
           "铁矿石处在“主流矿山供给增长先行、钢需仍弱复苏”的平衡偏宽松阶段。Rio、Vale与BHP都披露了强劲或创纪录的运营表现，而全球钢需预测只温和增长；品位结构、天气和中国铁水库存会造成阶段性反弹，但若没有钢厂利润和补库确认，价格上涨更像结构性溢价而非全面缺矿。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "澳洲巴西发运持续低于计划且中国铁水和补库同步回升",
+        "downgradeCondition": "主流矿山增量按计划释放而钢产量、钢厂利润继续走弱"
       },
       "capitalFlows": {
         "attempts": [
@@ -5662,6 +6397,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业邻近",
+            "instrument": "PICK",
+            "coverage": "全球多元金属矿山",
+            "metric": "2026-07-16年内总回报12.05%，Rio权重6.50%",
+            "source": "https://www.ishares.com/us/products/239655/ishares-msci-global-metals-mining-producers-etf",
+            "conclusion": "矿业资产已被市场重新定价",
+            "limitation": "并非纯铁矿石且混入铜铝"
+          },
+          {
+            "tier": "公司",
+            "instrument": "Rio Tinto铁矿",
+            "coverage": "澳洲矿山",
+            "metric": "2026Q1铁矿石产量82.8Mt、同比增长12%",
+            "source": "E1",
+            "conclusion": "供给增长已进入实际产量",
+            "limitation": "公司估值还受铜铝业务影响"
+          }
+        ],
         "summary": [
           "| 来源类型 | 对象 | 已定价 | 未定价 | 研究结果 |",
           "| 商品市场 | 62%Fe及品位溢价 | 近期现货与到港变化 | 完整公开连续曲线 | 缺口：本轮未建立独立日度价格序列。 |",
@@ -5672,33 +6427,33 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "主流增量释放、钢需温和复苏",
-          "flow": "低成本大矿与稳定物流",
-          "first": "",
-          "later": "",
-          "evidence": "Rio/Vale/BHP产量、铁水"
+          "trigger": "主流矿山增产、钢需低速修复",
+          "flow": "向低成本矿山和高品位产品移动",
+          "first": "低成本矿山",
+          "later": "港口贸易后调整",
+          "evidence": "发运、铁水、库存"
         },
         {
           "scenario": "上行",
-          "trigger": "发运扰动延长且中国补库",
-          "flow": "高品位矿、球团、港口库存低的贸易链",
-          "first": "",
-          "later": "",
-          "evidence": "发运、品位溢价、钢厂利润"
+          "trigger": "天气扰动叠加钢厂补库",
+          "flow": "向现货和高品位升水集中",
+          "first": "高品位资源",
+          "later": "港口物流后受益",
+          "evidence": "发运、升水、钢厂利润"
         },
         {
           "scenario": "下行",
-          "trigger": "澳洲巴西顺利增产且中国钢需走弱",
-          "flow": "成本低、资产负债表强的矿商相对防御",
-          "first": "",
-          "later": "",
-          "evidence": "全球粗钢、港口库存、钢价"
+          "trigger": "供给增量兑现而钢需转弱",
+          "flow": "向钢厂和低成本资源倾斜",
+          "first": "钢厂采购端",
+          "later": "高成本矿和贸易库存受损",
+          "evidence": "库存、价格、减产"
         }
       ],
       "disagreements": [
         {
           "narrative": "“中国需求触底、印度增长和高品位矿稀缺将推动铁矿石持续走强。”",
-          "judgment": "铁矿石处在“主流矿山供给增长先行、钢需仍弱复苏”的平衡偏宽松阶段。Rio、Vale与BHP都披露了强劲或创纪录的运营表现，而全球钢需预测只温和增长；品位结构、天气和中国铁水库存会造成阶段性反弹，但若没有钢厂利润和补库确认，价格上涨更像结构性溢价而非全面缺矿。",
+          "judgment": "供给释放期中的需求验证窗口",
           "difference": "1. worldsteel仍预测中国2026年钢需下降1.5%，其体量足以压过部分新兴市场增量。[E5]",
           "strongerEvidence": "",
           "evidence": "E5、E1、E2、E3"
@@ -5813,11 +6568,15 @@
           "limitation": "钢材中期预测不能替代当月铁水和矿石采购。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -5880,21 +6639,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -5903,8 +6647,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -5924,8 +6728,18 @@
       "geography": "全球工业机器人、专业服务机器人与具身智能相关产业链，重点观察中国、日本、欧美",
       "dataCurrency": "截至2026-07-18；行业部署数据主要截至2024年，公司数据主要截至2026年一季度或FY2025",
       "supplyStatus": "",
-      "stage": "工业自动化为主线的温和扩张期，具身智能处于验证期",
-      "judgment": "机器人行业的实际需求仍由制造业资本开支与系统集成节奏决定；具身智能带来新的技术叙事和研发投入，但尚未能替代订单、交付和售后收入。工业机器人处在区域分化的成熟扩张期，中国需求与本土份额增强，欧美部分市场偏弱；人形/Physical AI处在技术验证与早期商业化之间。",
+      "stage": "工业自动化温和扩张，具身智能仍在验证",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "人形机器人出现可复核量产合同、交付和复购",
+      "downgradeCondition": "汽车电子物流订单、积压和安装量连续下滑",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
+      "judgment": "工业自动化温和扩张，具身智能仍在验证",
       "bottlenecks": [
         "工厂CAPEX：偏紧/偏强：汽车/电子扩产、自动化订单上升"
       ],
@@ -6148,35 +6962,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024 工业自动化去库存",
-          "signal": "客户推迟项目、集成订单弱于展示热度",
-          "profitShift": "",
-          "lag": "资本预算到订单约一至两季",
-          "evidence": "E1、E3",
-          "next": ""
+          "period": "2024 欧美去库存",
+          "type": "已发生",
+          "signal": "欧美安装下降而中国维持规模",
+          "profitShift": "中国本体与集成商",
+          "lag": "订单到安装数月",
+          "evidence": "E1、E2",
+          "next": "区域安装量"
         },
         {
-          "period": "2025 应用试点扩散",
-          "signal": "汽车、电子与物流继续验证协作和移动机器人",
-          "profitShift": "",
-          "lag": "试点到批量验收常跨年度",
-          "evidence": "E2、E5",
-          "next": ""
+          "period": "2025 工业订单修复",
+          "type": "已发生",
+          "signal": "ABB订单与积压改善",
+          "profitShift": "伺服、控制与集成",
+          "lag": "积压到收入一至两季",
+          "evidence": "E3、E4",
+          "next": "订单和毛利"
         },
         {
-          "period": "2026Q2 订单验证",
-          "signal": "Rockwell自动化销售与利润改善提供制造投资样本",
-          "profitShift": "",
-          "lag": "收入通常滞后订单和项目进度",
-          "evidence": "E7、E8",
-          "next": ""
+          "period": "2026Q2 Physical AI验证",
+          "type": "已发生",
+          "signal": "仿真和具身技术发布增加",
+          "profitShift": "软件、视觉与高性能部件",
+          "lag": "技术发布到付费合同不确定",
+          "evidence": "E5、E6",
+          "next": "量产合同和复购"
+        },
+        {
+          "period": "2027 商业化门槛",
+          "type": "预测",
+          "signal": "非结构化场景需要验证单位经济性",
+          "profitShift": "利润可能集中在集成和服务",
+          "lag": "售后数据晚于首次交付",
+          "evidence": "E5、E7",
+          "next": "交付、故障率、回款"
         }
       ],
       "currentStage": {
-        "phase": "工业自动化为主线的温和扩张期，具身智能处于验证期。 全球工业安装量维持高位、ABB订单与积压改善支持这一判断；但欧洲和美洲2024年安装量下降，说明不是全球同步繁荣。[E1][E3]",
+        "phase": "工业自动化温和扩张，具身智能仍在验证",
         "entryAnchor": "",
         "expectedTransition": "",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "人形机器人出现可复核量产合同、交付和复购",
+        "downgradeCondition": "汽车电子物流订单、积压和安装量连续下滑",
         "proveWrong": "若汽车、电子和物流客户的订单、积压与交付连续下滑，且本体降价无法带动安装量，工业自动化应下调为去库存期；若人形/Physical AI出现可复核的大额量产合同、稳定交付与复购，则“验证期”应升级。"
       },
       "watchIndicators": [
@@ -6281,7 +7111,7 @@
         }
       ],
       "onePage": {
-        "industryIntro": "机器人用执行器、减速器、伺服、控制器、传感器与软件，把感知和决策转为物理动作。工业机器人主要由制造企业为降低人工、提高一致性和扩大产能而购买；服务与人形机器人仍更多由物流、医疗、商业和试点项目驱动。最终付款方是工厂、医院、仓储运营商和服务业企业，而非“AI”本身。 结论状态：暂定",
+        "industryIntro": "机器人用执行器、减速器、伺服、控制器、传感器与软件，把感知和决策转为物理动作。工业机器人主要由制造企业为降低人工、提高一致性和扩大产能而购买；服务与人形机器人仍更多由物流、医疗、商业和试点项目驱动。最终付款方是工厂、医院、仓储运营商和服务业企业，而非“AI”本身。",
         "keyNumbers": [
           {
             "number": "542,000台",
@@ -6307,7 +7137,12 @@
         ],
         "currentJudgment": [
           "机器人行业的实际需求仍由制造业资本开支与系统集成节奏决定；具身智能带来新的技术叙事和研发投入，但尚未能替代订单、交付和售后收入。工业机器人处在区域分化的成熟扩张期，中国需求与本土份额增强，欧美部分市场偏弱；人形/Physical AI处在技术验证与早期商业化之间。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "人形机器人出现可复核量产合同、交付和复购",
+        "downgradeCondition": "汽车电子物流订单、积压和安装量连续下滑"
       },
       "capitalFlows": {
         "attempts": [
@@ -6331,6 +7166,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "BOTZ",
+            "coverage": "工业机器人、自动化与AI",
+            "metric": "2026-03-31一年NAV回报15.46%，2026-06-22市盈率30.91倍",
+            "source": "https://www.globalxetfs.com/funds/botz",
+            "conclusion": "机器人叙事已有估值与收益验证",
+            "limitation": "包含非工业AI和自动驾驶"
+          },
+          {
+            "tier": "公司篮子",
+            "instrument": "BOTZ工业权重",
+            "coverage": "工业自动化",
+            "metric": "2026-05-31工业板块权重45.4%",
+            "source": "https://www.globalxetfs.com/funds/botz",
+            "conclusion": "基金主要但并非全部暴露工业机器人",
+            "limitation": "不能代表未上市人形机器人公司"
+          }
+        ],
         "summary": [
           "| 来源类型 | 对象 | 已定价 | 未定价 | 研究结果 |",
           "已定价的是中国本土化、工业自动化订单改善和AI仿真工具的推出。未定价的是人形机器人何时形成持续收入、制造业客户能否在宏观波动下继续资本开支、以及本体价格竞争对利润的最终影响。"
@@ -6339,33 +7194,33 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "工业CAPEX温和增长、本体降价提升渗透",
-          "flow": "伺服控制、集成、维保",
-          "first": "",
-          "later": "",
+          "trigger": "制造CAPEX温和增长且本体降价",
+          "flow": "向伺服控制、集成和维保移动",
+          "first": "伺服与系统集成",
+          "later": "存量服务后受益",
           "evidence": "订单、积压、安装量"
         },
         {
           "scenario": "上行",
-          "trigger": "电子/汽车扩产、非结构化场景付费落地",
-          "flow": "高性能部件、机器视觉、仿真软件",
-          "first": "",
-          "later": "",
+          "trigger": "电子汽车扩产且非结构化场景付费落地",
+          "flow": "向视觉、仿真和高性能部件集中",
+          "first": "视觉与控制器",
+          "later": "本体和服务后受益",
           "evidence": "量产合同、交付、复购"
         },
         {
           "scenario": "下行",
-          "trigger": "客户延后CAPEX、价格战压缩利润",
-          "flow": "现金流强和存量服务占比高的主体",
-          "first": "",
-          "later": "",
+          "trigger": "客户延后CAPEX且价格战加剧",
+          "flow": "向现金流强和服务占比高主体移动",
+          "first": "维保与软件",
+          "later": "低毛利本体受损",
           "evidence": "应收、库存、毛利"
         }
       ],
       "disagreements": [
         {
           "narrative": "“人形机器人和Physical AI会迅速把机器人行业带入爆发期。”",
-          "judgment": "机器人行业的实际需求仍由制造业资本开支与系统集成节奏决定；具身智能带来新的技术叙事和研发投入，但尚未能替代订单、交付和售后收入。工业机器人处在区域分化的成熟扩张期，中国需求与本土份额增强，欧美部分市场偏弱；人形/Physical AI处在技术验证与早期商业化之间。",
+          "judgment": "工业自动化温和扩张，具身智能仍在验证",
           "difference": "1. 大多数工业机器人需求仍来自汽车、电子与传统制造，区域装机已有明显分化。[E1]",
           "strongerEvidence": "",
           "evidence": "E1、E5、E6、E2"
@@ -6480,11 +7335,15 @@
           "limitation": "平台能力和案例不等于量产订单。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -6547,21 +7406,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -6570,8 +7414,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -6592,7 +7496,17 @@
       "dataCurrency": "截至2026-07-18；经营实际主要截至2026年一季度，电力需求为IEA截至2026年4月的情景预测",
       "supplyStatus": "",
       "stage": "建设扩张期，局部受制于电力与设备",
-      "judgment": "数据中心处在需求快速扩张、有效供给受电力和并网约束限制的建设期。云厂商的CAPEX、云收入和托管预订量提供需求证据；但“宣布MW”不等于可交付容量，变压器、燃机、并网、土地许可和冷却设施才是短期瓶颈。结论暂定，因为区域供需差异极大，且电力数据多为情景而非逐项目实际。",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "客户排队、预订和云收入继续增长且电网延误扩大",
+      "downgradeCondition": "云收入与预订同步走弱、并网加速且空置容量上升",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
+      "judgment": "建设扩张期，局部受制于电力与设备",
       "bottlenecks": [
         "云收入与积压：偏紧/偏强：云增长、预订和积压同升"
       ],
@@ -6617,7 +7531,8 @@
         "12%",
         "2030年",
         "2024年",
-        "2035年"
+        "64.76%",
+        "23.39倍"
       ],
       "chain": "flowchart LR\n A[土地 许可 并网] --> D[数据中心开发与建设]\n B[变压器 开关柜 燃机 储能] --> D\n C[服务器 GPU 网络 制冷] --> D\n D --> E[云厂商和托管运营商]\n E --> F[企业云 AI 互联网客户]\n F --> G[数字服务和业务产出]\n G --> H[谁最终付款：企业IT预算、云客户与AI应用用户]",
       "chainNodes": [
@@ -6814,35 +7729,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024 AI容量提前预订",
-          "signal": "云商提高基础设施预算、客户锁定高密度容量",
-          "profitShift": "",
-          "lag": "签约到上电常跨越多个季度",
+          "period": "2024H2 容量预订",
+          "type": "已发生",
+          "signal": "AI客户提前锁定机房和电力",
+          "profitShift": "已上电托管容量",
+          "lag": "预订领先投运数季",
           "evidence": "E1、E4",
-          "next": ""
+          "next": "预订转收入"
         },
         {
-          "period": "2025 建设与并网竞速",
-          "signal": "在建项目增加，变压器和电力审批成为关键路径",
-          "profitShift": "",
-          "lag": "土建完成不等于服务器可运行",
-          "evidence": "E3、E6",
-          "next": ""
+          "period": "2025 建设提速",
+          "type": "已发生",
+          "signal": "云资本开支和项目开工上升",
+          "profitShift": "工程、电力设备与机房",
+          "lag": "建设到投运一年以上",
+          "evidence": "E5、E6",
+          "next": "项目并网"
         },
         {
-          "period": "2026Q1 回报验证",
-          "signal": "Meta实际CAPEX与云收入检验投运和需求转化",
-          "profitShift": "",
-          "lag": "折旧先发生，利用率和收入后兑现",
-          "evidence": "E2、E7",
-          "next": ""
+          "period": "2026Q1 用电兑现",
+          "type": "已发生",
+          "signal": "数据中心实际用电增速17%",
+          "profitShift": "电力与已运营资产",
+          "lag": "用电晚于设备到货",
+          "evidence": "E1",
+          "next": "利用率和云收入"
+        },
+        {
+          "period": "2026H2 回报检验",
+          "type": "风险窗口",
+          "signal": "新增容量进入利用率和租金验证",
+          "profitShift": "利润可能向高利用率资产集中",
+          "lag": "客户收入晚于CapEx",
+          "evidence": "E4、E5",
+          "next": "空置率、预订、云利润"
         }
       ],
       "currentStage": {
-        "phase": "建设扩张期，局部受制于电力与设备。 用电增长、云收入、预订和CAPEX指向强需求；瓶颈使有效供给不能以地产开工速度释放。[E1][E4][E5][E6]",
+        "phase": "建设扩张期，局部受制于电力与设备",
         "entryAnchor": "",
         "expectedTransition": "",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "客户排队、预订和云收入继续增长且电网延误扩大",
+        "downgradeCondition": "云收入与预订同步走弱、并网加速且空置容量上升",
         "proveWrong": "若云收入、Equinix预订与积压同步走弱，且已获批项目的并网和设备交付明显加速、空置容量上升，则该行业应从建设扩张期转为供给消化期。相反，若电网延误扩大而客户排队和预订继续增长，约束会更集中于已上电资产。"
       },
       "watchIndicators": [
@@ -6921,7 +7852,7 @@
         }
       ],
       "onePage": {
-        "industryIntro": "数据中心把土地、建筑、电力、制冷、网络和服务器组织成可连续运行的计算能力。超大规模云厂商用它提供云与AI服务；托管运营商把机柜、电力和互联卖给企业与云客户。真正支付预算的是云服务客户、企业IT部门和AI产品的最终使用者，电力接入与设备交付决定这些预算能否转化为上线容量。 结论状态：暂定",
+        "industryIntro": "数据中心把土地、建筑、电力、制冷、网络和服务器组织成可连续运行的计算能力。超大规模云厂商用它提供云与AI服务；托管运营商把机柜、电力和互联卖给企业与云客户。真正支付预算的是云服务客户、企业IT部门和AI产品的最终使用者，电力接入与设备交付决定这些预算能否转化为上线容量。",
         "keyNumbers": [
           {
             "number": "17%",
@@ -6947,7 +7878,12 @@
         ],
         "currentJudgment": [
           "数据中心处在需求快速扩张、有效供给受电力和并网约束限制的建设期。云厂商的CAPEX、云收入和托管预订量提供需求证据；但“宣布MW”不等于可交付容量，变压器、燃机、并网、土地许可和冷却设施才是短期瓶颈。结论暂定，因为区域供需差异极大，且电力数据多为情景而非逐项目实际。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "客户排队、预订和云收入继续增长且电网延误扩大",
+        "downgradeCondition": "云收入与预订同步走弱、并网加速且空置容量上升"
       },
       "capitalFlows": {
         "attempts": [
@@ -6977,6 +7913,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "DTCR",
+            "coverage": "数据中心REIT和数字基础设施",
+            "metric": "2026-06-30一年NAV回报64.76%、市盈率23.39倍",
+            "source": "https://www.globalxetfs.com/funds/dtcr",
+            "conclusion": "数据中心资产已被显著交易",
+            "limitation": "含通信塔和部分芯片公司"
+          },
+          {
+            "tier": "子链",
+            "instrument": "DTCR持仓",
+            "coverage": "托管数据中心",
+            "metric": "2026-07-14 Equinix权重12.99%、Digital Realty权重11.02%",
+            "source": "https://www.globalxetfs.com/funds/dtcr",
+            "conclusion": "可直接观察已运营机房资产",
+            "limitation": "不覆盖自建云数据中心和电网"
+          }
+        ],
         "summary": [
           "| 行业估值分位 | 公开指数估值页面 | 口径和历史序列未在本轮取得，记录为缺口。 |",
           "*推断—已定价：市场大概率已对AI数据中心高CAPEX与电力瓶颈形成广泛叙事，依据是超大规模厂商显著上调投入和IEA的专题更新。",
@@ -6986,27 +7942,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "云需求强、并网逐步改善",
-          "flow": "向已上电托管和高利用率云资源移动",
-          "first": "托管运营、配电和制冷",
-          "later": "后续才是一般建设",
-          "evidence": ""
+          "trigger": "云需求增长且并网仍慢",
+          "flow": "向已上电容量、电力设备和运维移动",
+          "first": "已运营机房",
+          "later": "工程和设备后受益",
+          "evidence": "预订、并网、利用率"
         },
         {
           "scenario": "上行",
-          "trigger": "AI任务增长快于效率、并网继续紧",
-          "flow": "向电力接入、备用电源和已通电容量集中",
-          "first": "变压器/电网配套、优质机房",
-          "later": "新开工项目因交期受限",
-          "evidence": ""
+          "trigger": "AI利用率超预期且电力排队扩大",
+          "flow": "向稀缺电力和高密度机房集中",
+          "first": "电力接入与托管容量",
+          "later": "液冷和网络后受益",
+          "evidence": "租金、排队、云收入"
         },
         {
           "scenario": "下行",
-          "trigger": "效率提升快、客户延后CAPEX",
-          "flow": "向低成本运营和存量服务集中",
-          "first": "利用率高、负债稳健的运营节点",
-          "later": "新开发和高杠杆建设承压",
-          "evidence": ""
+          "trigger": "云收入放缓且新增容量集中投运",
+          "flow": "向现金流稳定的存量资产移动",
+          "first": "高利用率存量机房",
+          "later": "未上电项目与高杠杆开发商受损",
+          "evidence": "空置率、取消率、利息成本"
         }
       ],
       "disagreements": [
@@ -7132,11 +8088,15 @@
           "limitation": "工程参考设计不是已签订单或运营容量。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -7199,21 +8159,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -7222,8 +8167,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -7244,7 +8249,17 @@
       "dataCurrency": "截至2026-07-18；行业实际主要为2025年，2026—2030为IEA预测；公司经营主要截至2026年一、二季度",
       "supplyStatus": "",
       "stage": "需求兑现下的长周期扩容期",
-      "judgment": "需求兑现下的长周期扩容期。",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "接入队列、设备交期和电网订单继续上升且投资核准加快",
+      "downgradeCondition": "设备订单和积压连续转弱，接入队列因取消显著下降",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
+      "judgment": "需求兑现下的长周期扩容期",
       "bottlenecks": [
         "接入队列：偏紧/偏强：排队扩大、许可拖延"
       ],
@@ -7467,35 +8482,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024 队列和设备约束显性化",
-          "signal": "接入申请、变压器交期与极端负荷风险上升",
-          "profitShift": "",
-          "lag": "规划到核准通常跨越年度",
-          "evidence": "E1、E4",
-          "next": ""
+          "period": "2024 接入约束显性化",
+          "type": "已发生",
+          "signal": "全球接入队列超过2500GW",
+          "profitShift": "变压器、电缆与工程",
+          "lag": "排队到投运多年",
+          "evidence": "E1",
+          "next": "队列取消率"
         },
         {
           "period": "2025 投资计划上调",
-          "signal": "公用事业提高输配电资本开支，订单积压增长",
-          "profitShift": "",
-          "lag": "订单到现场安装跨越数季",
-          "evidence": "E2、E5",
-          "next": ""
+          "type": "已发生",
+          "signal": "电网资本开支目标提高",
+          "profitShift": "设备与EPC",
+          "lag": "核准到订单数季",
+          "evidence": "E2、E3",
+          "next": "招标和订单"
         },
         {
-          "period": "2026—2028 扩产兑现窗",
-          "signal": "Hitachi等新增变压器工厂需完成设备、认证和交付",
-          "profitShift": "",
-          "lag": "厂房公告领先有效产出一至两年",
-          "evidence": "E7、E8",
-          "next": ""
+          "period": "2026Q2 订单兑现",
+          "type": "已发生",
+          "signal": "Siemens Energy电网订单达到6996百万欧元",
+          "profitShift": "高压设备与服务",
+          "lag": "积压到收入一年以上",
+          "evidence": "E4",
+          "next": "交付与毛利"
+        },
+        {
+          "period": "2026-2028 扩产交付",
+          "type": "计划",
+          "signal": "设备厂扩产和电网工程陆续投运",
+          "profitShift": "利润向能按期交付者集中",
+          "lag": "认证和施工周期长",
+          "evidence": "E3、E5",
+          "next": "产能、交期、投运"
         }
       ],
       "currentStage": {
-        "phase": "需求兑现下的长周期扩容期。 订单、接入排队和投资预测一致显示供给偏紧，但实际工程周期极长，结论保持暂定。[E1][E3][E4]",
+        "phase": "需求兑现下的长周期扩容期",
         "entryAnchor": "",
         "expectedTransition": "",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "接入队列、设备交期和电网订单继续上升且投资核准加快",
+        "downgradeCondition": "设备订单和积压连续转弱，接入队列因取消显著下降",
         "proveWrong": "若设备订单、积压与监管核准连续转弱，同时接入队列因取消和技术升级显著下降，则应下调为CAPEX消化期；若负荷增长和设备交期继续上行，已投运网络和关键设备的约束将加强。"
       },
       "watchIndicators": [
@@ -7574,7 +8605,7 @@
         }
       ],
       "onePage": {
-        "industryIntro": "电网把发电端的电送至工业、居民、数据中心和交通负荷。它卖的是可靠接入、输配容量和调度能力；最终付款来自电价、输配费、政府投资和大型用电客户的接入预算。电网建设周期通常远长于风光、数据中心或充电桩建设，因此成为“电气化”扩张的物理瓶颈。 结论状态：暂定",
+        "industryIntro": "电网把发电端的电送至工业、居民、数据中心和交通负荷。它卖的是可靠接入、输配容量和调度能力；最终付款来自电价、输配费、政府投资和大型用电客户的接入预算。电网建设周期通常远长于风光、数据中心或充电桩建设，因此成为“电气化”扩张的物理瓶颈。",
         "keyNumbers": [
           {
             "number": "2,500GW以上",
@@ -7598,7 +8629,14 @@
             "evidence": ""
           }
         ],
-        "currentJudgment": []
+        "currentJudgment": [
+          "电力电网处于负荷和接入需求兑现的长周期扩容期，但设备交付、监管核准和工程建设决定投资何时转成可用网络。"
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "接入队列、设备交期和电网订单继续上升且投资核准加快",
+        "downgradeCondition": "设备订单和积压连续转弱，接入队列因取消显著下降"
       },
       "capitalFlows": {
         "attempts": [
@@ -7622,6 +8660,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "GRID",
+            "coverage": "智能电网设备、工程和公用事业",
+            "metric": "2026-06-30年内NAV回报25.42%、一年回报39.00%",
+            "source": "https://www.ftportfolios.com/Retail/Etf/EtfSummary.aspx?Ticker=GRID",
+            "conclusion": "电网扩容已形成清晰市场主题",
+            "limitation": "含工业自动化与公用事业"
+          },
+          {
+            "tier": "子链",
+            "instrument": "GRID持仓",
+            "coverage": "电气设备与工程",
+            "metric": "2026-07-15 Eaton 8.65%、Schneider 8.25%、ABB 8.10%",
+            "source": "https://www.ftportfolios.com/Retail/Etf/EtfSummary.aspx?Ticker=GRID",
+            "conclusion": "利润预期集中在关键设备龙头",
+            "limitation": "权重不是订单份额"
+          }
+        ],
         "summary": [
           "*已定价（推断）：市场大概率已关注电网设备订单高增与数据中心负荷，依据是公司订单披露和IEA专题。",
           "*未定价（推断）：许可、融资和工程执行能否将长期投资转成准时投运仍不确定；这不是估值或资金流的测量结论。"
@@ -7630,33 +8688,33 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "电网CAPEX持续、工程按计划推进",
-          "flow": "向认证设备和运维移动",
-          "first": "变压器、开关设备",
-          "later": "工程收入滞后",
-          "evidence": "订单、核准、投运"
+          "trigger": "核准和订单按计划推进",
+          "flow": "向变压器、电缆和EPC移动",
+          "first": "关键设备",
+          "later": "公用事业资产后受益",
+          "evidence": "订单、交期、投运"
         },
         {
           "scenario": "上行",
-          "trigger": "数据中心/新能源接入更快、队列扩大",
-          "flow": "向稀缺高压设备和已投运资产集中",
-          "first": "设备与保护控制",
-          "later": "新项目受交期拖累",
-          "evidence": "交期、积压、接入排队"
+          "trigger": "负荷增长超预期且设备交期延长",
+          "flow": "向稀缺高压设备和工程集中",
+          "first": "变压器与开关设备",
+          "later": "电缆和服务后受益",
+          "evidence": "接入队列、价格、积压"
         },
         {
           "scenario": "下行",
-          "trigger": "宏观放缓、审批/融资约束",
-          "flow": "向低成本运维与灵活性转移",
-          "first": "存量网络、需求响应",
-          "later": "高杠杆新工程承压",
-          "evidence": "CAPEX、取消、融资成本"
+          "trigger": "项目取消和监管延迟增加",
+          "flow": "向维护和存量网络移动",
+          "first": "运维服务",
+          "later": "扩产设备厂和高杠杆项目受损",
+          "evidence": "取消率、核准、订单"
         }
       ],
       "disagreements": [
         {
           "narrative": "“电网是确定性紧缺，所有电力设备都会受益。”",
-          "judgment": "需求兑现下的长周期扩容期。",
+          "judgment": "需求兑现下的长周期扩容期",
           "difference": "本报告认为，排队与订单的证据更硬，但不同电压等级、地区监管和工程能力差异很大；可释放的1,200—1,600GW属于技术/监管潜力，并非已交付容量。[E1][E5]",
           "strongerEvidence": "",
           "evidence": "E1、E5"
@@ -7771,11 +8829,15 @@
           "limitation": "美国供应链资料不能代表所有地区采购周期。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -7838,21 +8900,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -7861,8 +8908,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -7883,7 +8990,17 @@
       "dataCurrency": "截至2026-07-18；公司经营数据主要截至2026年一季度或FY26 Q3，技术与需求资料截至2026年7月",
       "supplyStatus": "",
       "stage": "高密度AI拉动下的导入—扩产期",
-      "judgment": "液冷位于从“可选节能方案”向“高密度AI集群必备系统”切换的早期兑现期。需求由加速服务器功率密度、AI数据中心CAPEX和机柜级交付驱动；有效供给受制于系统设计、客户验证、CDU/管路/冷源协同和现场服务，而非单一冷板产能。高增长成立不等于所有液冷零部件同步受益，价值更可能集中在能拿到整机平台认证、并能交付整套系统的厂商。",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "系统级预订、批量交付和运维收入同步上升",
+      "downgradeCondition": "功率密度不再提高且液冷订单未随AI服务器增长",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
+      "judgment": "高密度AI拉动下的导入—扩产期",
       "bottlenecks": [
         "AI机柜密度：偏紧/偏强：平台功耗上升、液冷随GPU方案导入"
       ],
@@ -8106,35 +9223,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024 高密度机柜试点",
-          "signal": "GPU功耗上升推动冷板、CDU和机房改造验证",
-          "profitShift": "",
-          "lag": "样机到现场试运行跨越数月",
-          "evidence": "E1、E3",
-          "next": ""
+          "period": "2024H2 高密度试点",
+          "type": "已发生",
+          "signal": "高功率机柜启动客户现场验证",
+          "profitShift": "冷板、CDU与工程",
+          "lag": "样机到现场数月",
+          "evidence": "E1、E2",
+          "next": "漏液和热性能"
         },
         {
           "period": "2025 平台配套扩散",
-          "signal": "服务器与数据中心方案开始把液冷纳入标准配置",
-          "profitShift": "",
-          "lag": "平台发布领先批量交付",
-          "evidence": "E2、E5",
-          "next": ""
+          "type": "已发生",
+          "signal": "服务器平台把液冷纳入参考设计",
+          "profitShift": "系统集成和快接",
+          "lag": "平台认证约两至三季",
+          "evidence": "E4、E5",
+          "next": "认证机型数量"
         },
         {
-          "period": "2026 批量验收窗口",
-          "signal": "NVIDIA新平台和Schneider参考设计进入客户项目验证",
-          "profitShift": "",
-          "lag": "设备到货后仍需联调和负载爬坡",
-          "evidence": "E7、E8",
-          "next": ""
+          "period": "2026Q1 订单兑现",
+          "type": "已发生",
+          "signal": "系统商订单和AI基础设施需求扩大",
+          "profitShift": "整套系统与现场服务",
+          "lag": "设备到验收仍需调试",
+          "evidence": "E3、E6",
+          "next": "液冷收入和毛利"
+        },
+        {
+          "period": "2027Q2 扩产投运",
+          "type": "计划",
+          "signal": "Vertiv俄亥俄产能计划投运",
+          "profitShift": "有效供给可能增加",
+          "lag": "新厂还需人员和客户爬坡",
+          "evidence": "E3",
+          "next": "产能利用率与批量故障"
         }
       ],
       "currentStage": {
-        "phase": "高密度AI拉动下的导入—扩产期。 AI功率密度快速上升、系统商扩产和服务器商产品扩展相互印证；但液冷收入披露不充分、产能多为计划，结论保持暂定。[E1][E3][E5]",
+        "phase": "高密度AI拉动下的导入—扩产期",
         "entryAnchor": "",
         "expectedTransition": "",
-        "confidence": "",
+        "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "系统级预订、批量交付和运维收入同步上升",
+        "downgradeCondition": "功率密度不再提高且液冷订单未随AI服务器增长",
         "proveWrong": "若GPU机柜功率密度不再提高、风冷或后门换热已足以覆盖主流平台，且液冷系统订单未随AI服务器出货增长，则行业应停留在试点期；若系统级预订、交付和运维收入同步上升，才可上调为规模兑现期。"
       },
       "watchIndicators": [
@@ -8239,7 +9372,7 @@
         }
       ],
       "onePage": {
-        "industryIntro": "液冷通过冷却液把GPU、CPU或机柜产生的热量带走，再经CDU、管路、换热器和外部冷源排出。它卖给云厂商、服务器商和托管数据中心，解决高功率密度AI机柜的温度、能效和占地问题。最终付款方是AI/云算力的使用客户；但采购由服务器平台、机房电力、供水和运维条件共同决定。 结论状态：暂定",
+        "industryIntro": "液冷通过冷却液把GPU、CPU或机柜产生的热量带走，再经CDU、管路、换热器和外部冷源排出。它卖给云厂商、服务器商和托管数据中心，解决高功率密度AI机柜的温度、能效和占地问题。最终付款方是AI/云算力的使用客户；但采购由服务器平台、机房电力、供水和运维条件共同决定。",
         "keyNumbers": [
           {
             "number": "11倍",
@@ -8265,7 +9398,12 @@
         ],
         "currentJudgment": [
           "液冷位于从“可选节能方案”向“高密度AI集群必备系统”切换的早期兑现期。需求由加速服务器功率密度、AI数据中心CAPEX和机柜级交付驱动；有效供给受制于系统设计、客户验证、CDU/管路/冷源协同和现场服务，而非单一冷板产能。高增长成立不等于所有液冷零部件同步受益，价值更可能集中在能拿到整机平台认证、并能交付整套系统的厂商。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "系统级预订、批量交付和运维收入同步上升",
+        "downgradeCondition": "功率密度不再提高且液冷订单未随AI服务器增长"
       },
       "capitalFlows": {
         "attempts": [
@@ -8289,6 +9427,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业邻近",
+            "instrument": "DTCR",
+            "coverage": "数据中心资产与数字基础设施",
+            "metric": "2026-06-30一年NAV回报64.76%",
+            "source": "https://www.globalxetfs.com/funds/dtcr",
+            "conclusion": "液冷最终需求所在资产已被显著交易",
+            "limitation": "基金不直接代表液冷设备收入"
+          },
+          {
+            "tier": "公司",
+            "instrument": "Vertiv",
+            "coverage": "液冷系统与关键基础设施",
+            "metric": "2025Q4过去十二个月有机订单同比增长约81%",
+            "source": "https://investors.vertiv.com/news/news-details/2026/Vertiv-Reports-Strong-Fourth-Quarter-with-Organic-Orders-Growth-of-252-and-Diluted-EPS-Growth-of-200-Adjusted-Diluted-EPS-37/",
+            "conclusion": "订单证实AI基础设施需求进入供应商",
+            "limitation": "订单包含供配电等非液冷产品"
+          }
+        ],
         "summary": [
           "*已定价（推断）：高密度AI将提升热管理需求已是市场主叙事，IEA功率密度数据和厂商扩产支持其现实基础。",
           "*未定价（推断）：液冷渗透率、系统利润归属和存量机房改造速度仍未被统一证据验证；这不是估值或资金流测量。"
@@ -8297,33 +9455,33 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "AI机柜持续增密，系统按计划交付",
-          "flow": "向平台认证与系统集成集中",
-          "first": "CDU、冷板系统、服务",
-          "later": "通用风冷增长放慢",
-          "evidence": "功率密度、订单、验收"
+          "trigger": "高密度机柜按计划导入",
+          "flow": "向系统集成、CDU和现场服务移动",
+          "first": "通过平台认证的系统商",
+          "later": "冷板与运维后受益",
+          "evidence": "订单、认证、验收"
         },
         {
           "scenario": "上行",
-          "trigger": "推理/训练负载大增，机房改造加速",
-          "flow": "向已验证的机柜级系统和部署服务集中",
-          "first": "液冷系统商、机房工程",
-          "later": "单一零件扩产滞后",
-          "evidence": "系统预订、交期、维保"
+          "trigger": "功率密度继续上升且改造需求扩大",
+          "flow": "向整套热管理和快速部署能力集中",
+          "first": "CDU与系统集成",
+          "later": "冷源和运维后受益",
+          "evidence": "机柜功率、交期、故障率"
         },
         {
           "scenario": "下行",
-          "trigger": "效率提升或客户CAPEX延后",
-          "flow": "向通用制冷与低成本改造迁移",
-          "first": "存量运维、模块化方案",
-          "later": "高定制新建项目承压",
-          "evidence": "GPU功耗、出货、项目取消"
+          "trigger": "风冷替代延长且批量故障增加",
+          "flow": "向成熟风冷与保守运维移动",
+          "first": "存量散热服务",
+          "later": "专用液冷扩产和同质零件受损",
+          "evidence": "渗透率、退货、毛利"
         }
       ],
       "disagreements": [
         {
           "narrative": "“AI机柜功率越高，液冷一定会全面替代风冷。”",
-          "judgment": "液冷位于从“可选节能方案”向“高密度AI集群必备系统”切换的早期兑现期。需求由加速服务器功率密度、AI数据中心CAPEX和机柜级交付驱动；有效供给受制于系统设计、客户验证、CDU/管路/冷源协同和现场服务，而非单一冷板产能。高增长成立不等于所有液冷零部件同步受益，价值更可能集中在能拿到整机平台认证、并能交付整套系统的厂商。",
+          "judgment": "高密度AI拉动下的导入—扩产期",
           "difference": "",
           "strongerEvidence": "",
           "evidence": "E2、E5"
@@ -8443,11 +9601,15 @@
           "limitation": "会议技术资料不披露供应商收入和批量交付。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -8510,21 +9672,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -8533,8 +9680,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -8555,6 +9762,16 @@
       "dataCurrency": "2026年7月可得的最新公司运营实际为 BHP 截至2026年6月的财年运营回顾；ICSG 2026—2027年为2026年4月预测；IEA 2035年缺口为情景预测，均与实际分列。",
       "supplyStatus": "",
       "stage": "矿端紧平衡与中游挤压并存",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "矿山修复继续推迟且TC/RC维持极低",
+      "downgradeCondition": "矿产量超预期、库存和TC/RC同步改善且消费转弱",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "矿端紧平衡与中游挤压并存（推导见第5节）",
       "bottlenecks": [
         "矿山和精矿增量偏慢，而冶炼能力竞争精矿；但2026年精炼铜表观年度平衡仍被ICSG预测为9.6万吨小幅过剩。前者解释加工费与中游利润，后者约束“立即全面短缺”的结论。"
@@ -8784,35 +10001,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024—2026矿端扰动与高价",
-          "signal": "现货铜价创新高、TC/RC跌至0",
-          "profitShift": "矿山及有自有精矿的一体化运营者",
-          "lag": "矿山事故到精矿交付可立即影响，扩建补给需多年",
-          "evidence": "E2、E3",
-          "next": "TC/RC是否回升、矿山修复是否兑现"
+          "period": "2024 矿端扰动累积",
+          "type": "已发生",
+          "signal": "项目延迟和品位约束压低增量",
+          "profitShift": "存量低成本矿山",
+          "lag": "开发周期多年",
+          "evidence": "E1、E4",
+          "next": "项目投产"
         },
         {
-          "period": "2026年精炼平衡暂缓",
-          "signal": "ICSG预测精炼铜过剩9.6万吨",
-          "profitShift": "铜材厂与冶炼厂未必同步受益",
-          "lag": "终端拉货、库存和表观进口会形成季度偏差",
-          "evidence": "E3",
-          "next": "中国库存和实际表观消费"
+          "period": "2025 冶炼扩张",
+          "type": "已发生",
+          "signal": "冶炼能力增长快于精矿",
+          "profitShift": "矿山议价增强",
+          "lag": "冶炼投产快于矿山",
+          "evidence": "E2、E5",
+          "next": "现货TC"
         },
         {
-          "period": "2030年代管线压力",
-          "signal": "2035年25%缺口预测",
-          "profitShift": "获批矿权、资源量和低成本扩建项目",
-          "lag": "发现到投产平均约17年",
-          "evidence": "E1、E2",
-          "next": "可研、许可、融资和建设节点"
+          "period": "2026Q1 TC归零",
+          "type": "已发生",
+          "signal": "年度TC/RC结算为0美元/吨",
+          "profitShift": "利润从冶炼向矿端移动",
+          "lag": "结算反映前期精矿紧张",
+          "evidence": "E2",
+          "next": "减产与副产品收益"
+        },
+        {
+          "period": "2030-2035 项目缺口",
+          "type": "预测",
+          "signal": "电网需求与项目管线可能形成远期缺口",
+          "profitShift": "矿山与回收体系",
+          "lag": "新矿开发周期长",
+          "evidence": "E1、E3",
+          "next": "项目批准和回收量"
         }
       ],
       "currentStage": {
-        "phase": "- 阶段：矿端偏紧、精炼端年度平衡待验证",
+        "phase": "矿端紧平衡与中游挤压并存",
         "entryAnchor": "2026年1月年度TC/RC结算至0美元/吨；2026年4月ICSG将矿产铜增长预测下调为1.6%。",
         "expectedTransition": "若年度TC/RC持续回升且ICSG将精炼铜平衡预测上修为明显过剩，矿端紧张判断需降级；若矿山修复推迟且TC/RC维持极低，则中游挤压延续。",
         "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "矿山修复继续推迟且TC/RC维持极低",
+        "downgradeCondition": "矿产量超预期、库存和TC/RC同步改善且消费转弱",
         "proveWrong": "2026年下半年实际矿产量显著超过ICSG路径，同时精炼铜库存和TC/RC同步改善，且终端消费没有下滑。"
       },
       "watchIndicators": [
@@ -8917,7 +10150,12 @@
         ],
         "currentJudgment": [
           "短期精炼铜年度平衡并未确认紧缺，但矿端扰动与精矿紧张已使冶炼加工费降至极端水平；在电网和电气化拉动下，行业处于“矿端偏紧、冶炼利润分化、终端需求仍待宏观验证”的暂定阶段。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "矿山修复继续推迟且TC/RC维持极低",
+        "downgradeCondition": "矿产量超预期、库存和TC/RC同步改善且消费转弱"
       },
       "capitalFlows": {
         "attempts": [
@@ -8947,6 +10185,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "COPX",
+            "coverage": "全球铜矿公司",
+            "metric": "2026-07-15 NAV 77.04美元、年内回报7.58%、一年回报75.59%",
+            "source": "https://www.globalxetfs.com/explore",
+            "conclusion": "矿端紧张与铜价叙事已被明显交易",
+            "limitation": "不覆盖冶炼、电缆和终端用铜"
+          },
+          {
+            "tier": "公司",
+            "instrument": "COPX矿业篮子",
+            "coverage": "铜矿开采",
+            "metric": "截至2025-10-31基金一年回报43.39%",
+            "source": "https://assets.globalxetfs.com/funds/documents/copx/prospectus-regulatory/Annual-Shareholder-Report.pdf",
+            "conclusion": "矿山权益已有跨期市场收益证据",
+            "limitation": "基金收益也受汇率和公司资本纪律影响"
+          }
+        ],
         "summary": [
           "| 北向/两融或同类资金流指标 | 港交所及交易所公开统计 | 无法在同一口径下拆分铜矿、冶炼和铜材环节，记录为数据缺口。 |",
           "*已定价（推断）：市场大致已定价铜价创新高、矿山扰动和远期电气化需求；依据是IEA对高价、投资增加和长期缺口的公开讨论，以及大型矿企持续扩展铜项目（E1、E2、E5）。",
@@ -8957,27 +10215,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "矿产铜约按+1.6%增长、精炼市场小幅平衡",
-          "flow": "矿山与一体化冶炼维持较强，标准铜材以加工费为主",
-          "first": "已有低成本矿和自有精矿的运营者",
-          "later": "外购精矿冶炼厂受TC/RC约束",
-          "evidence": "ICSG更新、TC/RC、矿山产量"
+          "trigger": "矿产增长偏低而精炼平衡",
+          "flow": "向低成本矿山和回收移动",
+          "first": "存量铜矿",
+          "later": "冶炼和加工后分化",
+          "evidence": "TC/RC、矿产量、库存"
         },
         {
           "scenario": "上行",
-          "trigger": "矿山修复延迟且电网/数据中心订单上修",
-          "flow": "向矿权、扩建项目、再生料与副产品回收能力移动",
-          "first": "具备现成矿石和精矿销售能力的矿山",
-          "later": "定制冶炼和低议价铜材厂成本承压",
-          "evidence": "事故、精矿现货条款、长协"
+          "trigger": "矿山扰动扩大且电网需求超预期",
+          "flow": "向矿权和高品位资源集中",
+          "first": "铜矿山",
+          "later": "回收与替代材料后受益",
+          "evidence": "发运、现货升水、项目延迟"
         },
         {
           "scenario": "下行",
-          "trigger": "终端使用继续下修、库存累积且矿山恢复超预期",
-          "flow": "从矿山超额利润回落至下游库存管理和低成本加工",
-          "first": "有套保能力、订单稳定的铜材企业",
-          "later": "高成本矿山和依赖高副产品价格的冶炼厂",
-          "evidence": "库存、ICSG平衡、TC/RC回升"
+          "trigger": "矿山修复且宏观需求走弱",
+          "flow": "向低成本与现金流稳定环节移动",
+          "first": "低成本矿山",
+          "later": "高成本项目和冶炼扩产受损",
+          "evidence": "库存、TC/RC、消费"
         }
       ],
       "disagreements": [
@@ -9112,11 +10370,15 @@
           "limitation": "年度国家统计不能解释季度矿山扰动和TC/RC。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -9179,21 +10441,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -9202,8 +10449,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -9224,6 +10531,16 @@
       "dataCurrency": "全球部署以IEA发布的2025年估算为最新完整年度；中国新型储能为2025年累计与新增统计；公司数据为特斯拉2026年一季度、Fluence截至2026年3月31日与宁德时代2025年年报，实际、订单与管线已分开。",
       "supplyStatus": "",
       "stage": "规模扩张中的收益模型筛选期",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "项目按期并网、收益稳定且合同取消率下降",
+      "downgradeCondition": "并网延期、项目取消和系统价格竞争同时加剧",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "规模扩张中的收益模型筛选期",
       "bottlenecks": [
         "电池与系统的物理供给扩张很快，但电网连接、许可和收益模型决定了项目能否成为可调度资产；因此会出现设备价格竞争与优质项目仍稀缺并存。"
@@ -9453,35 +10770,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2023—2025部署加速",
-          "signal": "全球新增由较低基数升至108GW",
-          "profitShift": "从短时辅助服务转向项目开发、长时系统与运营",
-          "lag": "项目建设中位约275天，并网许可可更长",
+          "period": "2023-2024 调频扩张",
+          "type": "已发生",
+          "signal": "短时储能快速部署",
+          "profitShift": "电芯和系统集成",
+          "lag": "订单到并网数季",
           "evidence": "E1、E2",
-          "next": "接网和投运GWh"
+          "next": "项目收益"
         },
         {
-          "period": "2025时长上移",
-          "signal": "平均时长约3小时",
-          "profitShift": "向电芯容量、热管理、PCS和收益优化软件迁移",
-          "lag": "设计改变先于收入确认",
+          "period": "2025 规模跃升",
+          "type": "已发生",
+          "signal": "新增电池储能达到108GW",
+          "profitShift": "系统集成与项目开发",
+          "lag": "并网晚于设备交付",
+          "evidence": "E1",
+          "next": "投运率"
+        },
+        {
+          "period": "2025H2 时长上移",
+          "type": "已发生",
+          "signal": "平均时长升至3小时",
+          "profitShift": "长时系统和电力电子",
+          "lag": "时长增加提高初始CapEx",
           "evidence": "E2、E3",
-          "next": "4小时以上项目占比"
+          "next": "利用小时与价差"
         },
         {
-          "period": "2026订单兑现检验",
-          "signal": "Fluence合同积压10.1GW、Tesla Q1部署8.8GWh",
-          "profitShift": "向有交付和服务能力的集成商分化",
-          "lag": "合同到完工取决于融资、设备和并网",
-          "evidence": "E6、E7",
-          "next": "合同转部署率与项目延期"
+          "period": "2026 收益筛选",
+          "type": "风险窗口",
+          "signal": "容量合同和现货套利进入现金流检验",
+          "profitShift": "利润向高可用率运营项目集中",
+          "lag": "收入需完整运行周期验证",
+          "evidence": "E4、E5",
+          "next": "可用率、收益、取消率"
         }
       ],
       "currentStage": {
-        "phase": "- 阶段：规模扩张中的收益模型筛选期",
+        "phase": "规模扩张中的收益模型筛选期",
         "entryAnchor": "2025年全球新增108GW、能量搬移占新项目超过90%，项目平均时长升至3小时。",
         "expectedTransition": "若并网排队缩短、容量/电价合同使项目现金流稳定且已部署量持续高于合同取消量，进入更明确的运营兑现；若合同积压上升而投运和收益走弱，转向供给竞争加剧。",
         "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "项目按期并网、收益稳定且合同取消率下降",
+        "downgradeCondition": "并网延期、项目取消和系统价格竞争同时加剧",
         "proveWrong": "2026年后续季度大规模项目按期并网、收益稳定且标准化设备价格不再下压，或相反出现持续的并网延期与项目取消。"
       },
       "watchIndicators": [
@@ -9586,7 +10919,12 @@
         ],
         "currentJudgment": [
           "部署量和系统时长持续上行，但供给已从“有没有电芯”转为“能否并网、拿到可预测收益并长期安全运行”；行业处在规模扩张、项目收益与系统集成利润分化的暂定阶段。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "项目按期并网、收益稳定且合同取消率下降",
+        "downgradeCondition": "并网延期、项目取消和系统价格竞争同时加剧"
       },
       "capitalFlows": {
         "attempts": [
@@ -9616,6 +10954,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "BATT",
+            "coverage": "电池、储能、材料和电动车",
+            "metric": "2026-06-30年内NAV回报11.76%、一年回报67.40%",
+            "source": "https://amplifyetfs.com/batt/",
+            "conclusion": "电池链整体重新获得市场回报",
+            "limitation": "储能仅是基金覆盖的一部分"
+          },
+          {
+            "tier": "子链",
+            "instrument": "BATT指数方法",
+            "coverage": "电池储能解决方案",
+            "metric": "基金要求部分成分公司超过50%收入来自电池技术或储能",
+            "source": "https://amplifyetfs.com/batt/",
+            "conclusion": "可作为储能设备的子链代理",
+            "limitation": "仍混合矿产和电动车"
+          }
+        ],
         "summary": [
           "| 北向/两融或同类资金流指标 | 交易所公开统计 | 无法按电芯、PCS、项目运营分拆，记录为口径缺口。 |",
           "*已定价（推断）：市场大致已认识到电池储能部署扩张、LFP主导和大型电站化，依据是IEA连续披露的高增速、时长上移以及头部厂商产品与项目扩容（E1、E2、E5）。",
@@ -9625,27 +10983,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "全球部署维持扩张、时长继续上行，项目收益无显著恶化",
-          "flow": "向有并网能力的开发商、系统集成和长期运维移动",
-          "first": "已获得接网和合同的项目开发/集成商",
-          "later": "标准电池舱供应商仍受价格竞争",
-          "evidence": "已部署量、合同转化率、时长"
+          "trigger": "部署增长且收益合同逐步标准化",
+          "flow": "向系统集成和高可用率运营移动",
+          "first": "系统集成商",
+          "later": "运营资产后受益",
+          "evidence": "并网、可用率、收益"
         },
         {
           "scenario": "上行",
-          "trigger": "容量市场改善、弃电与峰荷需求提高、并网许可加快",
-          "flow": "向4小时以上系统、PCS/EMS和优质项目权利移动",
-          "first": "具备控制软件与长期服务能力的集成商",
-          "later": "低规格短时系统相对受限",
-          "evidence": "中标容量、接网时长、合同价格"
+          "trigger": "峰谷价差和容量收入提高",
+          "flow": "向长时系统、电力电子和项目运营集中",
+          "first": "项目运营与PCS",
+          "later": "电芯后受益",
+          "evidence": "价差、合同、时长"
         },
         {
           "scenario": "下行",
-          "trigger": "峰谷价差或容量补偿下降，项目延迟/取消增加",
-          "flow": "从设备扩张转向现金流和售后服务，新增设备订单走弱",
-          "first": "有存量服务合同和低成本交付能力的企业",
-          "later": "高固定成本的设备与EPC供应商",
-          "evidence": "Fluence积压、项目取消、储能收益"
+          "trigger": "融资成本上升且项目延期取消",
+          "flow": "向现金流稳定和存量运维移动",
+          "first": "运维服务",
+          "later": "无合同项目和低价系统受损",
+          "evidence": "取消率、应收、毛利"
         }
       ],
       "disagreements": [
@@ -9785,11 +11143,15 @@
           "limitation": "美国安全与供应链框架不是全球部署量。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -9852,21 +11214,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -9875,8 +11222,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -9897,6 +11304,16 @@
       "dataCurrency": "最新完整行业实际以IEA的2025年部署、产能和价格分析为准；公司实际使用宁德时代2025年年报与LG新能源2026年一季度业绩；2030年后预测单列为情景。",
       "supplyStatus": "",
       "stage": "产能竞争后的结构性出清期",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "产能退出、价格止跌且材料和电芯盈利同步修复",
+      "downgradeCondition": "产能继续扩张而需求、加工费和利用率再次走弱",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "产能竞争后的结构性出清期",
       "bottlenecks": [
         "终端部署仍增长，但电芯名义产能、材料扩产和化学体系切换使供给竞争更快地压缩价格；盈利的关键从“产能规模”转向“客户绑定、产品组合和有效利用率”。"
@@ -10126,35 +11543,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2023—2024价格快速下行",
-          "signal": "2024包价格下降20%、材料利润被压缩",
-          "profitShift": "向低成本材料、电芯龙头和整车降本转移",
-          "lag": "新产线建设和客户认证常跨年度",
-          "evidence": "E6",
-          "next": "材料开工和退出"
+          "period": "2023-2024 价格下行",
+          "type": "已发生",
+          "signal": "电池包价格快速下降",
+          "profitShift": "利润向低成本电芯转移",
+          "lag": "库存去化数季",
+          "evidence": "E1、E2",
+          "next": "价格和利用率"
         },
         {
-          "period": "2025需求增长但产能更大",
-          "signal": "EV部署1.2TWh、名义产能超4TWh",
-          "profitShift": "向高利用率、LFP和储能适配产线分化",
-          "lag": "化学体系转换先改订单、后改产线",
+          "period": "2025 产能超过4TWh",
+          "type": "已发生",
+          "signal": "名义供给大于主要终端需求",
+          "profitShift": "买方议价增强",
+          "lag": "新厂爬坡仍增加有效供给",
+          "evidence": "E1",
+          "next": "产能退出"
+        },
+        {
+          "period": "2025H2 LFP占比上升",
+          "type": "已发生",
+          "signal": "化学体系切换重写材料需求",
+          "profitShift": "LFP正极与规模电芯",
+          "lag": "车型平台切换一年以上",
           "evidence": "E1、E3",
-          "next": "LFP份额、利用率、价格"
+          "next": "化学体系份额"
         },
         {
-          "period": "2026区域化爬坡检验",
-          "signal": "LG ESS扩能、圆柱订单增加但Q1亏损",
-          "profitShift": "向有本地客户和成熟产线的供货商集中",
-          "lag": "新厂量产、产品组合和补贴确认影响季度",
-          "evidence": "E4",
-          "next": "北美产能实际出货与毛利"
+          "period": "2026 海外爬坡检验",
+          "type": "风险窗口",
+          "signal": "区域化新厂进入良率和成本验证",
+          "profitShift": "利润向成熟供应链集中",
+          "lag": "认证与良率数季",
+          "evidence": "E4、E5",
+          "next": "利用率、良率、现金流"
         }
       ],
       "currentStage": {
-        "phase": "- 阶段：产能竞争后的结构性出清期",
+        "phase": "产能竞争后的结构性出清期",
         "entryAnchor": "2024年电池包价格下降20%，2025年名义产能增至4TWh以上且材料厂持续亏损。",
         "expectedTransition": "若材料产能退出、价格止跌、行业利用率上升且电芯厂盈利同步修复，进入出清后盈利改善；若产能继续扩张、需求不及预期且材料加工费再降，则竞争期延长。",
         "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "产能退出、价格止跌且材料和电芯盈利同步修复",
+        "downgradeCondition": "产能继续扩张而需求、加工费和利用率再次走弱",
         "proveWrong": "全球利用率在未出现明显产能退出的情况下快速上升、材料厂普遍恢复利润，或主要市场需求突然明显下修。"
       },
       "watchIndicators": [
@@ -10232,7 +11665,12 @@
         ],
         "currentJudgment": [
           "需求仍快速增长，但制造能力扩张更快、化学体系转向LFP且区域供给高度集中，使中游材料与新建海外产能承受利润压力；行业处于“需求增长、产能与利润出清尚未完成”的暂定阶段。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "产能退出、价格止跌且材料和电芯盈利同步修复",
+        "downgradeCondition": "产能继续扩张而需求、加工费和利用率再次走弱"
       },
       "capitalFlows": {
         "attempts": [
@@ -10262,6 +11700,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "LIT",
+            "coverage": "锂矿、材料、电池和整车",
+            "metric": "2026-03-31一年NAV回报88.41%，2026-06-09市盈率26.56倍",
+            "source": "https://www.globalxetfs.com/funds/lit/",
+            "conclusion": "锂电链修复预期已明显扩散",
+            "limitation": "基金在2026年持有较高多元矿业权重"
+          },
+          {
+            "tier": "子链",
+            "instrument": "LIT持仓",
+            "coverage": "电芯与材料",
+            "metric": "2026-06-09宁德时代权重3.68%、LG新能源3.56%",
+            "source": "https://www.globalxetfs.com/funds/lit/",
+            "conclusion": "可观察主要电芯厂市场代理",
+            "limitation": "权重不能代表全球产量份额"
+          }
+        ],
         "summary": [
           "| 北向/两融或同类资金流指标 | 交易所披露与公司股东信息 | 无法按电池材料和电芯环节直接拆分，记录为缺口。 |",
           "*已定价（推断）：市场大致已将LFP渗透、全球产能扩张和价格竞争作为行业共识；依据是IEA对2025年价格、化学体系与产能的集中描述，以及宁德时代的大规模交付（E1、E3）。",
@@ -10271,27 +11729,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "EV与储能部署继续增长，价格降幅收窄",
-          "flow": "向高利用率LFP电芯、客户认证和回收能力移动",
-          "first": "头部电芯厂与有稳定订单的材料商",
-          "later": "低利用率和同质化产线",
-          "evidence": "部署、价格、材料利润"
+          "trigger": "需求增长且部分产能退出",
+          "flow": "向低成本电芯和LFP材料移动",
+          "first": "规模电芯厂",
+          "later": "材料盈利后修复",
+          "evidence": "利用率、价格、产能退出"
         },
         {
           "scenario": "上行",
-          "trigger": "材料出清、锂价稳定、区域产线爬坡成功",
-          "flow": "从低价抢量转向高质量产能和本地供应保障",
-          "first": "已认证的区域电芯与关键材料供应商",
-          "later": "仅依赖现货低价的买方成本上升",
-          "evidence": "利用率、订单、加工费"
+          "trigger": "储能与电动车需求超预期",
+          "flow": "向紧缺材料和高良率海外产能扩散",
+          "first": "电芯与关键材料",
+          "later": "设备和回收后受益",
+          "evidence": "部署、订单、良率"
         },
         {
           "scenario": "下行",
-          "trigger": "终端需求下修或产能继续加速投放",
-          "flow": "向现金流、回收和成本控制集中",
-          "first": "现金充裕且能切换储能/车型客户的龙头",
-          "later": "高固定成本新产线、亏损材料厂",
-          "evidence": "库存、价格、减产与延期"
+          "trigger": "产能继续扩张且需求放缓",
+          "flow": "向现金流和技术服务集中",
+          "first": "头部电芯与回收",
+          "later": "高成本材料和新厂受损",
+          "evidence": "加工费、库存、现金流"
         }
       ],
       "disagreements": [
@@ -10431,11 +11889,15 @@
           "limitation": "单一客户的部署不能代表全行业电芯利用率。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -10498,21 +11960,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -10521,8 +11968,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -10543,6 +12050,16 @@
       "dataCurrency": "全球装机采用IEA 2025年实际/估算；制造与供给为IEA 2025—2026研究；公司经营采用晶科Q1 2026和隆基Q1 2026实际。",
       "supplyStatus": "",
       "stage": "需求高增下的制造出清与技术替代期",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "低效产能退出且组件价格、龙头毛利和现金流持续修复",
+      "downgradeCondition": "新增投资和价格战扩大或并网融资使装机转弱",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "需求高增下的制造出清与技术替代期",
       "bottlenecks": [
         "电站装机需求强劲，但制造端低价与供给集中导致利润和投资承压；当下缺的不是全行业组件，而是可并网、可融资且能在低价下盈利的项目与制造能力。"
@@ -10772,35 +12289,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2023—2025低价扩张",
-          "signal": "全球装机持续创高，制造低价竞争",
-          "profitShift": "向项目端和低成本采购方移动",
-          "lag": "产线退出比组件降价慢",
+          "period": "2023-2024 组件降价",
+          "type": "已发生",
+          "signal": "制造扩产推动组件价格下行",
+          "profitShift": "项目开发与终端业主",
+          "lag": "降价到装机约一季",
           "evidence": "E1、E2",
-          "next": "组件价格与停产公告"
+          "next": "库存和开工"
         },
         {
-          "period": "2025政策/项目分化",
-          "signal": "中国上半年抢装、下半年放缓",
-          "profitShift": "向已拿到并网和项目资源的开发商移动",
-          "lag": "制度切换影响月度装机",
+          "period": "2025 装机超过600GW",
+          "type": "已发生",
+          "signal": "低价刺激全球安装创高",
+          "profitShift": "EPC和项目资源",
+          "lag": "出货到并网数月",
           "evidence": "E1",
-          "next": "招标和并网节奏"
+          "next": "并网投运"
         },
         {
-          "period": "Q1 2026利润低位修复",
-          "signal": "晶科毛利改善但仍亏损，隆基BC有交付",
-          "profitShift": "向高效组件和海外认证产品倾斜",
-          "lag": "产品升级先于全行业供给退出",
+          "period": "2026Q1 毛利低位修复",
+          "type": "已发生",
+          "signal": "头部厂商毛利改善但仍亏损",
+          "profitShift": "高效产品和低成本产线",
+          "lag": "价格改善到现金流一季以上",
           "evidence": "E4、E5",
-          "next": "龙头ASP、毛利和订单"
+          "next": "现金流和ASP"
+        },
+        {
+          "period": "2026H2 技术出清",
+          "type": "风险窗口",
+          "signal": "BC等高效路线与低效产能退出竞速",
+          "profitShift": "利润向差异化产品集中",
+          "lag": "技术认证与改线数季",
+          "evidence": "E3、E6",
+          "next": "停产、溢价、订单"
         }
       ],
       "currentStage": {
-        "phase": "- 阶段：需求高增下的制造出清与技术替代期",
+        "phase": "需求高增下的制造出清与技术替代期",
         "entryAnchor": "2025年光伏装机超600GW，但IEA仍记录产能过剩和低价抑制制造投资；Q1 2026头部毛利修复却仍亏损。",
         "expectedTransition": "若低效产能退出、组件价格稳定、龙头毛利与现金流持续修复，进入盈利修复；若新增投资和价格战再度扩大，出清延长。",
         "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "低效产能退出且组件价格、龙头毛利和现金流持续修复",
+        "downgradeCondition": "新增投资和价格战扩大或并网融资使装机转弱",
         "proveWrong": "全球组件价格持续上涨且多数制造商恢复利润，或全球装机在低价条件下明显掉头下滑。"
       },
       "watchIndicators": [
@@ -10905,7 +12438,12 @@
         ],
         "currentJudgment": [
           "全球装机继续创纪录，但组件和上游制造在低价、过剩与贸易摩擦下仍在出清；行业处于“终端建设扩张、制造环节利润修复尚不稳固”的暂定阶段。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "低效产能退出且组件价格、龙头毛利和现金流持续修复",
+        "downgradeCondition": "新增投资和价格战扩大或并网融资使装机转弱"
       },
       "capitalFlows": {
         "attempts": [
@@ -10935,6 +12473,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "TAN",
+            "coverage": "全球太阳能设备与开发商",
+            "metric": "截至2026-05-31发行商披露基金跟踪MAC全球太阳能指数",
+            "source": "https://www.invesco.com/us/en/financial-products/etfs/invesco-solar-etf.html",
+            "conclusion": "光伏已有直接行业市场代理",
+            "limitation": "2026-06-23指数方法变更影响前后可比"
+          },
+          {
+            "tier": "方法风险",
+            "instrument": "TAN指数变更",
+            "coverage": "太阳能上市公司篮子",
+            "metric": "2026-06-23底层指数方法正式调整",
+            "source": "https://www.invesco.com/us/en/financial-products/etfs/invesco-solar-etf.html",
+            "conclusion": "后续收益需区分方法变化",
+            "limitation": "不能用变更前后收益直接解释产业拐点"
+          }
+        ],
         "summary": [
           "*已定价（推断）：市场大致已认识到装机高增、制造过剩、低组件价格和贸易摩擦；这些主题已在IEA年度展望与龙头亏损/毛利修复中反复出现（E1、E2、E4）。",
           "*未定价（推断）：尚难判断市场是否已充分计入低效产线退出速度、BC等高效产品的溢价持续性，以及并网约束对全球装机的实际影响（E3、E5）。"
@@ -10943,27 +12501,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "装机维持增长、组件低价逐步止跌",
-          "flow": "向高效组件、项目并网资源和低成本制造转移",
-          "first": "有订单和技术差异的组件厂、已获接网项目",
-          "later": "低效同质化产线",
-          "evidence": "装机、组件ASP、毛利"
+          "trigger": "装机增长且组件价格止跌",
+          "flow": "向高效组件、并网资源和低成本制造移动",
+          "first": "差异化组件与项目",
+          "later": "上游材料后修复",
+          "evidence": "装机、ASP、毛利"
         },
         {
           "scenario": "上行",
-          "trigger": "低效产能退出、出口需求增强、项目收益稳定",
-          "flow": "向硅片/电池升级、海外认证和EPC交付能力移动",
-          "first": "技术领先与海外渠道厂商",
-          "later": "仅靠低价抢量的制造商",
-          "evidence": "停产、订单、价格修复"
+          "trigger": "低效产能退出且海外需求增强",
+          "flow": "向技术升级、认证和EPC交付扩散",
+          "first": "高效电池组件",
+          "later": "硅片材料后受益",
+          "evidence": "停产、订单、价格"
         },
         {
           "scenario": "下行",
-          "trigger": "并网/融资受阻、贸易壁垒上升或价格再跌",
-          "flow": "向现金流和已运营电站集中",
-          "first": "长约电站和低负债运营方",
-          "later": "高库存组件、扩产项目和高成本产线",
-          "evidence": "招标、库存、贸易政策"
+          "trigger": "并网融资受阻或贸易壁垒上升",
+          "flow": "向已运营电站和现金流集中",
+          "first": "长约电站",
+          "later": "高库存组件和扩产项目受损",
+          "evidence": "招标、库存、政策"
         }
       ],
       "disagreements": [
@@ -11103,11 +12661,15 @@
           "limitation": "年度市场快照不能拆分企业库存和季度价格。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -11170,21 +12732,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -11193,8 +12740,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -11215,6 +12822,16 @@
       "dataCurrency": "行业预测采用 SEMI 于 2026-07-14 发布的中期预测；公司经营采用 ASML Q1 2026、Applied Materials FY2026 Q2、Lam 2026 年 3 月季度及 TSMC 2026Q2 已披露结果。",
       "supplyStatus": "",
       "stage": "AI 驱动的资本开支扩张期，伴随区域与制程分化",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "先进逻辑、存储与封装资本开支和设备服务收入继续上行",
+      "downgradeCondition": "客户削减资本开支、交期缩短且设备收入低于指引",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "AI 驱动的资本开支扩张期，伴随区域与制程分化",
       "bottlenecks": [
         "全球总设备需求被 AI 明显抬升，但供需紧张集中在先进制程、先进存储和封装技术路径；成熟制程、地区限制和客户集中度会使不同设备商的订单质量显著不同。"
@@ -11456,35 +13073,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2024—2025 技术投资恢复",
-          "signal": "AI、HBM、先进逻辑成为投资重点",
-          "profitShift": "向关键前道与先进封装设备倾斜",
-          "lag": "订单至验收跨季",
-          "evidence": "E1、E6",
-          "next": "订单取消与客户资本开支。"
-        },
-        {
-          "period": "2026 预测上修",
-          "signal": "设备与 WFE 增速均在两成以上",
-          "profitShift": "向有技术壁垒和装机服务的设备商倾斜",
-          "lag": "新厂建设和交付节奏",
+          "period": "2024 先进投资恢复",
+          "type": "已发生",
+          "signal": "先进逻辑和HBM投资回升",
+          "profitShift": "前道关键设备",
+          "lag": "订单到收入数季",
           "evidence": "E1、E2",
-          "next": "300mm 支出与龙头指引。"
+          "next": "订单与交期"
         },
         {
-          "period": "2026Q2 客户兑现",
-          "signal": "TSMC 营收 402 亿美元并上调下季指引区间",
-          "profitShift": "代工产能利用和供应链订单改善",
-          "lag": "晶圆收入滞后设备订单",
-          "evidence": "E5",
-          "next": "客户资本开支及设备验收。"
+          "period": "2025 设备销售扩张",
+          "type": "已发生",
+          "signal": "客户资本开支覆盖更多制程",
+          "profitShift": "设备与服务",
+          "lag": "安装验收到收入一季以上",
+          "evidence": "E3、E4",
+          "next": "服务收入"
+        },
+        {
+          "period": "2026Q2 预测上修",
+          "type": "已发生",
+          "signal": "SEMI将2026设备销售预测上修至1659亿美元",
+          "profitShift": "前道与封装设备",
+          "lag": "预测仍需客户实际支出验证",
+          "evidence": "E1",
+          "next": "龙头指引"
+        },
+        {
+          "period": "2027 产能消化检验",
+          "type": "预测",
+          "signal": "设备到位后的利用率决定后续订单",
+          "profitShift": "利润可能转向服务耗材",
+          "lag": "晶圆厂爬坡一年以上",
+          "evidence": "E5、E6",
+          "next": "利用率、递延订单"
         }
       ],
       "currentStage": {
-        "phase": "- 阶段：AI 驱动的资本开支扩张期，存在成熟/先进、地区/许可证的双重分化。",
+        "phase": "AI驱动的资本开支扩张期，伴随区域与制程分化",
         "entryAnchor": "SEMI 在 2026 年 7 月将总设备销售预测上修至 1,659 亿美元，并预计连续五年增长；TSMC 2026Q2 的实际收入为需求侧提供了兑现样本（E1、E5）。",
         "expectedTransition": "若 300mm 投资增速、龙头指引及服务收入维持上行，扩张判断加强；若客户削减资本开支、交期缩短且设备收入低于指引，则转向去库存/延后投资。",
         "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "先进逻辑、存储与封装资本开支和设备服务收入继续上行",
+        "downgradeCondition": "客户削减资本开支、交期缩短且设备收入低于指引",
         "proveWrong": "2026 年先进逻辑、存储与封装的实际资本开支显著低于 SEMI 预测，且龙头公司连续下修收入展望或披露订单取消。"
       },
       "watchIndicators": [
@@ -11589,7 +13222,12 @@
         ],
         "currentJudgment": [
           "AI 基础设施、先进逻辑、HBM 和先进封装正在把设备景气推向扩张段，但并非“所有设备同时短缺”：前道先进制程设备与部分后道环节更强，成熟制程及受出口许可约束的区域需求更分化。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "先进逻辑、存储与封装资本开支和设备服务收入继续上行",
+        "downgradeCondition": "客户削减资本开支、交期缩短且设备收入低于指引"
       },
       "capitalFlows": {
         "attempts": [
@@ -11619,6 +13257,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业",
+            "instrument": "SOXX",
+            "coverage": "半导体与设备",
+            "metric": "2026-06-25市盈率75.66倍、一年回报169.60%",
+            "source": "https://www.ishares.com/us/products/239705/ishares-semiconductor-etf",
+            "conclusion": "AI设备扩张已处于高估值叙事",
+            "limitation": "设备只占基金一部分"
+          },
+          {
+            "tier": "子链",
+            "instrument": "SOXX设备持仓",
+            "coverage": "设备公司",
+            "metric": "2026-06-25设备权重22.63%",
+            "source": "https://www.ishares.com/us/products/239705/ishares-semiconductor-etf",
+            "conclusion": "设备链已有明确篮子权重",
+            "limitation": "不能区分前道、后道和地区许可"
+          }
+        ],
         "summary": [
           "*已定价（推断）：市场已广泛讨论 AI、先进逻辑、HBM 和先进封装对设备资本开支的拉动；SEMI 的公开上修以及 ASML、Applied、Lam 的强经营数据使“景气改善”不再是单一事件（E1—E4）。",
           "*未定价（推断）：市场是否已充分计入 2027 年继续扩产、技术路线对不同设备品类的重新分配，以及出口许可对具体区域收入与服务的影响，缺少可比的估值、订单和资金流时间序列，不能下定论。"
@@ -11627,27 +13285,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "SEMI 预测兑现、先进节点投资维持",
-          "flow": "向前道关键设备、服务和先进封装转移",
-          "first": "已验证工具与装机服务",
-          "later": "同质化成熟设备分化",
-          "evidence": "WFE、300mm 支出、公司指引。"
+          "trigger": "客户CapEx按计划执行",
+          "flow": "向关键设备、服务和耗材移动",
+          "first": "先进制程设备",
+          "later": "服务耗材后受益",
+          "evidence": "订单、交期、服务收入"
         },
         {
           "scenario": "上行",
-          "trigger": "云资本开支继续上修、HBM与先进封装扩产加速",
-          "flow": "向光刻、沉积、刻蚀、测试封装设备扩散",
-          "first": "技术壁垒高、交付能力强的环节",
-          "later": "产能准备不足的零部件供应",
-          "evidence": "新订单、交期、资本开支上修。"
+          "trigger": "HBM和先进逻辑投资超预期",
+          "flow": "向稀缺工艺设备与零部件集中",
+          "first": "沉积、刻蚀与量测",
+          "later": "后道设备后受益",
+          "evidence": "WFE、客户CapEx、积压"
         },
         {
           "scenario": "下行",
-          "trigger": "AI 需求变现放缓或客户延期建厂",
-          "flow": "向存量服务和现金流较稳环节收缩",
-          "first": "备件、维护及已安装设备升级",
-          "later": "新建厂相关前道/后道设备订单",
-          "evidence": "取消订单、交期、厂房投产延后。"
+          "trigger": "客户延后厂房和许可证收紧",
+          "flow": "向存量服务与成熟客户移动",
+          "first": "服务耗材",
+          "later": "新设备和高库存零件受损",
+          "evidence": "取消、递延、利用率"
         }
       ],
       "disagreements": [
@@ -11787,11 +13445,15 @@
           "limitation": "规则适用需按产品、目的地和最终用途逐项判断。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -11854,21 +13516,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -11877,8 +13524,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
@@ -11899,6 +13606,16 @@
       "dataCurrency": "行业设备预测采用 SEMI 2026-07-14 发布数据；公司经营采用 Amkor 2026Q1、TSMC 2026Q2 实际及公开技术/扩产资料；项目建设均明确为计划而非已投产能力。",
       "supplyStatus": "",
       "stage": "AI/HBM 驱动的有效产能扩张期",
+      "conclusionStatus": "暂定",
+      "confidence": "中",
+      "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+      "upgradeCondition": "先进产品收入、设备支出和认证新线量产同步改善",
+      "downgradeCondition": "AI订单递延、OSAT利用率下降且新线量产推迟",
+      "marketEvidenceCoverage": {
+        "usable": 2,
+        "total": 2,
+        "status": "有代理证据"
+      },
       "judgment": "AI/HBM 驱动的有效产能扩张期",
       "bottlenecks": [
         "AI 系统需要更高密度的逻辑—HBM 集成，推动先进封装和测试投资；但大尺寸封装的良率、热管理、基板/材料协同与客户认证使供应释放慢于厂房公告，且普通封测与高阶封装不能互相替代。"
@@ -12146,35 +13863,51 @@
       ],
       "cycleTimeline": [
         {
-          "period": "2023—2025 AI封装加速",
-          "signal": "CoWoS、HBM和Chiplet成为重点技术",
-          "profitShift": "向高密度互连、先进基板与测试能力移动",
-          "lag": "产品定版至量产跨多个季度",
-          "evidence": "E1、E6",
-          "next": "各平台的客户认证和量产。"
+          "period": "2023-2024 AI封装加速",
+          "type": "已发生",
+          "signal": "CoWoS与HBM需求抬升",
+          "profitShift": "先进封装与测试",
+          "lag": "客户认证数季",
+          "evidence": "E1、E3",
+          "next": "设备订单"
         },
         {
-          "period": "2026 收入与设备兑现",
-          "signal": "Amkor Q1收入和先进产品较强，后道设备继续预测增长",
-          "profitShift": "向已验证的集成与测试服务倾斜",
-          "lag": "订单到验收及收入确认",
-          "evidence": "E1、E2",
-          "next": "Q2结果、利用率和毛利。"
+          "period": "2025 设备销售增长",
+          "type": "已发生",
+          "signal": "封装设备销售同比增长20.8%",
+          "profitShift": "封装设备和材料",
+          "lag": "设备到良率爬坡数季",
+          "evidence": "E1",
+          "next": "安装与验收"
         },
         {
-          "period": "2027—2028 新产能导入",
-          "signal": "ASE、Amkor项目设定生产或完工窗口",
-          "profitShift": "可能从稀缺工艺向新增合格产能扩散",
-          "lag": "建设、装机和爬坡约1—2年或更长",
-          "evidence": "E4、E5、E8",
-          "next": "量产、良率和客户订单。"
+          "period": "2026Q1 收入兑现",
+          "type": "已发生",
+          "signal": "Amkor先进产品销售13.72亿美元",
+          "profitShift": "先进OSAT",
+          "lag": "收入领先新园区投产",
+          "evidence": "E2",
+          "next": "毛利和利用率"
+        },
+        {
+          "period": "2027-2028 新线导入",
+          "type": "计划",
+          "signal": "区域化先进封装园区进入认证",
+          "profitShift": "利润取决于良率与客户锁定",
+          "lag": "建设到量产多年",
+          "evidence": "E8",
+          "next": "认证、良率、客户订单"
         }
       ],
       "currentStage": {
-        "phase": "- 阶段：AI/HBM 驱动的有效产能扩张期。",
+        "phase": "AI/HBM驱动的有效产能扩张期",
         "entryAnchor": "2025 年封装设备销售增长 20.8%，2026 年仍预计增长；2026Q1 Amkor 先进产品销售为 13.72 亿美元，构成需求兑现样本（E1、E2）。",
         "expectedTransition": "若先进产品收入、测试设备支出和已认证新线量产同步改善，扩张延续；若 AI 芯片订单递延、毛利率受利用率拖累且新线推迟，则进入项目消化阶段。",
         "confidence": "中",
+        "conclusionStatus": "暂定",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "先进产品收入、设备支出和认证新线量产同步改善",
+        "downgradeCondition": "AI订单递延、OSAT利用率下降且新线量产推迟",
         "proveWrong": "2026 年后道设备预测被显著下修，同时主要 OSAT 的先进产品收入、利用率和资本开支连续下降，或关键项目无法通过量产验证。"
       },
       "watchIndicators": [
@@ -12279,7 +14012,12 @@
         ],
         "currentJudgment": [
           "AI 加速器与 HBM 令先进封装成为前道晶圆制造与系统交付之间的关键瓶颈，行业正处于技术升级带动的扩产段；但产能公告到量产之间仍要跨越设备、材料、良率、客户认证和区域供应链五道门槛。"
-        ]
+        ],
+        "conclusionStatus": "暂定",
+        "confidence": "中",
+        "evidenceAsOf": "2026-07-18 21:54:27 +08:00",
+        "upgradeCondition": "先进产品收入、设备支出和认证新线量产同步改善",
+        "downgradeCondition": "AI订单递延、OSAT利用率下降且新线量产推迟"
       },
       "capitalFlows": {
         "attempts": [
@@ -12309,6 +14047,26 @@
           }
         ],
         "pricingRows": [],
+        "proxyRows": [
+          {
+            "tier": "行业邻近",
+            "instrument": "SOXX",
+            "coverage": "芯片与半导体设备",
+            "metric": "2026-07-14年内总回报88.86%",
+            "source": "https://www.ishares.com/us/products/239705/ishares-semiconductor-etf",
+            "conclusion": "AI芯片和设备叙事已被显著交易",
+            "limitation": "不直接覆盖多数OSAT和材料"
+          },
+          {
+            "tier": "公司",
+            "instrument": "Amkor",
+            "coverage": "先进封装服务",
+            "metric": "2026Q1先进产品净销售额13.72亿美元",
+            "source": "E2",
+            "conclusion": "先进封装已进入收入兑现",
+            "limitation": "经营数据不能单独判断估值分位"
+          }
+        ],
         "summary": [
           "*已定价（推断）：AI、HBM、Chiplet 与先进封装是广泛可见的产业叙事；SEMI 的后道设备预测、TSMC 的技术路线和 Amkor 的资本开支/合作公告均使“先进封装要扩产”成为公开共识（E1、E3、E6、E8）。",
           "*未定价（推断）：各技术路线的实际良率、面板级量产速度、区域化项目的客户爬坡与合同兑现，以及新增产能会否压低服务利润，缺少公开的统一订单与估值序列，不能判断是否已充分反映。"
@@ -12317,27 +14075,27 @@
       "futureCapitalFlows": [
         {
           "scenario": "基准",
-          "trigger": "AI芯片需求与后道设备预测按当前轨迹兑现",
-          "flow": "向已认证的2.5D/3D集成、HBM互连和测试服务集中",
-          "first": "现有量产平台与关键材料/测试服务",
-          "later": "新建厂在爬坡后才受益",
-          "evidence": "Amkor先进产品收入、SEMI预测、新线进度。"
+          "trigger": "AI和HBM订单增长且认证新线爬坡",
+          "flow": "向先进OSAT、测试和材料移动",
+          "first": "先进封装服务",
+          "later": "设备与材料后受益",
+          "evidence": "收入、利用率、认证"
         },
         {
           "scenario": "上行",
-          "trigger": "HBM和大尺寸AI加速器需求继续上修，良率改善",
-          "flow": "向高密度互连、面板级工艺和区域化测试扩散",
-          "first": "通过客户认证的CoWoS/Chiplet与高端测试",
-          "later": "基板、设备和新线随后受益",
-          "evidence": "客户项目、设备交付、利用率和扩产指引。"
+          "trigger": "封装瓶颈延长且芯粒复杂度上升",
+          "flow": "向高端设备、基板和测试集中",
+          "first": "先进设备与基板",
+          "later": "OSAT扩产后受益",
+          "evidence": "交期、良率、设备订单"
         },
         {
           "scenario": "下行",
-          "trigger": "AI系统采购延后或新线良率爬坡慢",
-          "flow": "向已安装产线维护和常规高可靠性服务收缩",
-          "first": "有稳定客户与低新增资本开支的服务",
-          "later": "重资本新建项目、未认证产线受压",
-          "evidence": "资本开支下修、延迟投产、毛利率和订单变化。"
+          "trigger": "AI订单递延且新产能集中释放",
+          "flow": "向存量客户和服务稳定环节移动",
+          "first": "成熟客户组合OSAT",
+          "later": "高成本新线和专用设备受损",
+          "evidence": "利用率、毛利、项目进度"
         }
       ],
       "disagreements": [
@@ -12482,11 +14240,15 @@
           "limitation": "项目建设、成本与客户导入均有不确定性。"
         }
       ],
+      "structureScore": 100,
+      "evidenceScore": 100,
       "quality": {
         "score": 100,
-        "passed": 17,
-        "total": 17,
-        "level": "新版结构完整",
+        "structureScore": 100,
+        "evidenceScore": 100,
+        "passed": 25,
+        "total": 25,
+        "level": "结构完整 · 证据充足",
         "checks": [
           {
             "id": "reportDate",
@@ -12549,21 +14311,6 @@
             "ok": true
           },
           {
-            "id": "falsification",
-            "label": "反证或风险条件",
-            "ok": true
-          },
-          {
-            "id": "capitalFlows",
-            "label": "资金动向",
-            "ok": true
-          },
-          {
-            "id": "futureCapitalFlows",
-            "label": "未来资金流向",
-            "ok": true
-          },
-          {
             "id": "glossary",
             "label": "术语表",
             "ok": true
@@ -12572,8 +14319,68 @@
             "id": "evidenceLedger",
             "label": "证据台账",
             "ok": true
+          },
+          {
+            "id": "stageStatus",
+            "label": "阶段与结论状态分离",
+            "ok": true
+          },
+          {
+            "id": "confidence",
+            "label": "结论置信度",
+            "ok": true
+          },
+          {
+            "id": "evidenceAsOf",
+            "label": "证据截至时间",
+            "ok": true
+          },
+          {
+            "id": "upgradeCondition",
+            "label": "上调条件",
+            "ok": true
+          },
+          {
+            "id": "downgradeCondition",
+            "label": "下调条件",
+            "ok": true
+          },
+          {
+            "id": "falsification",
+            "label": "反证或风险条件",
+            "ok": true
+          },
+          {
+            "id": "capitalAttempts",
+            "label": "资本市场检索记录",
+            "ok": true
+          },
+          {
+            "id": "marketEvidence",
+            "label": "资本市场可用代理证据",
+            "ok": true
+          },
+          {
+            "id": "futureCapitalFlows",
+            "label": "未来资金情景六字段",
+            "ok": true
+          },
+          {
+            "id": "cycleTimeline",
+            "label": "四至六个事件锚点",
+            "ok": true
+          },
+          {
+            "id": "evidenceDepth",
+            "label": "证据台账深度",
+            "ok": true
           }
         ],
+        "marketEvidenceCoverage": {
+          "usable": 2,
+          "total": 2,
+          "status": "有代理证据"
+        },
         "nodeMetrics": {
           "total": 4,
           "complete": 4,
