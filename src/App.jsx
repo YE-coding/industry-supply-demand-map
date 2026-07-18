@@ -1412,17 +1412,17 @@ function profitRows(item, chainNodes) {
   return [
     {
       question: 'Who pays?',
-      answer: `旧报告只把“${lastNode}”放在需求末端，没有按新版 Skill 单独识别最终预算方。`,
+      answer: `当前报告只把“${lastNode}”放在需求末端，没有单独识别最终预算方。`,
       gap: '需用采购、资本开支或订单数据补充。',
     },
     {
       question: 'Who captures gross profit?',
-      answer: '旧报告没有把利润池按产业环节拆开，页面不做推测。',
+      answer: '当前报告没有把利润池按产业环节拆开，页面不做推测。',
       gap: '需补充各环节收入、毛利和定价证据。',
     },
     {
       question: 'Who bears capex and inventory risk?',
-      answer: item.bottlenecks?.[0] || '旧报告没有明确扩产和库存风险承担者。',
+      answer: item.bottlenecks?.[0] || '当前报告没有明确扩产和库存风险承担者。',
       gap: '需补充资本开支、库存和利用率。',
     },
   ];
@@ -2084,7 +2084,7 @@ function ProfitFlowMap({ item, chainNodes }) {
           <p className="micro-title">02 · 钱与利润怎么走</p>
           <h3>不再打分，直接说谁出钱、谁赚钱、谁担风险</h3>
         </div>
-        <span>{isStructured ? '来自新版报告的 Power and Profit Map' : item.onePage ? '新版报告未写利益传导表：缺失项明确留空' : '旧报告兼容模式：缺失项明确留空'}</span>
+        <span>{isStructured ? '来自报告的 Power and Profit Map' : '当前 Markdown 未写利益传导表：缺失项明确留空'}</span>
       </div>
       <div className="profit-story-grid">
         {rows.map((row, index) => (
@@ -2111,7 +2111,7 @@ function SupplySignalBoard({ item }) {
       latest: row.baseline,
       period: row.frequency,
       interpretation: row.meaning,
-      gap: '旧报告未按新版格式拆分供需信号。',
+      gap: '当前 Markdown 未按结构化表格拆分供需信号。',
     }));
 
   return (
@@ -2140,8 +2140,8 @@ function SupplySignalBoard({ item }) {
         </div>
       ) : (
         <div className="data-gap-box">
-          <strong>这份旧报告没有结构化供需信号</strong>
-          <p>页面不会用关键词生成一条看似专业的曲线；需要按新版 Skill 补充需求、订单、价格、库存、利用率、利润和扩产数据。</p>
+          <strong>这份报告没有结构化供需信号</strong>
+          <p>页面不会用关键词生成一条看似专业的曲线；需要在 Markdown 中补充需求、订单、价格、库存、利用率、利润和扩产数据。</p>
         </div>
       )}
 
@@ -2167,7 +2167,7 @@ function ActualTimeSeries({ item }) {
       <section className="time-series-panel time-series-empty">
         <div>
           <p className="micro-title">真实时间序列</p>
-          <h4>旧报告还没有足够的同口径历史数据</h4>
+          <h4>这份报告还没有足够的同口径历史数据</h4>
           <p>至少需要同一个指标、同一个单位、两个以上日期才能画线。没有数据时，页面明确留空，不再画抽象趋势。</p>
         </div>
         {watchRows.length > 0 && (
@@ -2273,8 +2273,8 @@ function CycleHistory({ item }) {
         </div>
       ) : (
         <div className="data-gap-box">
-          <strong>这份旧报告没有结构化周期时间线</strong>
-          <p>当前只能显示“{item.stage}”这个阶段标签，无法可靠还原从订单到利润、再到扩产或过剩的历史过程。新版 Skill 报告会补齐。</p>
+          <strong>这份报告没有结构化周期时间线</strong>
+          <p>当前只能显示“{item.stage}”这个阶段标签，无法可靠还原从订单到利润、再到扩产或过剩的历史过程；需要回到 Markdown 补充可审计的阶段和日期。</p>
         </div>
       )}
     </article>
