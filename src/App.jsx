@@ -6,6 +6,7 @@ import { officialIndustryLayer, relationSeeds } from './industryTaxonomy';
 import { dedupeCasesByIndustry } from './caseIdentity';
 import { comparePeriodLabels } from './periodSort';
 import { comparisonBottleneck, comparisonSupplyStatus } from './comparisonCopy';
+import { clampGraphScale, graphDefaultView, pinchGraphView } from './graphViewport';
 
 const introWords = ['看懂行业'];
 const baseCases = dedupeCasesByIndustry(dataset.cases || [], { preferLatestDate: true });
@@ -522,6 +523,8 @@ function App() {
   };
 
   const clearAllGraphFilters = (event) => {
+    setGuideOpen(false);
+    setLibraryOpen(false);
     clearGraphFocus();
     setQuery('');
     setActiveLensId(null);
@@ -556,6 +559,17 @@ function App() {
     setLockedChainIndex(null);
   }, [selectedId]);
 
+  useEffect(() => {
+    if (!guideOpen && !libraryOpen) return undefined;
+    const closePanelOnEscape = (event) => {
+      if (event.key !== 'Escape') return;
+      setGuideOpen(false);
+      setLibraryOpen(false);
+    };
+    window.addEventListener('keydown', closePanelOnEscape);
+    return () => window.removeEventListener('keydown', closePanelOnEscape);
+  }, [guideOpen, libraryOpen]);
+
   if (!entered) {
     return (
       <main className={`intro-screen ${zooming ? 'is-zooming' : ''}`} onClick={openExperience}>
@@ -589,8 +603,8 @@ function App() {
           <kbd>SEARCH</kbd>
         </div>
         <nav className="atlas-actions" aria-label="页面工具">
-          <button className="library-trigger" onClick={() => setLibraryOpen(true)}>案例档案</button>
-          <button className="guide-trigger" onClick={() => setGuideOpen(true)}>生成调用词</button>
+          <button className="library-trigger" onClick={() => { setGuideOpen(false); setLibraryOpen(true); }}>案例档案</button>
+          <button className="guide-trigger" onClick={() => { setLibraryOpen(false); setGuideOpen(true); }}>生成调用词</button>
           <button
             type="button"
             className={`graph-reset ${resetAcknowledged ? 'is-confirmed' : ''}`}
@@ -746,7 +760,15 @@ function PromptGuidePanel({ open, onClose }) {
   };
 
   return (
-    <section className="guide-layer" aria-label="Skill 调用词生成器">
+    <section
+      className="guide-layer"
+      aria-label="Skill 调用词生成器"
+      role="dialog"
+      aria-modal="true"
+      onPointerDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
       <div className="guide-panel">
         <button className="guide-close" onClick={onClose}>关闭</button>
         <div className="guide-head">
@@ -794,7 +816,15 @@ function CaseLibraryPanel({ open, cases, onClose, onOpenCase, onDownloadMarkdown
   const groups = [['官方示例', cases]];
 
   return (
-    <section className="library-layer" aria-label="案例库">
+    <section
+      className="library-layer"
+      aria-label="案例库"
+      role="dialog"
+      aria-modal="true"
+      onPointerDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
       <div className="library-panel">
         <button className="library-close" onClick={onClose}>关闭</button>
         <div className="library-head">
@@ -875,14 +905,32 @@ function IndustryGraph({
   const dragFixedRef = useRef(null);
   const nodeDragStartRef = useRef(null);
   const localNodeRef = useRef(null);
-  const defaultView = { scale: 1.14, x: -6.8, y: -7.6 };
-  const [view, setView] = useState(defaultView);
+  const touchPointersRef = useRef(new Map());
+  const pinchGestureRef = useRef(null);
+  const viewRef = useRef(graphDefaultView(false));
+  const [isCompactGraph, setIsCompactGraph] = useState(() => window.matchMedia('(max-width: 640px)').matches);
+  const [view, setView] = useState(() => graphDefaultView(window.matchMedia('(max-width: 640px)').matches));
   const [dragStart, setDragStart] = useState(null);
   const [nodeDragStart, setNodeDragStart] = useState(null);
   const [hoveredLink, setHoveredLink] = useState(null);
   const dragMovedRef = useRef(false);
   const [layoutNodes, setLayoutNodes] = useState(() => createLayoutNodes(nodes, links));
   const layoutNodesRef = useRef(layoutNodes);
+
+  useEffect(() => {
+    viewRef.current = view;
+  }, [view]);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 640px)');
+    const updateCompactGraph = (event) => {
+      const compact = event.matches;
+      setIsCompactGraph(compact);
+      setView(graphDefaultView(compact));
+    };
+    media.addEventListener?.('change', updateCompactGraph);
+    return () => media.removeEventListener?.('change', updateCompactGraph);
+  }, []);
 
   function runLayoutFrame() {
     const radialStrength = performance.now() < radialUntilRef.current ? 0.15 : 0;
@@ -929,7 +977,7 @@ function IndustryGraph({
   const zoom = (delta) => {
     setView((current) => ({
       ...current,
-      scale: Math.min(2.4, Math.max(0.72, current.scale + delta)),
+      scale: clampGraphScale(current.scale + delta),
     }));
   };
 
@@ -942,7 +990,7 @@ function IndustryGraph({
       const delta = event.deltaY > 0 ? -0.08 : 0.08;
       setView((current) => ({
         ...current,
-        scale: Math.min(2.4, Math.max(0.72, current.scale + delta)),
+        scale: clampGraphScale(current.scale + delta),
       }));
     };
     frame.addEventListener('wheel', handleWheel, { passive: false });
@@ -954,11 +1002,11 @@ function IndustryGraph({
     const seeded = createLayoutNodes(nodes, links, 'concept-core');
     layoutNodesRef.current = seeded;
     setLayoutNodes(seeded);
-    setView(defaultView);
+    setView(graphDefaultView(isCompactGraph));
     alphaRef.current = 0.58;
     radialUntilRef.current = performance.now() + 600;
     if (!layoutRafRef.current) layoutRafRef.current = window.requestAnimationFrame(runLayoutFrame);
-  }, [resetKey]);
+  }, [resetKey, isCompactGraph]);
 
   const pointerToGraphPoint = (event) => {
     const svg = svgRef.current;
@@ -1019,14 +1067,17 @@ function IndustryGraph({
   };
 
   const startDrag = (event) => {
+    if (pinchGestureRef.current) return;
     if (event.target.closest?.('.graph-node')) return;
     if (event.target.closest?.('.graph-tools')) return;
     if (event.target.closest?.('.relation-tooltip')) return;
     onClearFocus();
     setDragStart({ x: event.clientX, y: event.clientY, view });
+    event.currentTarget.setPointerCapture?.(event.pointerId);
   };
 
   const startNodeDrag = (event, node) => {
+    if (pinchGestureRef.current) return;
     event.preventDefault();
     event.stopPropagation();
     // Only the most recently placed non-core node stays pinned. Releasing older
@@ -1077,6 +1128,69 @@ function IndustryGraph({
     setNodeDragStart(null);
   };
 
+  const clientToSvgViewportPoint = (clientX, clientY) => {
+    const box = svgRef.current?.getBoundingClientRect();
+    if (!box?.width || !box?.height) return null;
+    return {
+      x: ((clientX - box.left) / box.width) * 100,
+      y: ((clientY - box.top) / box.height) * 100,
+    };
+  };
+
+  const beginPinchGesture = () => {
+    const pointers = [...touchPointersRef.current.values()];
+    if (pointers.length < 2) return;
+    const [first, second] = pointers;
+    const startMidpoint = clientToSvgViewportPoint(
+      (first.x + second.x) / 2,
+      (first.y + second.y) / 2,
+    );
+    if (!startMidpoint) return;
+    pinchGestureRef.current = {
+      startView: viewRef.current,
+      startMidpoint,
+      startDistance: Math.hypot(second.x - first.x, second.y - first.y),
+    };
+    dragMovedRef.current = true;
+    dragFixedRef.current = null;
+    nodeDragStartRef.current = null;
+    localNodeRef.current = null;
+    setDragStart(null);
+    setNodeDragStart(null);
+  };
+
+  const handleTouchPointerDown = (event) => {
+    if (event.pointerType !== 'touch') return;
+    touchPointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (touchPointersRef.current.size === 2) beginPinchGesture();
+  };
+
+  const handleTouchPointerMove = (event) => {
+    if (event.pointerType !== 'touch' || !touchPointersRef.current.has(event.pointerId)) return;
+    touchPointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (touchPointersRef.current.size < 2) return;
+    if (!pinchGestureRef.current) beginPinchGesture();
+    const gesture = pinchGestureRef.current;
+    const [first, second] = [...touchPointersRef.current.values()];
+    const currentMidpoint = clientToSvgViewportPoint(
+      (first.x + second.x) / 2,
+      (first.y + second.y) / 2,
+    );
+    if (!gesture || !currentMidpoint) return;
+    event.preventDefault();
+    setView(pinchGraphView({
+      ...gesture,
+      currentMidpoint,
+      currentDistance: Math.hypot(second.x - first.x, second.y - first.y),
+    }));
+  };
+
+  const handleTouchPointerEnd = (event) => {
+    if (event.pointerType !== 'touch') return;
+    touchPointersRef.current.delete(event.pointerId);
+    if (touchPointersRef.current.size < 2) pinchGestureRef.current = null;
+  };
+
   return (
     <div
       ref={frameRef}
@@ -1092,7 +1206,7 @@ function IndustryGraph({
       <div className="graph-tools" aria-label="图谱缩放控制">
         <button type="button" title="放大图谱" onClick={() => zoom(0.12)}>＋ 放大</button>
         <button type="button" title="缩小图谱" onClick={() => zoom(-0.12)}>－ 缩小</button>
-        <button type="button" title="恢复默认缩放和位置" onClick={() => setView(defaultView)}>适应图谱</button>
+        <button type="button" title="恢复默认缩放和位置" onClick={() => setView(graphDefaultView(isCompactGraph))}>适应图谱</button>
       </div>
       <svg
         ref={svgRef}
@@ -1100,10 +1214,17 @@ function IndustryGraph({
         viewBox="0 0 100 100"
         role="img"
         aria-label="行业关系网络"
+        onPointerDownCapture={handleTouchPointerDown}
+        onPointerMoveCapture={handleTouchPointerMove}
+        onPointerUpCapture={handleTouchPointerEnd}
+        onPointerCancelCapture={handleTouchPointerEnd}
         onPointerDown={startDrag}
         onPointerMove={handlePointerMove}
         onPointerUp={stopDrag}
-        onPointerLeave={stopDrag}
+        onPointerLeave={(event) => {
+          handleTouchPointerEnd(event);
+          stopDrag();
+        }}
         onContextMenu={(event) => event.preventDefault()}
       >
       <defs>
@@ -1155,7 +1276,7 @@ function IndustryGraph({
         const isFocus = hoveredId === node.id || focusedId === node.id;
         const isSelected = focusedId === node.id;
         const isDim = !isFocus && ((neighborSet && !neighborSet.has(node.id)) || !filteredIds.has(node.id));
-        const labelVisible = (node.type === 'case' && (isFocus || view.scale >= 1.1)) || node.type === 'core';
+        const labelVisible = (node.type === 'case' && (isCompactGraph || isFocus || neighborSet?.has(node.id) || view.scale >= 1.1)) || node.type === 'core';
         return (
           <g
             key={node.id}
@@ -1210,7 +1331,11 @@ function IndustryGraph({
           </>
         )}
       </aside>
-      <p className="graph-hint">图谱内滚轮缩放 · 拖动画布或节点 · 单击看摘要 · 双击进详情</p>
+      <p className="graph-hint">
+        {isCompactGraph
+          ? '单指拖动画布 · 双指缩放 · 点节点看摘要 · 再点进入详情'
+          : '图谱内滚轮缩放 · 拖动画布或节点 · 单击看摘要 · 双击进详情'}
+      </p>
     </div>
   );
 }
@@ -1595,6 +1720,7 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
   const metricHints = extractMetricHints(item);
   const category = categories[classifyCase(item)] || categories.traditional;
   const [rawOpen, setRawOpen] = useState(false);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   const hasOriginalMarkdown = Boolean(item.originalMarkdown);
   const canDownloadOriginal = hasOriginalMarkdown || Boolean(item.markdownUrl);
 
@@ -1652,15 +1778,20 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
 
       <FutureCapitalFlowCard item={item} />
 
-      <details className="research-basis">
-        <summary>
+      <section className={`research-basis ${advancedOpen ? 'is-open' : ''}`}>
+        <button
+          type="button"
+          className="research-basis-toggle"
+          aria-expanded={advancedOpen}
+          onClick={() => setAdvancedOpen((current) => !current)}
+        >
           <div>
             <span>进阶视角</span>
             <strong>查看分歧、反证、术语和证据台账</strong>
           </div>
-          <em>展开</em>
-        </summary>
-        <div className="research-basis-body">
+          <em>{advancedOpen ? '收起' : '展开'}</em>
+        </button>
+        {advancedOpen && <div className="research-basis-body">
           <ConclusionAudit item={item} chainNodes={chainNodes} metricHints={metricHints} />
           <AdvancedInsightCard item={item} />
           <EvidenceTrace item={item} metricHints={metricHints} />
@@ -1724,8 +1855,8 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
               {canDownloadOriginal && <button className="secondary-button" onClick={() => onDownloadMarkdown(item)}>下载原始 MD</button>}
             </div>
           </article>
-        </div>
-      </details>
+        </div>}
+      </section>
 
       {rawOpen && <OriginalMarkdownModal item={item} onClose={() => setRawOpen(false)} onDownload={() => onDownloadMarkdown(item)} />}
     </section>
