@@ -2685,7 +2685,9 @@ function NodeReadout({ item, currentNode, index }) {
     ['卖给谁', description.buyers],
     ['怎么赚钱', description.money],
     ['为什么会卡住', description.why],
-  ].filter(([, value]) => value && !/未在节点表中单独披露/u.test(value));
+  ];
+  const visibleFields = fields.filter(([, value]) => value && !/未在节点表中单独披露/u.test(value));
+  const missingFields = fields.filter(([, value]) => !value || /未在节点表中单独披露/u.test(value)).map(([label]) => label);
   return (
     <div className="node-readout">
       <div className="node-title">
@@ -2700,12 +2702,17 @@ function NodeReadout({ item, currentNode, index }) {
         </div>
       </div>
       <div className="node-copy">
-        {fields.map(([label, value]) => (
+        {visibleFields.map(([label, value]) => (
           <section key={label}>
             <span>{label}</span>
             <p>{value}</p>
           </section>
         ))}
+        {missingFields.length > 0 && (
+          <p className="node-missing-notice">
+            原报告尚未可靠拆分：{missingFields.join('、')}。页面保留为空，不用其他字段重复填充。
+          </p>
+        )}
         {description.evidence && (
           <section className="node-evidence">
             <span>报告证据</span>
