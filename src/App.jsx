@@ -1497,6 +1497,9 @@ function explainStage(stage) {
 }
 
 function evidenceStatusLabel(item) {
+  if (item.quality?.structureScore != null && item.quality?.evidenceScore != null) {
+    return `结构 ${item.quality.structureScore} · 证据 ${item.quality.evidenceScore}`;
+  }
   if (item.quality?.level) return item.quality.level;
   const score = item.quality?.score;
   if (score == null) return '证据状态未评估';
@@ -2149,9 +2152,13 @@ function CycleOverview({ item }) {
           <p className="report-version">{item.title}</p>
         </div>
         <div className="cycle-stage-answer">
-          <span>现在处于</span>
+          <span>阶段判断</span>
           <strong>{item.stage}</strong>
-          <small>{evidenceStatusLabel(item)}</small>
+          <div className="cycle-status-meta">
+            <small><b>结论状态</b>{item.conclusionStatus || '未单独标注'}</small>
+            <small><b>置信度</b>{item.confidence || confidence}</small>
+            <small><b>证据截至</b>{item.evidenceAsOf || reportDate(item)}</small>
+          </div>
         </div>
       </div>
 
@@ -2189,7 +2196,7 @@ function CycleOverview({ item }) {
         <section className="stage-falsifier">
           <span>什么出现，就说明判断错了</span>
           <p>{stageInvalidation(item)}</p>
-          <small>报告置信度：{confidence}。这是文字等级，不是“47% 现实、31% 预期”之类的概率。</small>
+          <small>报告置信度：{String(item.confidence || confidence).replace(/[。；;，,\s]+$/u, '')}。这是证据等级，不是概率。</small>
         </section>
       </div>
 
@@ -2371,7 +2378,7 @@ function ActualTimeSeries({ item }) {
 function CycleHistory({ item }) {
   const rows = [...(item.cycleTimeline || [])].sort((a, b) => comparePeriodLabels(a.period, b.period));
   const actualIndexes = rows
-    .map((row, index) => (/计划|风险|预测|预期/iu.test(row.period) ? -1 : index))
+    .map((row, index) => (/计划|风险|预测|预期/iu.test(`${row.type || ''}${row.period}`) ? -1 : index))
     .filter((index) => index >= 0);
   const currentIndex = actualIndexes.at(-1);
 
@@ -2388,12 +2395,12 @@ function CycleHistory({ item }) {
       {rows.length ? (
         <div className="cycle-history-track">
           {rows.map((row, index) => {
-            const future = /计划|风险|预测|预期/iu.test(row.period);
+            const future = /计划|风险|预测|预期/iu.test(`${row.type || ''}${row.period}`);
             const current = index === currentIndex;
             return (
               <section key={`${row.period}-${row.signal}`} className={`${future ? 'is-future' : 'is-actual'} ${current ? 'is-current' : ''}`}>
                 <div className="cycle-time-marker"><i /><time>{row.period}</time></div>
-                <span>{current ? '当前证据锚点' : future ? '计划 / 风险窗口' : '已发布实际信号'}</span>
+                <span>{current ? '当前证据锚点' : row.type || (future ? '计划 / 风险窗口' : '已发布实际信号')}</span>
                 <h4>{row.signal}</h4>
                 {row.profitShift && <p><strong>利润变化：</strong>{row.profitShift}</p>}
                 {row.lag && <p><strong>还要等多久：</strong>{row.lag}</p>}
@@ -2414,6 +2421,7 @@ function CycleHistory({ item }) {
 
 function CapitalFlowCard({ item }) {
   const attempts = item.capitalFlows?.attempts || [];
+  const proxies = item.capitalFlows?.proxyRows || [];
   const summary = item.capitalFlows?.summary || [];
 
   return (
@@ -2423,18 +2431,42 @@ function CapitalFlowCard({ item }) {
           <p className="micro-title">05 · 资金动向</p>
           <h3>先看市场已经交易了什么，再看缺口在哪里</h3>
         </div>
-        <span>来自新版 Skill 第 6 节</span>
+        <span>{item.marketEvidenceCoverage?.status || '证据覆盖未评估'}</span>
       </div>
-      {attempts.length ? (
-        <div className="capital-attempt-grid">
-          {attempts.slice(0, 5).map((row) => (
-            <section key={`${row.sourceType}-${row.result}`}>
-              <strong>{row.sourceType || row.source}</strong>
-              <p>{row.result || row.source}</p>
-              {row.limitation && <small>{row.limitation}</small>}
+      {proxies.length > 0 ? (
+        <div className="market-proxy-grid">
+          {proxies.map((row) => (
+            <section key={`${row.tier}-${row.instrument}-${row.metric}`}>
+              <div><span>{row.tier || '代理'}</span><strong>{row.instrument}</strong></div>
+              <p>{row.metric}</p>
+              <dl>
+                <div><dt>覆盖</dt><dd>{row.coverage}</dd></div>
+                <div><dt>结论</dt><dd>{row.conclusion}</dd></div>
+                <div><dt>局限</dt><dd>{row.limitation}</dd></div>
+              </dl>
+              {row.source && <small>来源：{row.source}</small>}
             </section>
           ))}
         </div>
+      ) : (
+        <div className="data-gap-box">
+          <strong>资本市场代理证据尚未形成</strong>
+          <p>下面只保留检索记录；缺少可核验指标时，不把尝试本身算作结论。</p>
+        </div>
+      )}
+      {attempts.length ? (
+        <details className="capital-attempts">
+          <summary>查看检索尝试与失败项（{attempts.length}）</summary>
+          <div className="capital-attempt-grid">
+            {attempts.slice(0, 5).map((row) => (
+              <section key={`${row.sourceType}-${row.result}`}>
+                <strong>{row.sourceType || row.source}</strong>
+                <p>{row.result || row.source}</p>
+                {row.limitation && <small>{row.limitation}</small>}
+              </section>
+            ))}
+          </div>
+        </details>
       ) : (
         <div className="data-gap-box">
           <strong>这份报告没有资金动向规定动作记录</strong>
@@ -2466,7 +2498,12 @@ function FutureCapitalFlowCard({ item }) {
           {rows.slice(0, 4).map((row) => (
             <section key={row.scenario}>
               <strong>{row.scenario}</strong>
-              <p>{row.flow || row.trigger}</p>
+              <dl className="future-flow-details">
+                <div><dt>触发条件</dt><dd>{row.trigger || '原报告未单独披露'}</dd></div>
+                <div><dt>利润池移动</dt><dd>{row.flow || '原报告未单独披露'}</dd></div>
+                <div><dt>先受益</dt><dd>{row.first || '原报告未单独披露'}</dd></div>
+                <div><dt>后受益 / 受损</dt><dd>{row.later || '原报告未单独披露'}</dd></div>
+              </dl>
               {row.evidence && <small>证据：{row.evidence}</small>}
             </section>
           ))}

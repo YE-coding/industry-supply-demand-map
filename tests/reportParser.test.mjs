@@ -33,7 +33,7 @@ test('extracts Chinese nodes for a new industry without generic fallbacks', () =
 
   const result = parseReportMarkdown(report, '铜行业供需周期分析.md');
 
-  assert.equal(result.quality.level, '旧版待重跑');
+  assert.equal(result.quality.level, '结构待重跑');
   assert.equal(result.caseItem.industry, '铜');
   assert.equal(result.caseItem.stage, '扩张期');
   assert.deepEqual(result.caseItem.chainNodes, [
