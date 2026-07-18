@@ -315,9 +315,9 @@ const extractOnePage = (content) => {
 };
 
 const extractChainNodeDetails = (content) => {
-  const newSection = sectionAfter(content, /###\s*1\.2\s*(?:各环节详解|环节详解)/iu);
-  if (newSection) {
-    const lines = newSection.replace(/\r/g, '').split('\n');
+  const chainSection = sectionAfter(content, /##\s*1[.、]?\s*(?:产业链地图)/iu);
+  if (chainSection) {
+    const lines = chainSection.replace(/\r/g, '').split('\n');
     const starts = lines
       .map((line, index) => ({ line, index }))
       .filter(({ line }) => /^#{3,4}\s*1\.2\.\d+\s+/u.test(line));
@@ -336,10 +336,10 @@ const extractChainNodeDetails = (content) => {
       if (!heading) return null;
       const rows = readFirstTableInSection(part);
       const companyRows = rows.map((row) => ({
-        name: pickTableValue(row, ['代表企业', '公司']),
+        name: pickTableValue(row, ['企业/机构', '代表企业', '公司']),
         role: pickTableValue(row, ['角色', '在该环节的地位']),
-        code: pickTableValue(row, ['上市地/代码', '上市地', '代码']),
-        why: pickTableValue(row, ['观察意义', '为什么能代表该环节', '为什么具有代表性', '代表性']),
+        code: pickTableValue(row, ['上市地/代码或属性', '上市地/代码', '上市地', '代码']),
+        why: pickTableValue(row, ['代表性依据', '观察意义', '为什么能代表该环节', '为什么具有代表性', '代表性']),
       })).filter((company) => company.name);
       const companies = companyRows.map((company) => (
         [company.name, company.code, company.role || company.why].filter(Boolean).join(' · ')
@@ -352,19 +352,36 @@ const extractChainNodeDetails = (content) => {
         .split('\n')
         .map((line) => line.trim())
         .filter((line) => /^(?:[-*]\s*)?\*\*(?:进阶视角|口径陷阱|争议)/u.test(line))
-        .map((line) => stripMarkdown(line.replace(/^[-*]\s*/u, '')));
+        .map((line) => stripMarkdown(line.replace(/^(?:[-*]\s+)/u, '')));
       // Parse **label**：value lines to extract structured fields
       const extractLabeledField = (patterns) => {
-        const line = paragraphs.find((p) => patterns.some((pat) => pat.test(p)));
+        const line = paragraphs.find((paragraph) => {
+          const plain = stripMarkdown(paragraph);
+          return patterns.some((pattern) => pattern.test(plain));
+        });
         if (!line) return '';
         return stripMarkdown(line).replace(/^[^：:]+[：:]\s*/u, '').trim();
       };
+      const splitLegacyFlow = (value = '') => {
+        const clauses = String(value).split(/[；;。]/u).map(stripMarkdown).filter(Boolean);
+        const supplier = clauses.find((clause) => /(?:向|从|上游).{0,24}(?:采购|购买|买入|取得)|采购.{0,20}(?:原料|设备|部件|服务)/u.test(clause)) || '';
+        const buyer = clauses.find((clause) => /(?:卖给|销售给|出售给|面向).{1,40}|(?:下游|买方).{0,16}(?:采购|购买)/u.test(clause)) || '';
+        return supplier && buyer && normalizeMeaning(supplier) !== normalizeMeaning(buyer)
+          ? { suppliers: supplier, buyers: buyer }
+          : { suppliers: '', buyers: '' };
+      };
       const what = extractLabeledField([/它是干什么的|What It Does|What It Is|核心动作/iu])
         || stripMarkdown(paragraphs[0] || '').replace(/^[^：:]{2,20}[：:]\s*/u, '');
-      const suppliers = extractLabeledField([/上游买什么|上游.*下游|供应商|Suppliers|Key Suppliers/iu]);
-      const buyers = extractLabeledField([/下游卖给谁|买家|客户|Buyers|Key Buyers/iu]);
-      const money = extractSentenceAround(part, '怎么赚钱') || extractSentenceAround(part, '收入') || extractSentenceAround(part, '收费') || extractSentenceAround(part, '毛利') || '';
-      const why = extractSentenceAround(part, '约束') || extractSentenceAround(part, '瓶颈') || extractSentenceAround(part, '争议') || '';
+      const combinedFlow = extractLabeledField([/上游买什么\s*[/／]\s*下游卖给谁|上游.*下游/iu]);
+      const legacyFlow = splitLegacyFlow(combinedFlow);
+      const suppliers = extractLabeledField([/^向谁采购/iu, /^上游买什么(?!\s*[/／])/iu, /^Suppliers/iu, /^Key Suppliers/iu])
+        || legacyFlow.suppliers;
+      const buyers = extractLabeledField([/^卖给谁/iu, /^下游卖给谁/iu, /^Buyers/iu, /^Key Buyers/iu])
+        || legacyFlow.buyers;
+      const money = extractLabeledField([/^怎么赚钱、议价能力/iu, /^怎么赚钱/iu, /^Monetization/iu])
+        || extractSentenceAround(part, '收费') || extractSentenceAround(part, '毛利') || '';
+      const why = extractLabeledField([/^为什么会卡住/iu, /^关键瓶颈/iu, /^Bottleneck/iu])
+        || extractSentenceAround(part, '瓶颈') || extractSentenceAround(part, '约束') || '';
       return {
         name: heading,
         position: '报告环节',
@@ -406,8 +423,8 @@ const extractChainNodeDetails = (content) => {
         buyers: '',
         companyRows: companies ? [{ name: companies, role: what, code, why: '' }] : [],
         companies: [companies, code].filter(Boolean).join(' · '),
-        money: pickTableValue(row, ['关键变量']),
-        why: what,
+        money: '',
+        why: '',
         evidence: pickTableValue(row, ['证据', '证据ID']),
         advanced: index === 0 ? advanced : [],
       };
@@ -459,14 +476,21 @@ const makeMissingNodeDetail = (node) => ({
 const extractProfitMap = (content) => {
   const rows = readTableAfterHeading(
     content,
-    /^###\s*(?:(?:1\.3|2\.4)[.、]?\s*)?(?:Power and Profit Map|权力与利润(?:地图|分配)|钱怎么流|利益传导|利润传导)/iu,
+    /^###\s*(?:(?:1\.3|2\.4)[.、]?\s*)?(?:Power and Profit Map|权力与利润(?:地图|分配|传导)|钱怎么流|利益传导|利润传导)/iu,
   );
-  if (rows?.length) return rows.map((row) => ({
-    question: pickTableValue(row, ['Question', '问题']),
-    answer: pickTableValue(row, ['Answer', '回答', '结论', '回答（必须点名具体环节和企业，禁止通用套话）']),
-    evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID', '证据']),
-    gap: pickTableValue(row, ['Gap', 'Gap / Limitation', '缺口', '局限']),
-  })).filter((row) => row.question && row.answer);
+  if (rows?.length) return rows.map((row) => {
+    const node = pickTableValue(row, ['环节', '节点']);
+    const payer = pickTableValue(row, ['谁最终付款']);
+    const profit = pickTableValue(row, ['利润来源']);
+    const constraint = pickTableValue(row, ['当前约束']);
+    return {
+      question: pickTableValue(row, ['Question', '问题']) || node,
+      answer: pickTableValue(row, ['Answer', '回答', '结论', '回答（必须点名具体环节和企业，禁止通用套话）'])
+        || [payer && `付款方：${payer}`, profit && `利润来源：${profit}`, constraint && `当前约束：${constraint}`].filter(Boolean).join('；'),
+      evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID', '证据']),
+      gap: pickTableValue(row, ['Gap', 'Gap / Limitation', '缺口', '局限']),
+    };
+  }).filter((row) => row.question && row.answer);
 
   const valueRows = readTableAfterHeading(
     content,
@@ -512,7 +536,7 @@ const extractCycleTimeline = (content) => {
   );
   const parsedRows = (rows || []).map((row) => ({
     period: pickTableValue(row, ['Stage / Date', 'Stage', 'Date', '阶段 / 日期', '时期', '时间', '阶段/日期']),
-    signal: pickTableValue(row, ['Signal', '信号', '需求']),
+    signal: pickTableValue(row, ['Signal', '信号', '可观察信号', '需求']),
     profitShift: pickTableValue(row, ['Profit Pool Shift', '利润池变化', '利润变化', '利润池往哪移', '价格/利润']),
     lag: pickTableValue(row, ['Key Lag', '关键时滞', '关键滞后', '时滞']),
     evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID', '证据']),
@@ -603,7 +627,9 @@ const extractWatchIndicators = (content) => {
     disconfirmingTrigger: pickTableValue(row, ['Disconfirming Trigger', '反证触发']),
     meaning: pickTableValue(row, ['Meaning', '含义', '解释']),
   })).filter((row) => row.indicator && row.baseline);
-  return rowSets.map((rows) => parseRows(rows || [])).find((rows) => rows.length) || [];
+  return rowSets
+    .map((rows) => parseRows(rows || []))
+    .sort((left, right) => right.length - left.length)[0] || [];
 };
 
 const extractComparableSeries = (content) => {
@@ -820,13 +846,34 @@ const inferStage = (judgment) => {
   return hit ? hit[1] : '待验证';
 };
 
-const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNodes, bottlenecks, sourceHints, metricHints, capitalFlows, futureCapitalFlows, glossary, evidenceLedger }, content) => {
+const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNodes, chainNodeDetails, bottlenecks, sourceHints, metricHints, capitalFlows, futureCapitalFlows, glossary, evidenceLedger }, content) => {
+  const nodeFields = (node) => [node.what || node.does, node.suppliers, node.buyers, node.money, node.why];
+  const nodeFieldMinimums = [12, 10, 10, 20, 10];
+  const completeNodes = chainNodeDetails.filter((node) => (
+    nodeFields(node).every((value, index) => normalizeMeaning(value).length >= nodeFieldMinimums[index])
+    && (node.advanced || []).some((value) => normalizeMeaning(value).length >= 36)
+  ));
+  const distinctNodes = chainNodeDetails.filter((node) => {
+    const values = nodeFields(node).map(normalizeMeaning).filter(Boolean);
+    return values.length === 5 && new Set(values).size === values.length;
+  });
+  const companyCoveredNodes = chainNodeDetails.filter((node) => (node.companyRows || []).length >= 2);
+  const averageNodeInformation = chainNodeDetails.length
+    ? chainNodeDetails.reduce((total, node) => (
+      total + nodeFields(node).reduce((subtotal, value) => subtotal + normalizeMeaning(value).length, 0)
+      + (node.advanced || []).reduce((subtotal, value) => subtotal + normalizeMeaning(value).length, 0)
+    ), 0) / chainNodeDetails.length
+    : 0;
   const checks = [
     ['reportDate', '分析日期', Boolean(date)],
     ['dataCurrency', '数据时效', Boolean(dataCurrency)],
     ['geography', '地理范围', Boolean(geography)],
     ['judgment', '一句话判断/当前判断', judgment && !judgment.includes('未提取')],
-    ['chain', '产业链', Boolean(chain) && chainNodes.length >= 3],
+    ['chain', '产业链', Boolean(chain) && chainNodes.length >= 4],
+    ['nodeCompleteness', '节点五字段与进阶覆盖', chainNodeDetails.length >= 4 && completeNodes.length === chainNodeDetails.length],
+    ['nodeDistinctness', '节点字段互不重复', chainNodeDetails.length >= 4 && distinctNodes.length === chainNodeDetails.length],
+    ['companyCoverage', '每节点至少两个代表主体', chainNodeDetails.length >= 4 && companyCoveredNodes.length === chainNodeDetails.length],
+    ['nodeInformation', '节点平均信息量', averageNodeInformation >= 200],
     ['bottlenecks', '关键瓶颈', bottlenecks.length >= 1],
     ['sources', '来源线索', sourceHints.length >= 2],
     ['metrics', '量化线索', metricHints.length >= 2],
@@ -839,7 +886,20 @@ const buildQuality = ({ date, geography, dataCurrency, judgment, chain, chainNod
   const passed = checks.filter((item) => item.ok).length;
   const score = Math.round((passed / checks.length) * 100);
   const level = score >= 78 ? '新版结构完整' : score >= 56 ? '建议补充' : '旧版待重跑';
-  return { score, passed, total: checks.length, level, checks };
+  return {
+    score,
+    passed,
+    total: checks.length,
+    level,
+    checks,
+    nodeMetrics: {
+      total: chainNodeDetails.length,
+      complete: completeNodes.length,
+      distinct: distinctNodes.length,
+      companyCovered: companyCoveredNodes.length,
+      averageInformation: Math.round(averageNodeInformation),
+    },
+  };
 };
 
 export function parseReportMarkdown(content, filename = '行业分析报告.md') {
@@ -890,6 +950,7 @@ export function parseReportMarkdown(content, filename = '行业分析报告.md')
     judgment,
     chain,
     chainNodes,
+    chainNodeDetails: explicitChainNodeDetails,
     bottlenecks,
     sourceHints,
     metricHints,

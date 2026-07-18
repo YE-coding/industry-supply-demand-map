@@ -4058,6 +4058,15 @@ button {
   background: #ffffff !important;
 }
 
+.node-missing-notice {
+  grid-column: 1 / -1;
+  border-left: 3px solid #d49a33;
+  border-radius: 7px;
+  background: #fff8e8;
+  padding: 10px 12px;
+  color: #6f531e !important;
+}
+
 .analysis-grid {
   display: grid;
   grid-template-columns: 1fr;

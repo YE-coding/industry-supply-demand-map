@@ -33,7 +33,7 @@ test('extracts Chinese nodes for a new industry without generic fallbacks', () =
 
   const result = parseReportMarkdown(report, '铜行业供需周期分析.md');
 
-  assert.equal(result.quality.level, '建议补充');
+  assert.equal(result.quality.level, '旧版待重跑');
   assert.equal(result.caseItem.industry, '铜');
   assert.equal(result.caseItem.stage, '扩张期');
   assert.deepEqual(result.caseItem.chainNodes, [
@@ -466,4 +466,94 @@ test('does not treat a repeated core-conflict sentence as the bottleneck', () =>
     '高端激光器/硅光良率',
     '800G/1.6T 认证和交付',
   ]);
+});
+
+test('parses the five independent v1.5 node fields without copying content', () => {
+  const report = `# 液冷行业供需周期分析
+
+分析日期：2026-07-18 10:00:00 +08:00
+地理范围：全球
+数据时效：事实截至 2026-07-18
+
+## 1. 产业链地图
+
+### 1.2 各环节详解
+
+#### 1.2.1 冷板与快接
+
+**它是干什么的**：把芯片热量传入液体回路。
+
+**向谁采购**：向铜材、密封件和精密加工厂采购部件。
+
+**卖给谁**：向服务器厂和液冷系统集成商销售冷板组件。
+
+**怎么赚钱、议价能力**：通过可靠性认证、低漏液率和平台适配获得溢价。
+
+**为什么会卡住**：密封、腐蚀、洁净度和批量良率必须同时通过验证。
+
+| 企业/机构 | 上市地/代码或属性 | 角色 | 代表性依据 | 证据 |
+|---|---|---|---|---|
+| Vertiv | 纽约证券交易所 / VRT | 系统供应商 | 可观察批量交付 | E1 |
+| Schneider | 巴黎泛欧交易所 / SU | 基础设施供应商 | 可观察设计验证 | E2 |
+
+**进阶视角**：批量验收而非样机发布决定有效供给，现场故障和运维工时应与订单同步观察（E1、E2）。
+
+#### 1.2.2 CDU
+
+**它是干什么的**：控制液体流量与换热。
+**向谁采购**：向泵阀和控制器厂采购。
+**卖给谁**：向液冷系统集成商销售。
+**怎么赚钱、议价能力**：通过控制精度与可靠性收费。
+**为什么会卡住**：冗余设计和现场调试限制交付。
+**进阶视角**：批量运行数据决定设备价值（E2）。
+
+#### 1.2.3 机房部署
+
+**它是干什么的**：完成液冷系统现场安装。
+**向谁采购**：向设备商和工程商采购。
+**卖给谁**：向数据中心运营商交付。
+**怎么赚钱、议价能力**：通过工程和运维服务收费。
+**为什么会卡住**：停机窗口和验收流程限制改造。
+**进阶视角**：投运节点比设备到货更重要（E2）。
+`;
+
+  const node = parseReportMarkdown(report, '12_液冷行业供需周期分析.md').caseItem.chainNodeDetails[0];
+  assert.equal(node.suppliers, '向铜材、密封件和精密加工厂采购部件。');
+  assert.equal(node.buyers, '向服务器厂和液冷系统集成商销售冷板组件。');
+  assert.equal(node.money, '通过可靠性认证、低漏液率和平台适配获得溢价。');
+  assert.equal(node.why, '密封、腐蚀、洁净度和批量良率必须同时通过验证。');
+  assert.equal(new Set([node.what, node.suppliers, node.buyers, node.money, node.why]).size, 5);
+});
+
+test('leaves ambiguous legacy upstream and downstream text blank', () => {
+  const report = `# 测试行业供需周期分析
+
+分析日期：2026-07-18 10:00:00 +08:00
+地理范围：全球
+数据时效：事实截至 2026-07-18
+
+## 1. 产业链地图
+
+### 1.2 各环节详解
+
+#### 1.2.1 模糊节点
+
+**它是干什么的**：提供一种无法从旧文可靠判断方向的服务。
+
+**上游买什么 / 下游卖给谁**：客户、供应商和合作伙伴共同参与，具体采购与销售方向没有披露。
+
+#### 1.2.2 模糊节点二
+
+**它是干什么的**：提供另一项方向不清的服务。
+**上游买什么 / 下游卖给谁**：参与方很多，但原文没有说明谁采购或谁销售。
+
+#### 1.2.3 模糊节点三
+
+**它是干什么的**：提供第三项方向不清的服务。
+**上游买什么 / 下游卖给谁**：只列出客户和伙伴，没有可验证的交易方向。
+`;
+
+  const node = parseReportMarkdown(report, '测试行业供需周期分析.md').caseItem.chainNodeDetails[0];
+  assert.equal(node.suppliers, '');
+  assert.equal(node.buyers, '');
 });
