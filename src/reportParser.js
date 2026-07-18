@@ -104,6 +104,15 @@ const readTableAfterHeading = (content, headingPattern) => {
   return null;
 };
 
+const textAfterHeading = (content, headingPattern) => {
+  const section = subsectionAfter(content, headingPattern);
+  return compactLines(section)
+    .map((line) => line.trim())
+    .filter((line) => !line.startsWith('#') && !line.startsWith('|') && !line.startsWith('---'))
+    .map((line) => stripMarkdown(line.replace(/^[-*]\s*/u, '')))
+    .find(Boolean) || '';
+};
+
 const pickTableValue = (row, aliases) => {
   for (const alias of aliases) {
     const value = row?.[normalizeTableHeader(alias)];
@@ -196,6 +205,13 @@ const extractJudgment = (content) => {
   const topLevelLabeled = content.match(/(?:^|\n)(?:一句话判断|当前判断|One-Sentence Judgment)[：:]\s*([^\n]+)/iu);
   if (topLevelLabeled) return stripMarkdown(topLevelLabeled[1]);
 
+  const currentJudgment = textAfterHeading(content, /###\s*(?:当前判断|Current Judgment)/iu);
+  if (currentJudgment) return currentJudgment;
+
+  const stageJudgment = sectionAfter(content, /##\s*5[.、]?\s*周期位置与传导/iu)
+    .match(/阶段判断[：:]\s*(?:\*\*)?([^*\n]+)(?:\*\*)?/iu)?.[1];
+  if (stageJudgment) return stripMarkdown(stageJudgment);
+
   const section =
     sectionAfter(content, /##\s*0[.、]?\s*(?:一句话判断|One-Sentence Judgment)/iu) ||
     sectionAfter(content, /##\s*(?:一句话判断|One-Sentence Judgment)/iu);
@@ -236,7 +252,7 @@ const isUsefulChainNode = (part) =>
 const extractMermaidNodes = (chain = '') => {
   if (!/flowchart|graph|-->/iu.test(chain)) return [];
   const nodes = [];
-  const matches = chain.matchAll(/(?:^|\s)[A-Za-z0-9_]+\s*(?:\["([^"]+)"\]|\(([^)]+)\)|\{([^}]+)\})/gmu);
+  const matches = chain.matchAll(/(?:^|\s)[A-Za-z0-9_]+\s*(?:\["?([^\]"]+)"?\]|\(([^)]+)\)|\{([^}]+)\})/gmu);
   for (const match of matches) {
     const label = stripMarkdown(match[1] || match[2] || match[3]);
     if (isUsefulChainNode(label)) nodes.push(label);
@@ -272,35 +288,58 @@ const extractOnePage = (content) => {
   if (!section) return {};
   const introSection = subsectionAfter(section, /###\s*(?:这个行业是做什么的|What This Industry Does)/iu);
   const currentSection = subsectionAfter(section, /###\s*(?:当前判断|Current Judgment)/iu);
-  const keyNumbers = readTableAfterHeading(section, /^###\s*(?:三个最重要的数字|Three Most Important Numbers)/iu) || [];
+  const keyNumbers = readTableAfterHeading(section, /^###\s*(?:三个最重要的数字|Three Most Important Numbers)/iu)
+    || readFirstTableInSection(section)
+    || [];
+  const boldIntro = matchAnyLine(section, ['这个行业是做什么的', 'What This Industry Does']);
+  const boldJudgment = matchAnyLine(section, ['一句话判断', '当前判断', 'Current Judgment']);
   return {
-    industryIntro: stripMarkdown(introSection.split('\n').filter((line) => line && !line.startsWith('#')).join(' ')),
+    industryIntro: stripMarkdown(introSection.split('\n').filter((line) => line && !line.startsWith('#')).join(' ')) || boldIntro,
     keyNumbers: keyNumbers.map((row) => ({
       number: pickTableValue(row, ['数字', 'Number']),
-      period: pickTableValue(row, ['截止期间', '期间', 'Period']),
+      period: pickTableValue(row, ['截止期间', '期间', '时点', 'Period']),
       question: pickTableValue(row, ['它回答什么问题', '含义', 'Meaning']),
-      conclusion: pickTableValue(row, ['结论', '为什么它最重要', 'Why It Matters']),
+      conclusion: pickTableValue(row, ['结论', '当前解读', '为什么它最重要', 'Why It Matters']),
       evidence: pickTableValue(row, ['证据', 'Evidence']),
     })).filter((row) => row.number),
-    currentJudgment: currentSection
+    currentJudgment: (currentSection
       .split('\n')
       .map((line) => stripMarkdown(line.replace(/^[-*]\s*/u, '')))
-      .filter((line) => line && !line.startsWith('###')),
+      .filter((line) => line && !line.startsWith('###'))).length
+      ? currentSection
+        .split('\n')
+        .map((line) => stripMarkdown(line.replace(/^[-*]\s*/u, '')))
+        .filter((line) => line && !line.startsWith('###'))
+      : [boldJudgment].filter(Boolean),
   };
 };
 
 const extractChainNodeDetails = (content) => {
   const newSection = sectionAfter(content, /###\s*1\.2\s*(?:各环节详解|环节详解)/iu);
   if (newSection) {
-    const nodes = newSection.split(/\n(?=####\s*1\.2\.\d+\s+)/u).slice(1).map((part) => {
-      const heading = stripMarkdown(part.match(/^####\s*1\.2\.\d+\s+(.+)$/mu)?.[1] || '');
+    const lines = newSection.replace(/\r/g, '').split('\n');
+    const starts = lines
+      .map((line, index) => ({ line, index }))
+      .filter(({ line }) => /^#{3,4}\s*1\.2\.\d+\s+/u.test(line));
+    const parts = starts.map(({ line, index }, itemIndex) => {
+      const level = line.match(/^#+/u)?.[0].length || 4;
+      const nextStart = lines.findIndex((candidate, candidateIndex) => (
+        candidateIndex > index
+        && candidateIndex < (starts[itemIndex + 1]?.index ?? lines.length)
+        && (candidate.match(/^#+(?=\s)/u)?.[0].length || 99) <= level
+      ));
+      const end = starts[itemIndex + 1]?.index ?? (nextStart >= 0 ? nextStart : lines.length);
+      return lines.slice(index, end).join('\n');
+    });
+    const nodes = parts.map((part) => {
+      const heading = stripMarkdown(part.match(/^#{3,4}\s*1\.2\.\d+\s+(.+)$/mu)?.[1] || '');
       if (!heading) return null;
       const rows = readFirstTableInSection(part);
       const companyRows = rows.map((row) => ({
         name: pickTableValue(row, ['代表企业', '公司']),
         role: pickTableValue(row, ['角色', '在该环节的地位']),
         code: pickTableValue(row, ['上市地/代码', '上市地', '代码']),
-        why: pickTableValue(row, ['观察意义', '为什么能代表该环节']),
+        why: pickTableValue(row, ['观察意义', '为什么能代表该环节', '为什么具有代表性', '代表性']),
       })).filter((company) => company.name);
       const companies = companyRows.map((company) => (
         [company.name, company.code, company.role || company.why].filter(Boolean).join(' · ')
@@ -312,7 +351,7 @@ const extractChainNodeDetails = (content) => {
       const advancedLines = part
         .split('\n')
         .map((line) => line.trim())
-        .filter((line) => /^[-*]\s+\*\*/u.test(line))
+        .filter((line) => /^(?:[-*]\s*)?\*\*(?:进阶视角|口径陷阱|争议)/u.test(line))
         .map((line) => stripMarkdown(line.replace(/^[-*]\s*/u, '')));
       // Parse **label**：value lines to extract structured fields
       const extractLabeledField = (patterns) => {
@@ -324,7 +363,7 @@ const extractChainNodeDetails = (content) => {
         || stripMarkdown(paragraphs[0] || '').replace(/^[^：:]{2,20}[：:]\s*/u, '');
       const suppliers = extractLabeledField([/上游买什么|上游.*下游|供应商|Suppliers|Key Suppliers/iu]);
       const buyers = extractLabeledField([/下游卖给谁|买家|客户|Buyers|Key Buyers/iu]);
-      const money = extractSentenceAround(part, '收入') || extractSentenceAround(part, '收费') || extractSentenceAround(part, '毛利') || '';
+      const money = extractSentenceAround(part, '怎么赚钱') || extractSentenceAround(part, '收入') || extractSentenceAround(part, '收费') || extractSentenceAround(part, '毛利') || '';
       const why = extractSentenceAround(part, '约束') || extractSentenceAround(part, '瓶颈') || extractSentenceAround(part, '争议') || '';
       return {
         name: heading,
@@ -337,11 +376,42 @@ const extractChainNodeDetails = (content) => {
         companies: companies.join('；'),
         money,
         why,
-        evidence: [...part.matchAll(/\[E\d+\]/gu)].map((match) => match[0].slice(1, -1)).join('、'),
+        evidence: [...new Set([...part.matchAll(/\bE\d+\b/gu)].map((match) => match[0]))].join('、'),
         advanced: advancedLines,
       };
     }).filter(Boolean);
     if (nodes.length) return nodes;
+  }
+
+  const compactNodeSection = subsectionAfter(
+    content,
+    /###\s*1\.2\s*(?:节点与可替代性|节点与替代性|有效供给不是名义投资)/iu,
+  );
+  const compactRows = readFirstTableInSection(compactNodeSection);
+  if (compactRows.length) {
+    const advanced = compactLines(compactNodeSection)
+      .filter((line) => /^\*\*进阶视角/u.test(line))
+      .map(stripMarkdown);
+    return compactRows.map((row, index) => {
+      const name = pickTableValue(row, ['节点', '环节']);
+      const companies = pickTableValue(row, ['代表企业', '代表公司/机构']);
+      const code = pickTableValue(row, ['上市地/代码', '上市地与代码']);
+      const what = pickTableValue(row, ['节点功能', '作用', '关键变量']);
+      return {
+        name,
+        position: '报告节点表',
+        what,
+        does: what,
+        suppliers: '',
+        buyers: '',
+        companyRows: companies ? [{ name: companies, role: what, code, why: '' }] : [],
+        companies: [companies, code].filter(Boolean).join(' · '),
+        money: pickTableValue(row, ['关键变量']),
+        why: what,
+        evidence: pickTableValue(row, ['证据', '证据ID']),
+        advanced: index === 0 ? advanced : [],
+      };
+    }).filter((node) => node.name);
   }
 
   const rows = readTableAfterHeading(
@@ -391,13 +461,28 @@ const extractProfitMap = (content) => {
     content,
     /^###\s*(?:(?:1\.3|2\.4)[.、]?\s*)?(?:Power and Profit Map|权力与利润(?:地图|分配)|钱怎么流|利益传导|利润传导)/iu,
   );
-  if (!rows?.length) return [];
-  return rows.map((row) => ({
+  if (rows?.length) return rows.map((row) => ({
     question: pickTableValue(row, ['Question', '问题']),
     answer: pickTableValue(row, ['Answer', '回答', '结论', '回答（必须点名具体环节和企业，禁止通用套话）']),
     evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID', '证据']),
     gap: pickTableValue(row, ['Gap', 'Gap / Limitation', '缺口', '局限']),
   })).filter((row) => row.question && row.answer);
+
+  const valueRows = readTableAfterHeading(
+    content,
+    /^###\s*1\.1\s*[^\n]*(?:价值|创造|钱怎么流)[^\n]*/iu,
+  ) || [];
+  return valueRows.map((row) => {
+    const node = pickTableValue(row, ['环节', '节点']);
+    const companies = pickTableValue(row, ['代表公司/机构', '代表企业']);
+    const variable = pickTableValue(row, ['关键变量', '节点功能']);
+    return {
+      question: node,
+      answer: [companies && `代表主体：${companies}`, variable && `价值与利润关键变量：${variable}`].filter(Boolean).join('；'),
+      evidence: pickTableValue(row, ['证据', '证据ID']),
+      gap: '',
+    };
+  }).filter((row) => row.question && row.answer);
 };
 
 const extractSignalRows = (content) => {
@@ -406,14 +491,18 @@ const extractSignalRows = (content) => {
     /^##\s*(?:(?:4|5)[.、]?\s*)?(?:供需矛盾与高频信号|Supply-Demand Conflict and High-Frequency Signals?)/iu,
   );
   if (!rows?.length) return [];
-  return rows.map((row) => ({
+  return rows.map((row) => {
+    const tight = pickTableValue(row, ['偏紧组合', '偏强组合']);
+    const loose = pickTableValue(row, ['偏松组合', '偏弱组合', '反证组合']);
+    return {
     signal: pickTableValue(row, ['Signal', '信号', '指标', '高频信号', '矛盾']),
-    latest: pickTableValue(row, ['Latest Value / Direction', 'Latest Value', '最新值 / 方向', '最新值', '最新值/方向', '目前读数']),
+    latest: pickTableValue(row, ['Latest Value / Direction', 'Latest Value', '最新值 / 方向', '最新值', '最新值/方向', '目前读数']) || (tight ? `偏紧/偏强：${tight}` : ''),
     period: pickTableValue(row, ['Period', '时期', '时间', '数据期间', '截止期间']),
-    interpretation: pickTableValue(row, ['Interpretation', '含义', '解释', '解读', '解读（这个数说明了什么）']),
+    interpretation: pickTableValue(row, ['Interpretation', '含义', '解释', '解读', '解读（这个数说明了什么）']) || (loose ? `转松/转弱组合：${loose}` : ''),
     gap: pickTableValue(row, ['Gap', 'Gap / Limitation', '缺口', '局限']),
     evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID', '证据']),
-  })).filter((row) => row.signal && row.latest);
+  };
+  }).filter((row) => row.signal && row.latest);
 };
 
 const extractCycleTimeline = (content) => {
@@ -421,22 +510,54 @@ const extractCycleTimeline = (content) => {
     content,
     /^##\s*(?:(?:5|6)[.、]?\s*)?(?:周期位置与传导|周期与利润\s*[/／]\s*订单传导|周期与利润传导|Cycle and Profit\s*[/／]\s*Order Transmission)/iu,
   );
-  if (!rows?.length) return [];
-  return rows.map((row) => ({
+  const parsedRows = (rows || []).map((row) => ({
     period: pickTableValue(row, ['Stage / Date', 'Stage', 'Date', '阶段 / 日期', '时期', '时间', '阶段/日期']),
     signal: pickTableValue(row, ['Signal', '信号', '需求']),
     profitShift: pickTableValue(row, ['Profit Pool Shift', '利润池变化', '利润变化', '利润池往哪移', '价格/利润']),
-    lag: pickTableValue(row, ['Key Lag', '关键时滞', '时滞']),
+    lag: pickTableValue(row, ['Key Lag', '关键时滞', '关键滞后', '时滞']),
     evidence: pickTableValue(row, ['Evidence IDs', 'Evidence ID', '证据ID', '证据']),
     next: pickTableValue(row, ['Next Verification', '下一步验证', '下次验证', '周期解释']),
   })).filter((row) => row.period && row.signal);
+  if (parsedRows.length) return parsedRows;
+
+  const comparable = extractComparableSeries(content)[0];
+  if (comparable?.points?.length) {
+    return comparable.points.map((point) => ({
+      period: point.date,
+      signal: `${point.indicator}：${point.rawValue}${point.unit ? ` ${point.unit}` : ''}`,
+      profitShift: point.meaning || '',
+      lag: '',
+      evidence: point.source || '',
+      next: '',
+    }));
+  }
+
+  const current = extractCurrentStage(content);
+  return [
+    current.phase && {
+      period: current.entryAnchor || '当前阶段',
+      signal: current.phase,
+      profitShift: '',
+      lag: '',
+      evidence: '',
+      next: current.expectedTransition || '',
+    },
+    current.proveWrong && {
+      period: '反证条件',
+      signal: current.proveWrong,
+      profitShift: '',
+      lag: '',
+      evidence: '',
+      next: '',
+    },
+  ].filter(Boolean);
 };
 
 const extractCurrentStage = (content) => {
   // Try specific subsection with numbered-heading support (e.g. ### 5.1 当前处于哪一段)
   const specificSection = subsectionAfter(
     content,
-    /###\s*(?:\d+\.\d+\s+)?(?:Current stage|当前阶段|当前处于哪一段)/iu,
+    /###\s*(?:\d+\.\d+\s+)?(?:Current stage|当前阶段|当前处于哪一段|周期定位)/iu,
   );
   // Full section 5 as intermediate fallback (contains 进阶视角 with proveWrong)
   const section5 = sectionAfter(content, /##\s*5[.、]?\s*周期位置与传导/iu);
@@ -450,22 +571,30 @@ const extractCurrentStage = (content) => {
   // proveWrong may live in 进阶视角 within section 5, so search section5 broadly
   const proveWrongArea = section5 || section;
   const proveWrongField = (labels) => matchAnyLine(proveWrongArea, labels);
+  const proveWrongText = textAfterHeading(
+    proveWrongArea,
+    /###\s*(?:\d+\.\d+\s+)?(?:什么会证明这个判断错了|反证条件)/iu,
+  );
+  const phase = field(['Phase', '阶段', '阶段判断', '当前阶段', '周期位置', '周期阶段'])
+    || stripMarkdown(section5.match(/阶段判断[：:]\s*\*\*([^*]+)\*\*/u)?.[1] || '');
   return {
-    phase: field(['Phase', '阶段', '周期位置', '周期阶段']),
-    entryAnchor: field(['Entry date / anchor', 'Entry anchor', '进入时间 / 锚点', '进入锚点']),
+    phase,
+    entryAnchor: field(['Entry date / anchor', 'Entry anchor', '进入时间 / 锚点', '进入时间/锚点', '进入锚点']),
     expectedTransition: field(['Expected transition', '预期转换', '下一阶段', '预期切换条件']),
     confidence: field(['Confidence', '置信度']),
-    proveWrong: proveWrongField(['What would prove this wrong', 'What proves this wrong', '反证条件', '什么会证明判断错误', '什么会证明这个判断错了']),
+    proveWrong: proveWrongField(['What would prove this wrong', 'What proves this wrong', '反证条件', '什么会证明判断错误', '什么会证明这个判断错了']) || proveWrongText,
   };
 };
 
 const extractWatchIndicators = (content) => {
-  const rows = readTableAfterHeading(
-    content,
-    /^##\s*(?:(?:9)[.、]?\s*)?(?:观察哨与跟踪|Watchlist and Tracking|Watch and Tracking)/iu,
-  );
-  if (!rows?.length) return [];
-  return rows.map((row) => ({
+  const rowSets = [
+    readTableAfterHeading(content, /^###\s*9\.2\s*(?:观察表|观察框架|跟踪数据库与下一次更新动作)/iu),
+    readTableAfterHeading(
+      content,
+      /^##\s*(?:(?:9)[.、]?\s*)?(?:观察哨与跟踪|Watchlist and Tracking|Watch and Tracking)/iu,
+    ),
+  ];
+  const parseRows = (rows = []) => rows.map((row) => ({
     indicator: pickTableValue(row, ['Indicator', '指标', '观察指标', '指标（写指标名，不是数值）']),
     baseline: pickTableValue(row, ['Baseline', '基线', '基线（数值+日期）']),
     source: pickTableValue(row, ['Source', '来源']),
@@ -474,6 +603,7 @@ const extractWatchIndicators = (content) => {
     disconfirmingTrigger: pickTableValue(row, ['Disconfirming Trigger', '反证触发']),
     meaning: pickTableValue(row, ['Meaning', '含义', '解释']),
   })).filter((row) => row.indicator && row.baseline);
+  return rowSets.map((rows) => parseRows(rows || [])).find((rows) => rows.length) || [];
 };
 
 const extractComparableSeries = (content) => {
@@ -485,7 +615,7 @@ const extractComparableSeries = (content) => {
   const points = rows.map((row) => {
     const rawValue = pickTableValue(row, ['Value', '数值']);
     return {
-      date: pickTableValue(row, ['Date', '日期', '时期', '期间']),
+      date: pickTableValue(row, ['Date', '日期', '时期', '期间', '时点']),
       indicator: pickTableValue(row, ['Indicator', '指标']),
       value: parseComparableNumber(rawValue),
       rawValue,
@@ -521,8 +651,8 @@ const extractCapitalFlows = (content) => {
   return {
     attempts: (attempts || []).map((row) => ({
       sourceType: pickTableValue(row, ['尝试的来源类型', '来源类型', '检索项目']),
-      source: pickTableValue(row, ['具体来源', '来源', '实际来源与访问日', '实际来源']),
-      result: pickTableValue(row, ['结果', '结果（拿到数据 / 无公开数据 / 口径不可比）', '能否支持结论']),
+      source: pickTableValue(row, ['具体来源', '来源', '代表对象', '对象', '实际来源与访问日', '实际来源']),
+      result: pickTableValue(row, ['结果', '研究结果', '结果（拿到数据 / 无公开数据 / 口径不可比）', '能否支持结论']),
       limitation: pickTableValue(row, ['缺口', '限制', '局限']),
     })).filter((row) => row.sourceType || row.source || row.result),
     pricingRows: (pricingRows || []).map((row) => ({
@@ -543,11 +673,11 @@ const extractFutureCapitalFlows = (content) => {
   if (rows.length) {
     return rows.map((row) => ({
       scenario: pickTableValue(row, ['情景']),
-      trigger: pickTableValue(row, ['触发条件']),
-      flow: pickTableValue(row, ['利润池往哪个环节移动']),
-      first: pickTableValue(row, ['先受益的环节']),
-      later: pickTableValue(row, ['后受益/受损的环节']),
-      evidence: pickTableValue(row, ['需要盯的证据']),
+      trigger: pickTableValue(row, ['触发条件', '条件']),
+      flow: pickTableValue(row, ['利润池往哪个环节移动', '利润池移动', '产业链可能受益环节']),
+      first: pickTableValue(row, ['先受益的环节', '先受益']),
+      later: pickTableValue(row, ['后受益/受损的环节', '后受益/受损']),
+      evidence: pickTableValue(row, ['需要盯的证据', '观察证据', '需要验证的变量', '验证变量', '验证']),
     })).filter((row) => row.scenario);
   }
   return section.split(/\n(?=###\s+)/u).slice(1).map((part) => ({
@@ -562,20 +692,39 @@ const extractFutureCapitalFlows = (content) => {
 
 const extractDisagreements = (content) => {
   const rows = readTableAfterHeading(content, /^##\s*8[.、]?\s*分歧与反证/iu) || [];
-  return rows.map((row) => ({
+  const parsed = rows.map((row) => ({
     narrative: pickTableValue(row, ['市场主流叙事', '主流叙事']),
     judgment: pickTableValue(row, ['本报告判断']),
-    difference: pickTableValue(row, ['分歧在哪']),
-    strongerEvidence: pickTableValue(row, ['谁的证据更硬']),
+    difference: pickTableValue(row, ['分歧在哪', '分歧']),
+    strongerEvidence: pickTableValue(row, ['谁的证据更硬', '更硬证据']),
     evidence: pickTableValue(row, ['证据', '后续反证']),
   })).filter((row) => row.narrative || row.judgment);
+  if (parsed.length) return parsed;
+
+  const section = sectionAfter(content, /^##\s*8[.、]?\s*分歧与反证/imu);
+  const narrative = textAfterHeading(section, /###\s*(?:主流叙事|市场主流叙事)/iu);
+  const counter = textAfterHeading(section, /###\s*(?:需要保留的反证|反证)/iu)
+    || compactLines(section)
+      .map((line) => stripMarkdown(line.replace(/^\d+[.、]\s*/u, '')))
+      .find((line) => /反证[：:]|不能|不等于|并非/u.test(line) && !line.startsWith('##'))
+    || '';
+  const advanced = compactLines(section)
+    .filter((line) => /^\*\*(?:进阶视角|口径陷阱|争议)/u.test(line))
+    .map(stripMarkdown)[0] || '';
+  return (narrative || counter || advanced) ? [{
+    narrative: narrative || '报告保留的分歧与口径约束',
+    judgment: extractJudgment(content),
+    difference: counter || advanced,
+    strongerEvidence: '',
+    evidence: [...new Set([...section.matchAll(/\bE\d+\b/gu)].map((match) => match[0]))].join('、'),
+  }] : [];
 };
 
 const extractGlossary = (content) => {
   const rows = readTableAfterHeading(content, /^##\s*10[.、]?\s*术语表/iu) || [];
   return rows.map((row) => ({
     term: pickTableValue(row, ['术语']),
-    explanation: pickTableValue(row, ['人话解释（一两句，外行能懂）', '人话解释', '小白解释']),
+    explanation: pickTableValue(row, ['人话解释（一两句，外行能懂）', '人话解释', '小白解释', '含义', '解释']),
     why: pickTableValue(row, ['为什么重要']),
   })).filter((row) => row.term && row.explanation);
 };
@@ -588,8 +737,8 @@ const extractEvidenceLedger = (content) => {
     date: pickTableValue(row, ['发布日期']),
     accessDate: pickTableValue(row, ['访问日期']),
     freshness: pickTableValue(row, ['时效']),
-    locator: pickTableValue(row, ['原文链接/定位']),
-    conclusion: pickTableValue(row, ['结论']),
+    locator: pickTableValue(row, ['原文链接/定位', '链接', '原文链接']),
+    conclusion: pickTableValue(row, ['结论', '事实/用途', '用途']),
     limitation: pickTableValue(row, ['局限']),
   })).filter((row) => row.id || row.publisher || row.locator);
 };
@@ -602,7 +751,17 @@ const extractBottlenecks = (content) => {
   const lines = content.replace(/\r/g, '').split('\n');
   const headingPattern = /^\s*(?:#{1,6}\s*)?(?:\*\*)?(?:关键瓶颈|核心瓶颈|核心矛盾|Key Bottlenecks?|Core Conflict)/iu;
   const start = lines.findIndex((line) => headingPattern.test(line));
-  if (start < 0) return [];
+  if (start < 0) {
+    const conflict = sectionAfter(content, /##\s*4[.、]?\s*供需矛盾与高频信号/iu)
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#') && !line.startsWith('|') && !line.startsWith('---'))
+      .map(stripMarkdown)
+      .find((line) => line.length >= 12 && line.length <= 260);
+    if (conflict) return [firstSentence(conflict)];
+    const signal = extractSignalRows(content)[0];
+    return signal ? [`${signal.signal}：${signal.latest}`] : [];
+  }
   const found = [];
   const inline = lines[start].split(/[：:]/u).slice(1).join(':').trim();
   if (inline) found.push(stripMarkdown(inline));
