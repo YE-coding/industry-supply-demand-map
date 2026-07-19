@@ -15,6 +15,8 @@
    intentionally absent. */
 
 .cycle-overview,
+.reading-path-entry,
+.beginner-path-end,
 .chain-story-card,
 .profit-story-card,
 .signal-story-card,
@@ -24,6 +26,76 @@
   width: min(1180px, 100%);
   margin-right: auto;
   margin-left: auto;
+}
+
+.reading-path-entry,
+.beginner-path-end {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 22px;
+  padding: 18px 20px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 14px;
+  background: #f7faf8;
+}
+
+.reading-path-entry > div:first-child,
+.beginner-path-end > div {
+  display: grid;
+  gap: 5px;
+}
+
+.reading-path-entry span,
+.beginner-path-end span {
+  color: var(--atlas-flow);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.reading-path-entry strong,
+.beginner-path-end strong {
+  color: var(--atlas-ink);
+  font-size: 18px;
+}
+
+.reading-path-entry small {
+  color: var(--atlas-muted);
+  font-size: 12px;
+}
+
+.reading-path-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.reading-path-actions button,
+.beginner-path-end button {
+  padding: 10px 14px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--atlas-ink-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.reading-path-actions button.is-active,
+.beginner-path-end button {
+  border-color: var(--atlas-ink);
+  background: var(--atlas-ink);
+  color: #ffffff;
+}
+
+@media (min-width: 901px) {
+  .reading-path-entry {
+    margin-top: 112px;
+  }
 }
 
 .cycle-overview {
@@ -1049,6 +1121,8 @@
 
 @media (max-width: 900px) {
   .cycle-overview,
+  .reading-path-entry,
+  .beginner-path-end,
   .chain-story-card,
   .profit-story-card,
   .signal-story-card,
@@ -4883,6 +4957,8 @@ button {
   }
 
   .cycle-overview,
+  .reading-path-entry,
+  .beginner-path-end,
   .chain-story-card,
   .profit-story-card,
   .signal-story-card,
@@ -4905,6 +4981,17 @@ button {
   .research-basis {
     grid-column: 1;
     justify-self: stretch;
+  }
+
+  .reading-path-entry,
+  .beginner-path-end {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reading-path-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .supply-pulse {
@@ -5179,6 +5266,29 @@ body,
 
   .mermaid-chain-viewport {
     height: clamp(300px, 54dvh, 430px);
+  }
+
+  .source-row,
+  .source-list,
+  .metric-hints {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .source-row span,
+  .source-list p,
+  .metric-hints strong {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .source-list p,
+  .metric-hints strong {
+    font-size: 10px;
+    line-height: 1.45;
   }
 
   .guide-layer,

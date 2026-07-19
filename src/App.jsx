@@ -1735,6 +1735,8 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
   const category = categories[classifyCase(item)] || categories.traditional;
   const [rawOpen, setRawOpen] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [readingMode, setReadingMode] = useState('full');
+  const beginnerOnly = readingMode === 'beginner';
   const hasOriginalMarkdown = Boolean(item.originalMarkdown);
   const canDownloadOriginal = hasOriginalMarkdown || Boolean(item.markdownUrl);
 
@@ -1746,8 +1748,43 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
         <small>{item.stage}</small>
       </div>
 
+      <section className="reading-path-entry" aria-label="阅读模式">
+        <div>
+          <span>第一次看这个行业？</span>
+          <strong>只看这三段就够了</strong>
+          <small>行业做什么 · 三个关键数字 · 当前阶段与反证</small>
+        </div>
+        <div className="reading-path-actions">
+          <button
+            type="button"
+            className={beginnerOnly ? 'is-active' : ''}
+            aria-pressed={beginnerOnly}
+            onClick={() => setReadingMode('beginner')}
+          >
+            小白极简路径
+          </button>
+          <button
+            type="button"
+            className={!beginnerOnly ? 'is-active' : ''}
+            aria-pressed={!beginnerOnly}
+            onClick={() => setReadingMode('full')}
+          >
+            完整主线
+          </button>
+        </div>
+      </section>
+
       <CycleOverview item={item} />
 
+      {beginnerOnly ? (
+        <article className="beginner-path-end">
+          <div>
+            <span>极简路径到这里</span>
+            <strong>你已经看完行业定义、三个数字、阶段判断和反证条件。</strong>
+          </div>
+          <button type="button" onClick={() => setReadingMode('full')}>继续看产业链与完整报告</button>
+        </article>
+      ) : <>
       <article className="flow-card chain-story-card">
         <div className="card-head">
           <div>
@@ -1871,6 +1908,7 @@ function IndustryPanel({ item, cases, activeChainIndex, setActiveChainIndex, loc
           </article>
         </div>}
       </section>
+      </>}
 
       {rawOpen && <OriginalMarkdownModal item={item} onClose={() => setRawOpen(false)} onDownload={() => onDownloadMarkdown(item)} />}
     </section>
@@ -1908,12 +1946,23 @@ function OriginalMarkdownModal({ item, onClose, onDownload }) {
 }
 
 let mermaidRenderCount = 0;
-const MIN_MERMAID_ZOOM = 0.25;
+const MIN_MERMAID_ZOOM = 0.12;
 const MAX_MERMAID_ZOOM = 2.5;
 const MERMAID_STAGE_MARGIN = 18;
 
 function clampMermaidZoom(value) {
   return Math.min(MAX_MERMAID_ZOOM, Math.max(MIN_MERMAID_ZOOM, value));
+}
+
+function getMermaidFitZoom(viewport, width, height) {
+  if (!viewport || !width || !height) return 1;
+  const availableWidth = Math.max(1, viewport.clientWidth - MERMAID_STAGE_MARGIN * 2);
+  const availableHeight = Math.max(1, viewport.clientHeight - MERMAID_STAGE_MARGIN * 2);
+  return clampMermaidZoom(Math.min(
+    availableWidth / width,
+    availableHeight / height,
+    1,
+  ));
 }
 
 function MermaidChainPanel({ item }) {
@@ -1951,13 +2000,7 @@ function MermaidChainPanel({ item }) {
   const fitDiagram = () => {
     const viewport = viewportRef.current;
     if (!viewport || !diagramSize.width || !diagramSize.height) return;
-    const availableWidth = Math.max(1, viewport.clientWidth - MERMAID_STAGE_MARGIN * 2);
-    const availableHeight = Math.max(1, viewport.clientHeight - MERMAID_STAGE_MARGIN * 2);
-    const nextZoom = clampMermaidZoom(Math.min(
-      availableWidth / diagramSize.width,
-      availableHeight / diagramSize.height,
-      1,
-    ));
+    const nextZoom = getMermaidFitZoom(viewport, diagramSize.width, diagramSize.height);
     setZoom(nextZoom);
     requestAnimationFrame(() => {
       viewport.scrollLeft = Math.max(0, (viewport.scrollWidth - viewport.clientWidth) / 2);
@@ -2059,8 +2102,11 @@ function MermaidChainPanel({ item }) {
           svgElement.removeAttribute('height');
           svgElement.style.maxWidth = 'none';
         }
-        const viewportWidth = viewportRef.current?.clientWidth || 960;
-        const initialZoom = clampMermaidZoom(Math.min(1, Math.max(0.72, (viewportWidth * 1.9) / width)));
+        const viewport = viewportRef.current;
+        const viewportWidth = viewport?.clientWidth || 960;
+        const initialZoom = viewportWidth <= 640
+          ? getMermaidFitZoom(viewport, width, height)
+          : clampMermaidZoom(Math.min(1, Math.max(0.72, (viewportWidth * 1.9) / width)));
         setDiagramSize({ width, height });
         setZoom(initialZoom);
         setRenderState('ready');
